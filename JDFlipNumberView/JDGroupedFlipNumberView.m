@@ -1,15 +1,14 @@
 //
 //  GroupedFlipNumberView.m
-//  OneTwoThree
 //
 //  Created by Markus Emrich on 27.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
-#import "GroupedFlipNumberView.h"
+#import "JDGroupedFlipNumberView.h"
 
 
-@implementation GroupedFlipNumberView
+@implementation JDGroupedFlipNumberView
 
 @synthesize delegate;
 @dynamic	intValue;
@@ -32,11 +31,11 @@
         mCurrentDirection = eFlipDirectionUp;
 		mTargetMode = NO;
         
-		FlipNumberView* view;
+		JDFlipNumberView* view;
 		NSMutableArray* allViews = [[NSMutableArray alloc] initWithCapacity: viewCount];
 		for (int i = 0; i < viewCount; i++)
 		{
-			view = [[FlipNumberView alloc] init];
+			view = [[JDFlipNumberView alloc] init];
 			view.delegate = self;
 			view.frame = CGRectMake(i*view.frame.size.width, 0, view.frame.size.width, view.frame.size.height);
 			[self addSubview: view];
@@ -67,7 +66,7 @@
 - (NSUInteger) intValue
 {
 	NSMutableString* stringValue = [NSMutableString stringWithCapacity: [mFlipNumberViews count]];
-	for (FlipNumberView* view in mFlipNumberViews) {
+	for (JDFlipNumberView* view in mFlipNumberViews) {
 		[stringValue appendFormat: @"%d", view.intValue];
 	}
 	
@@ -76,7 +75,7 @@
 
 - (void) setIntValue: (NSUInteger) newValue
 {
-	for (FlipNumberView* view in mFlipNumberViews) {
+	for (JDFlipNumberView* view in mFlipNumberViews) {
         view.intValue = 0;
     }
     
@@ -84,7 +83,7 @@
 	
 	for (int i = 0; i < [stringValue length] && i < [mFlipNumberViews count]; i++)
 	{
-		FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews objectAtIndex: [mFlipNumberViews count]-(1+i)];
+		JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews objectAtIndex: [mFlipNumberViews count]-(1+i)];
 		view.intValue = [[stringValue substringWithRange: NSMakeRange([stringValue length]-(1+i), 1)] intValue];
 	}
 	
@@ -100,7 +99,7 @@
 
 - (void) setMaximumValue: (NSUInteger) maxValue
 {
-	for (FlipNumberView* view in mFlipNumberViews) {
+	for (JDFlipNumberView* view in mFlipNumberViews) {
         view.maxValue = 0;
     }
     
@@ -108,7 +107,7 @@
 	
 	for (int i = 0; i < [stringValue length] && i < [mFlipNumberViews count]; i++)
 	{
-		FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews objectAtIndex: [mFlipNumberViews count]-(1+i)];
+		JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews objectAtIndex: [mFlipNumberViews count]-(1+i)];
 		view.maxValue = [[stringValue substringWithRange: NSMakeRange([stringValue length]-(1+i), 1)] intValue];
 	}
     
@@ -117,7 +116,7 @@
 
 - (void) setZDistance: (NSUInteger) zDistance
 {
-	for (FlipNumberView* view in mFlipNumberViews) {
+	for (JDFlipNumberView* view in mFlipNumberViews) {
 		[view setZDistance: zDistance];
 	}
 }
@@ -130,7 +129,7 @@
 	[self stopAnimation];
     mCurrentDirection = eFlipDirectionUp;
     
-	FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews lastObject];
+	JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews lastObject];
 	[view animateToNextNumber];
 }
 
@@ -139,7 +138,7 @@
 	[self stopAnimation];
     mCurrentDirection = eFlipDirectionDown;
     
-	FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews lastObject];
+	JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews lastObject];
 	[view animateToPreviousNumber];
 }
 
@@ -151,7 +150,7 @@
 	[self stopAnimation];
     mCurrentDirection = eFlipDirectionUp;
     
-    FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews lastObject];
+    JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews lastObject];
 	[view animateUpWithTimeInterval: timeInterval];
 }
 
@@ -160,7 +159,7 @@
 	[self stopAnimation];
     mCurrentDirection = eFlipDirectionDown;
     
-    FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews lastObject];
+    JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews lastObject];
 	[view animateDownWithTimeInterval: timeInterval];
 }
 
@@ -204,7 +203,7 @@
 {
 	mTargetMode = NO;
 	
-	FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews lastObject];
+	JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews lastObject];
 	[view stopAnimation];
 }
 
@@ -215,7 +214,7 @@
 {	
 	if (mFlipNumberViews && [mFlipNumberViews count] > 0)
 	{
-		FlipNumberView* view;
+		JDFlipNumberView* view;
 		NSUInteger i, count = [mFlipNumberViews count], xWidth = rect.size.width/count;
 		for (i = 0; i < count; i++)
 		{
@@ -235,7 +234,7 @@
 #pragma mark delegate
 
 
-- (void) flipNumberView: (FlipNumberView*) flipNumberView willChangeToValue: (NSUInteger) newValue
+- (void) flipNumberView: (JDFlipNumberView*) flipNumberView willChangeToValue: (NSUInteger) newValue
 {
     BOOL upwardsEnded   = newValue == 0 && flipNumberView.currentDirection == eFlipDirectionUp;
     BOOL downwardsEnded = newValue == flipNumberView.maxValue && flipNumberView.currentDirection == eFlipDirectionDown;
@@ -247,7 +246,7 @@
 		NSUInteger index = [mFlipNumberViews indexOfObject: flipNumberView];
 		if (index > 0)
 		{
-			FlipNumberView* view = (FlipNumberView*)[mFlipNumberViews objectAtIndex: index-1];
+			JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews objectAtIndex: index-1];
             if (upwardsEnded) {
                 [view animateToNextNumberWithDuration: flipNumberView.currentAnimationDuration*9.0];
             } else {
@@ -272,7 +271,7 @@
 	}
 }
 
-- (void) flipNumberView:(FlipNumberView *)flipNumberView didChangeValue:(NSUInteger)newValue animated:(BOOL)animated
+- (void) flipNumberView:(JDFlipNumberView *)flipNumberView didChangeValue:(NSUInteger)newValue animated:(BOOL)animated
 {
 	if(mTargetMode == YES && flipNumberView == [mFlipNumberViews lastObject])
 	{

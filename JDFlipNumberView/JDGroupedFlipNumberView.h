@@ -1,16 +1,15 @@
 //
-//  GroupedFlipNumberView.h
-//  OneTwoThree
+//  JDGroupedFlipNumberView.h
 //
 //  Created by Markus Emrich on 27.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
-#import "FlipNumberView.h"
+#import "JDFlipNumberView.h"
 
-@protocol GroupedFlipNumberViewDelegate;
+@protocol JDGroupedFlipNumberViewDelegate;
 
-@interface GroupedFlipNumberView : UIView <FlipNumberViewDelegate>
+@interface JDGroupedFlipNumberView : UIView <JDFlipNumberViewDelegate>
 {
 	NSArray* mFlipNumberViews;
 	
@@ -20,10 +19,10 @@
 	NSInteger mTargetValue;
 	BOOL mTargetMode;
     
-	id<GroupedFlipNumberViewDelegate> delegate;
+	id<JDGroupedFlipNumberViewDelegate> delegate;
 }
 
-@property (nonatomic, assign) id<GroupedFlipNumberViewDelegate> delegate;
+@property (nonatomic, assign) id<JDGroupedFlipNumberViewDelegate> delegate;
 @property (nonatomic, assign) NSUInteger intValue;
 @property (nonatomic, assign) NSUInteger maximumValue;
 @property (nonatomic, assign) eFlipDirection currentDirection;
@@ -54,8 +53,8 @@
 #pragma mark delegate
 
 
-@protocol GroupedFlipNumberViewDelegate <NSObject>
+@protocol JDGroupedFlipNumberViewDelegate <NSObject>
 @optional
-- (void) groupedFlipNumberView: (GroupedFlipNumberView*) groupedFlipNumberView willChangeToValue: (NSUInteger) newValue;
-- (void) groupedFlipNumberView: (GroupedFlipNumberView*) groupedFlipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated;
+- (void) groupedFlipNumberView: (JDGroupedFlipNumberView*) groupedFlipNumberView willChangeToValue: (NSUInteger) newValue;
+- (void) groupedFlipNumberView: (JDGroupedFlipNumberView*) groupedFlipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated;
 @end;

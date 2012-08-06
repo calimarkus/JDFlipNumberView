@@ -1,15 +1,14 @@
 //
-//  CountdownFlipView.m
-//  OneTwoThree
+//  JDCountdownFlipView.m
 //
 //  Created by Markus Emrich on 12.03.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
-#import "DateCountdownFlipView.h"
+#import "JDDateCountdownFlipView.h"
 
 
-@implementation DateCountdownFlipView
+@implementation JDDateCountdownFlipView
 
 - (id)init
 {
@@ -22,10 +21,10 @@
     self = [super initWithFrame: CGRectZero];
     if (self)
     {
-        mFlipNumberViewDay    = [[GroupedFlipNumberView alloc] initWithFlipNumberViewCount: 3];
-        mFlipNumberViewHour   = [[GroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
-        mFlipNumberViewMinute = [[GroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
-        mFlipNumberViewSecond = [[GroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
+        mFlipNumberViewDay    = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 3];
+        mFlipNumberViewHour   = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
+        mFlipNumberViewMinute = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
+        mFlipNumberViewSecond = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
         
         mFlipNumberViewDay.delegate    = self;
         mFlipNumberViewHour.delegate   = self;
@@ -122,7 +121,7 @@
     mFlipNumberViewDay.frame = CGRectMake(currentX, 0, digitWidth*3, rect.size.height);
     currentX   += mFlipNumberViewDay.frame.size.width;
     
-    for (GroupedFlipNumberView* view in [NSArray arrayWithObjects: mFlipNumberViewHour, mFlipNumberViewMinute, mFlipNumberViewSecond, nil])
+    for (JDGroupedFlipNumberView* view in [NSArray arrayWithObjects: mFlipNumberViewHour, mFlipNumberViewMinute, mFlipNumberViewSecond, nil])
     {
         currentX   += margin;
         view.frame = CGRectMake(currentX, 0, digitWidth*2, rect.size.height);
@@ -135,11 +134,11 @@
 #pragma mark GroupedFlipNumberViewDelegate
 
 
-- (void) groupedFlipNumberView: (GroupedFlipNumberView*) groupedFlipNumberView willChangeToValue: (NSUInteger) newValue
+- (void) groupedFlipNumberView: (JDGroupedFlipNumberView*) groupedFlipNumberView willChangeToValue: (NSUInteger) newValue
 {
 //    LOG(@"ToValue: %d", newValue);
     
-    GroupedFlipNumberView* animateView = nil;
+    JDGroupedFlipNumberView* animateView = nil;
     
     if (groupedFlipNumberView == mFlipNumberViewSecond) {
         animateView = mFlipNumberViewMinute;
@@ -165,7 +164,7 @@
 }
 
 
-- (void) groupedFlipNumberView: (GroupedFlipNumberView*) groupedFlipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated
+- (void) groupedFlipNumberView: (JDGroupedFlipNumberView*) groupedFlipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated
 {
 }
 

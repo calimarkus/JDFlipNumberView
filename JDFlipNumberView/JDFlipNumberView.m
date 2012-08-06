@@ -1,24 +1,20 @@
 //
 //  FlipNumberView.m
-//  OneTwoThree
 //
 //  Created by Markus Emrich on 26.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Markus Emrich. All rights reserved.
 //
 //
 //  based on
 //  www.voyce.com/index.php/2010/04/10/creating-an-ipad-flip-clock-with-core-animation/
 //
 
-#import "FlipNumberView.h"
-#import <QuartzCore/QuartzCore.h>
-
-
+#import "JDFlipNumberView.h"
 
 static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 
 
-@interface FlipNumberView (private)
+@interface JDFlipNumberView (private)
 - (void) initImages;
 - (CGFloat) defaultAnimationDuration;
 - (void) animateIntoCurrentDirectionWithDuration: (CGFloat) duration;
@@ -28,7 +24,7 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 @end
 
 
-@implementation FlipNumberView
+@implementation JDFlipNumberView
 
 @synthesize delegate;
 @synthesize currentDirection = mCurrentDirection;
@@ -96,7 +92,7 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 {
 	NSMutableArray* filenames = [NSMutableArray arrayWithCapacity: 10];
 	for (int i = 0; i < 10; i++) {
-		[filenames addObject: [NSString stringWithFormat: @"modules/com.flipnumbers/FlipNumberView.bundle/%d.png", i]];
+		[filenames addObject: [NSString stringWithFormat: @"JDFlipNumberView.bundle/%d.png", i]];
 	}
 	
 	NSMutableArray* images = [NSMutableArray arrayWithCapacity: [filenames count]*2];

@@ -1,9 +1,8 @@
 //
 //  FlipNumberView.h
-//  OneTwoThree
 //
 //  Created by Markus Emrich on 26.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -20,13 +19,13 @@ typedef enum
 	eFlipDirectionDown
 } eFlipDirection;
 
-@protocol FlipNumberViewDelegate;
+@protocol JDFlipNumberViewDelegate;
 
 #pragma mark -
 
-@interface FlipNumberView : UIView
+@interface JDFlipNumberView : UIView
 {
-	id<FlipNumberViewDelegate> delegate;
+	id<JDFlipNumberViewDelegate> delegate;
 	
 	NSTimer* mTimer;
 	
@@ -44,7 +43,7 @@ typedef enum
 	CGFloat mCurrentAnimationDuration;
 }
 
-@property (nonatomic, assign) id<FlipNumberViewDelegate> delegate;
+@property (nonatomic, assign) id<JDFlipNumberViewDelegate> delegate;
 @property (nonatomic, readonly) eFlipDirection currentDirection;
 @property (nonatomic, readonly) CGFloat currentAnimationDuration;
 @property (nonatomic, assign) NSUInteger intValue;
@@ -77,8 +76,8 @@ typedef enum
 #pragma mark delegate
 
 
-@protocol FlipNumberViewDelegate <NSObject>
+@protocol JDFlipNumberViewDelegate <NSObject>
 @optional
-- (void) flipNumberView: (FlipNumberView*) flipNumberView willChangeToValue: (NSUInteger) newValue;
-- (void) flipNumberView: (FlipNumberView*) flipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated;
+- (void) flipNumberView: (JDFlipNumberView*) flipNumberView willChangeToValue: (NSUInteger) newValue;
+- (void) flipNumberView: (JDFlipNumberView*) flipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated;
 @end;
