@@ -1,6 +1,8 @@
 JDFlipNumberView
 ------------------
 
+See [screenshots](#screenshots) below.
+
 The Flip Number View is simulating an analog flip display (like those for the departure time on the airport).
 
 It is using CoreAnimation to get the desired effect. It's well abstracted and should be really easy to use. But it still needs some work, so feel free to contribute!
@@ -56,6 +58,14 @@ Use any of the following methods:
     // timed animation
     - (void) animateUpWithTimeInterval: (NSTimeInterval) timeInterval;
     - (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval;
+
+## Screenshots
+
+![Overview](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/menu.png "Overview")
+
+![Single Digit](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/singledigit.png "Single Digit")
+
+![Date Countdown](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/datecountdown.png "Date Countdown")
 
 
 [cocoapods]: https://github.com/CocoaPods/CocoaPods/
