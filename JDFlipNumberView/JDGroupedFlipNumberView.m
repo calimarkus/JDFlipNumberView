@@ -172,8 +172,6 @@
 
 - (void) animateToValue: (NSInteger) value withDuration: (CGFloat) duration
 {
-	[self stopAnimation];
-	
 	// get value in valid range
 	NSString* strvalue = [NSString stringWithFormat: @"%30d", value];
 	strvalue = [strvalue substringWithRange: NSMakeRange([strvalue length]-[mFlipNumberViews count], [mFlipNumberViews count])];
@@ -198,6 +196,13 @@
 	// enable target mode and save target value (this has do be done after animation start)
 	mTargetMode = YES;
 	mTargetValue = value;
+    
+    // inform programmer about time difference
+    if (speed < 0.001) {
+        NSString *message = [NSString stringWithFormat:@"Actual animation duration will be: %.02f seconds", ABS(0.001*difference)];
+        NSLog(@"%@", message);
+        [NSException raise:NSInvalidArgumentException format:@"%@", message];
+    }
 }
 
 #pragma mark -
