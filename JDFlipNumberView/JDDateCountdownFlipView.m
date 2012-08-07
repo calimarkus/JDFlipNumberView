@@ -21,6 +21,10 @@
     self = [super initWithFrame: CGRectZero];
     if (self)
     {
+        self.backgroundColor = [UIColor clearColor];
+        self.autoresizesSubviews = NO;
+        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+		
         mFlipNumberViewDay    = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 3];
         mFlipNumberViewHour   = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
         mFlipNumberViewMinute = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
@@ -112,8 +116,6 @@
 
 - (void) setFrame: (CGRect) rect
 {
-    [super setFrame: rect];
-    
     CGFloat digitWidth = rect.size.width/10.0;
     CGFloat margin     = digitWidth/3.0;
     CGFloat currentX   = 0;
@@ -127,8 +129,14 @@
         view.frame = CGRectMake(currentX, 0, digitWidth*2, rect.size.height);
         currentX   += view.frame.size.width;
     }
+    
+    // take bottom right of last view for new size, to match size of subviews
+    CGRect lastFrame = mFlipNumberViewSecond.frame;
+    rect.size.width  = ceil(lastFrame.size.width  + lastFrame.origin.x);
+    rect.size.height = ceil(lastFrame.size.height + lastFrame.origin.y);
+    
+    [super setFrame: rect];
 }
-
 
 #pragma mark -
 #pragma mark GroupedFlipNumberViewDelegate

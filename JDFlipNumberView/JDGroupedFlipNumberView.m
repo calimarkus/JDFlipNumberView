@@ -25,13 +25,17 @@
     self = [super initWithFrame: CGRectZero];
     if (self)
 	{
-		viewCount = MAX(2,viewCount);
+		self.backgroundColor = [UIColor clearColor];
+        self.autoresizesSubviews = NO;
+        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+		
+        viewCount = MAX(2,viewCount);
 		
         mMaxValue = 99;
         mCurrentDirection = eFlipDirectionUp;
 		mTargetMode = NO;
         
-		JDFlipNumberView* view;
+		JDFlipNumberView* view = nil;
 		NSMutableArray* allViews = [[NSMutableArray alloc] initWithCapacity: viewCount];
 		for (int i = 0; i < viewCount; i++)
 		{
@@ -211,21 +215,23 @@
 #pragma mark resizing
 
 - (void) setFrame: (CGRect) rect
-{	
+{
+    JDFlipNumberView* view = nil;
 	if (mFlipNumberViews && [mFlipNumberViews count] > 0)
 	{
-		JDFlipNumberView* view;
 		NSUInteger i, count = [mFlipNumberViews count], xWidth = rect.size.width/count;
 		for (i = 0; i < count; i++)
 		{
 			view = [mFlipNumberViews objectAtIndex:i];
 			view.frame = CGRectMake(i*xWidth, 0, xWidth, rect.size.height);
 		}
-		
+	}
+    
+    if (view) {
 		// take bottom right of last view for new size, to match size of subviews
 		rect.size.width  = ceil(view.frame.size.width  + view.frame.origin.x);
 		rect.size.height = ceil(view.frame.size.height + view.frame.origin.y);
-	}
+    }
     
     [super setFrame: rect];
 }

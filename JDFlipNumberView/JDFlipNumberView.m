@@ -46,6 +46,7 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 	{
 		self.backgroundColor = [UIColor clearColor];
         self.autoresizesSubviews = NO;
+        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
 		
         mMaxValue = 9;
 		mCurrentValue = [self validValueFromInt: startNumber];
@@ -168,6 +169,16 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 
 - (void) setFrame: (CGRect)rect
 {
+    [self setFrame:rect allowUpscaling:NO];
+}
+
+- (void) setFrame: (CGRect)rect allowUpscaling:(BOOL)upscalingAllowed
+{
+    if (!upscalingAllowed) {
+        rect.size.width  = MIN(rect.size.width, mImageViewTop.image.size.width);
+        rect.size.height = MIN(rect.size.height, mImageViewTop.image.size.height*2);
+    }
+    
     rect.size = [self sizeThatFits: rect.size];
 	[super setFrame: rect];
     

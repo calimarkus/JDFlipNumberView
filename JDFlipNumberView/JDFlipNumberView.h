@@ -51,6 +51,7 @@ typedef enum
 
 - (id) initWithIntValue: (NSUInteger) startNumber;
 
+- (void) setFrame: (CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
 - (void) setZDistance: (NSUInteger) zDistance;
 
 - (NSUInteger) nextValue;
