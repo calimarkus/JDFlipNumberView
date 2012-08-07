@@ -111,7 +111,7 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 				return;
 			}
 			
-			UIGraphicsBeginImageContext(size);
+			UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
 			[image drawAtPoint:CGPointMake(0.0,yPoint)];
 			UIImage *top = UIGraphicsGetImageFromCurrentImageContext();
 			[images addObject: top];
