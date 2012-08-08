@@ -27,7 +27,8 @@ You get three classes for different usecases:
 
 Recommend: Use [cocoapods] to install it.  
 
-(OR add all files from `JDFlipNumberView/` manually to your project, including the `JDFlipNumberView.bundle`.)
+(OR add all files from `JDFlipNumberView/JDFlipNumberView/` manually to your project, including the `JDFlipNumberView.bundle`.  
+And you also need to link the `QuartzCore.framework`)
 
 In any case, after installing, you only need to follow these three steps, to use it:
 
