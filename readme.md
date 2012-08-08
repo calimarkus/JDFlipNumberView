@@ -7,9 +7,6 @@ The Flip Number View is simulating an analog flip display (like those for the de
 
 It is using CoreAnimation to get the desired effect. It's well abstracted and should be really easy to use. But it still needs some work, so feel free to contribute!
 
-There will be a testproject in the future, but you can try the classes yourself right now. It's really simple.
-
-
 ## Contents
 
 You get three classes for different usecases:
