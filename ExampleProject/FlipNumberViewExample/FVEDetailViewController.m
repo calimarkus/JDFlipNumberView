@@ -14,6 +14,9 @@
 
 @interface FVEDetailViewController ()
 @property (nonatomic) NSIndexPath *indexPath;
+- (void)showSingleDigit;
+- (void)showMultipleDigits;
+- (void)showDateCountdown;
 @end
 
 @implementation FVEDetailViewController
@@ -35,49 +38,69 @@
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
     if (self.indexPath.section == 1 || self.indexPath.row == 1) {
-        JDGroupedFlipNumberView *flipView = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 5];
-        flipView.intValue = 11115;
-        flipView.tag = 99;
-        [self.view addSubview: flipView];
-        
-        if (self.indexPath.section == 0) {
-            [flipView animateDownWithTimeInterval: 0.4];
-        } else {
-            [flipView animateToValue: 9250 withDuration: 3.0];
-            
-            // add random number button
-            UIButton *button = [UIButton buttonWithType: UIButtonTypeRoundedRect];
-            button.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-            button.frame = CGRectMake(20, 10, self.view.frame.size.width-40, 38);
-            [button setTitle:@"Jump to random number" forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview: button];
-        }
+        [self showMultipleDigits];
     } else if (self.indexPath.row == 0) {
-        JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithIntValue: 9];
-        [flipView animateDownWithTimeInterval: 1.0];
-        [self.view addSubview: flipView];
+        [self showSingleDigit];
     } else {
-        NSDate *date = [NSDate dateWithTimeIntervalSinceNow: 60*60*1.75];
-        JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithTargetDate: date];
-        [self.view addSubview: flipView];
+        [self showDateCountdown];
+    }
+}
+
+- (void)showSingleDigit;
+{
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithIntValue: 9];
+    [flipView animateDownWithTimeInterval: 1.0];
+    [self.view addSubview: flipView];
+}
+
+- (void)showMultipleDigits;
+{
+    JDGroupedFlipNumberView *flipView = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 5];
+    flipView.intValue = 11115;
+    flipView.tag = 99;
+    [self.view addSubview: flipView];
+    
+    if (self.indexPath.section == 0) {
+        [flipView animateDownWithTimeInterval: 0.4];
+    } else {
+        [flipView animateToValue: 9250 withDuration: 3.0];
         
-        // add info labels
-        NSInteger posx = 20;
-        for (NSInteger i=0; i<4; i++) {
-            CGRect frame = CGRectMake(posx, 20, 200, 200);
-            UILabel *label = [[UILabel alloc] initWithFrame: frame];
-            label.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:12];
-            label.textColor = [UIColor whiteColor];
-            label.backgroundColor = [UIColor darkGrayColor];
-            label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
-            [label sizeToFit];
-            label.frame = CGRectInset(label.frame, -4, -4);
-            label.textAlignment = UITextAlignmentCenter;
-            [self.view addSubview: label];
-            
-            posx += label.frame.size.width + 10;
-        }
+        // add random number button
+        UIButton *button = [UIButton buttonWithType: UIButtonTypeRoundedRect];
+        button.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+        button.frame = CGRectMake(20, 10, self.view.frame.size.width-40, 38);
+        [button setTitle:@"Jump to random number" forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview: button];
+    }
+}
+
+- (void)showDateCountdown;
+{
+//    // specific date
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat: @"dd.MM.yy"];
+//    NSDate *date = [dateFormatter dateFromString: @"18.08.12 23:40"];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow: 60*60*1.75];
+    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithTargetDate: date];
+    [self.view addSubview: flipView];
+    
+    // add info labels
+    NSInteger posx = 20;
+    for (NSInteger i=0; i<4; i++) {
+        CGRect frame = CGRectMake(posx, 20, 200, 200);
+        UILabel *label = [[UILabel alloc] initWithFrame: frame];
+        label.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:12];
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor darkGrayColor];
+        label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
+        [label sizeToFit];
+        label.frame = CGRectInset(label.frame, -4, -4);
+        label.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview: label];
+        
+        posx += label.frame.size.width + 10;
     }
 }
 
