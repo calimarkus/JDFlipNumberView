@@ -84,7 +84,7 @@
             cell.textLabel.text = @"Bigger Number";
             cell.detailTextLabel.text = @"A JDGroupedFlipNumberView instance.";
         } else {
-            cell.textLabel.text = @"Date Countdown";
+            cell.textLabel.text = @"Silvester Countdown";
             cell.detailTextLabel.text = @"A JDDateCountdownView instance.";
         }
     } else {

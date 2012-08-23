@@ -77,12 +77,12 @@
 
 - (void)showDateCountdown;
 {
-//    // specific date
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat: @"dd.MM.yy"];
-//    NSDate *date = [dateFormatter dateFromString: @"18.08.12 23:40"];
+    // countdown to silvester
+    NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat: @"dd.MM.yy HH:mm"];
+    NSDate *date = [dateFormatter dateFromString: [NSString stringWithFormat: @"01.01.%d 00:00", currentComps.year+1]];
     
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow: 60*60*1.75];
     JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithTargetDate: date];
     [self.view addSubview: flipView];
     
