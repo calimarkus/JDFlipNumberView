@@ -12,7 +12,7 @@
 
 @synthesize delegate;
 @dynamic	intValue;
-@synthesize	maximumValue;
+@dynamic	maximumValue;
 @synthesize	currentDirection = mCurrentDirection;
 
 - (id) init
@@ -94,6 +94,28 @@
 	if ([delegate respondsToSelector: @selector(groupedFlipNumberView:didChangeValue:animated:)]) {
 		[delegate groupedFlipNumberView: self didChangeValue: [self intValue] animated: NO];
 	}
+}
+
+- (NSUInteger) maximumValue
+{
+	return mMaxValue;
+}
+
+- (void) setMaximumValue: (NSUInteger) maxValue
+{
+	for (JDFlipNumberView* view in mFlipNumberViews) {
+        view.maxValue = 0;
+    }
+    
+	NSString* stringValue = [NSString stringWithFormat: @"%d", maxValue];
+	
+	for (int i = 0; i < [stringValue length] && i < [mFlipNumberViews count]; i++)
+	{
+		JDFlipNumberView* view = (JDFlipNumberView*)[mFlipNumberViews objectAtIndex: [mFlipNumberViews count]-(1+i)];
+		view.maxValue = [[stringValue substringWithRange: NSMakeRange([stringValue length]-(1+i), 1)] intValue];
+	}
+    
+    mMaxValue = maxValue;
 }
 
 - (void) setZDistance: (NSUInteger) zDistance
