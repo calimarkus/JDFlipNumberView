@@ -116,8 +116,8 @@
 
 - (void) setFrame: (CGRect) rect
 {
-    CGFloat digitWidth = rect.size.width/10.0;
-    CGFloat margin     = digitWidth/3.0;
+    CGFloat digitWidth = rect.size.width/(1.0 + [mFlipNumberViewDay.subviews count] + [mFlipNumberViewHour.subviews count] + [mFlipNumberViewMinute.subviews count] + [mFlipNumberViewSecond.subviews count]);
+    CGFloat margin     = digitWidth / 3.0;
     CGFloat currentX   = 0;
     
     mFlipNumberViewDay.frame = CGRectMake(currentX, 0, digitWidth*([mFlipNumberViewDay.subviews count]), rect.size.height);
