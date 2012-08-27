@@ -78,6 +78,7 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 - (void)dealloc
 {
 	// NSLog(@"dealloc (value: %d)", mCurrentValue);
+	[mTimer invalidate];
 	
 	[mTopImages release];
 	[mBottomImages release];
@@ -281,11 +282,12 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 		if ([delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
 			[delegate flipNumberView: self willChangeToValue: nextIndex];
 		}
-		[NSTimer scheduledTimerWithTimeInterval: duration
-										 target: self
-									   selector: @selector(nextValueWithoutAnimation:)
-									   userInfo: nil
-										repeats: NO];
+		NSTimer *timer = [NSTimer timerWithTimeInterval:duration
+												 target:self
+											   selector:@selector(nextValueWithoutAnimation:)
+											   userInfo:nil
+												repeats:NO];
+		[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 		return;
 	}
 	
@@ -398,7 +400,14 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 	timeInterval = MAX(timeInterval, 0.001);
 	
 	[self stopAnimation];
-	mTimer = [[NSTimer scheduledTimerWithTimeInterval: timeInterval target: self selector: @selector(animateToNextNumber) userInfo: nil repeats: YES] retain];
+	[mTimer invalidate];
+	mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date]
+									  interval:timeInterval
+										target:self
+									  selector:@selector(animateToNextNumber)
+									  userInfo:nil
+									   repeats:YES];
+	[[NSRunLoop currentRunLoop] addTimer:mTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval
@@ -406,7 +415,14 @@ static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 	timeInterval = MAX(timeInterval, 0.001);
 	
 	[self stopAnimation];
-	mTimer = [[NSTimer scheduledTimerWithTimeInterval: timeInterval target: self selector: @selector(animateToPreviousNumber) userInfo: nil repeats: YES] retain];
+	[mTimer invalidate];
+	mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date]
+									  interval:timeInterval
+										target:self
+									  selector:@selector(animateToPreviousNumber)
+									  userInfo:nil
+									   repeats:YES];
+	[[NSRunLoop currentRunLoop] addTimer:mTimer forMode:NSRunLoopCommonModes];
 }
 
 
