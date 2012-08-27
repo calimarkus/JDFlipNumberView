@@ -25,7 +25,7 @@
         self.autoresizesSubviews = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
 		
-        mFlipNumberViewDay    = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 3];
+        mFlipNumberViewDay    = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
         mFlipNumberViewHour   = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
         mFlipNumberViewMinute = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
         mFlipNumberViewSecond = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
@@ -120,13 +120,13 @@
     CGFloat margin     = digitWidth/3.0;
     CGFloat currentX   = 0;
     
-    mFlipNumberViewDay.frame = CGRectMake(currentX, 0, digitWidth*3, rect.size.height);
+    mFlipNumberViewDay.frame = CGRectMake(currentX, 0, digitWidth*([mFlipNumberViewDay.subviews count]), rect.size.height);
     currentX   += mFlipNumberViewDay.frame.size.width;
     
     for (JDGroupedFlipNumberView* view in [NSArray arrayWithObjects: mFlipNumberViewHour, mFlipNumberViewMinute, mFlipNumberViewSecond, nil])
     {
         currentX   += margin;
-        view.frame = CGRectMake(currentX, 0, digitWidth*2, rect.size.height);
+        view.frame = CGRectMake(currentX, 0, digitWidth*[view.subviews count], rect.size.height);
         currentX   += view.frame.size.width;
     }
     
