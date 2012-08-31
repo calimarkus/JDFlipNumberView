@@ -67,3 +67,5 @@ Use any of the following methods:
 
 
 [cocoapods]: https://github.com/CocoaPods/CocoaPods/
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/015f5826a4c4d785736b35a0ae7568ce "githalytics.com")](http://githalytics.com/jaydee3/JDFlipNumberView)
