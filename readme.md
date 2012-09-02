@@ -57,6 +57,12 @@ Use any of the following methods:
     - (void) animateUpWithTimeInterval: (NSTimeInterval) timeInterval;
     - (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval;
 
+
+## Do you use the JDFlipNumberView?
+
+Feel free to add your app to the
+[wiki](https://github.com/jaydee3/JDFlipNumberView/wiki/Apps-using-JDFlipNumberView).
+
 ## Screenshots
 
 ![Overview](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/menu.png "Overview")
