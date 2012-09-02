@@ -19,6 +19,9 @@ You get three classes for different usecases:
 - `JDDateCountdownFlipView`  
   __A date countdown.__ Just init with a target date and add it as a subview.  
   It is using four `JDGroupedFlipNumberView` instances itself and chains them together.
+  
+  ![Caution Sign](http://upload.wikimedia.org/wikipedia/en/thumb/f/f7/Nuvola_apps_important.svg/50px-Nuvola_apps_important.svg.png "Caution Sign")  
+  __Note:__ The `JDDateCountdownFlipView` is not yet production ready, because the `maximumValue` of the `JDGroupedFlipNumberView` is interpreted wrong. Don't use a maximum value on grouped flipViews and don't use the Date Countdown at all for now, because it behaves buggy. I'm trying to fix these bugs _ASAP_. (You may follow the progress via the issues and the branches other than master.)
 
 ## How to use
 
