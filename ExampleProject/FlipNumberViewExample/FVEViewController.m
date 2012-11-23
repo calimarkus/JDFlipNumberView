@@ -22,6 +22,7 @@
     if (self) {
         self.title = @"JDFlipNumberView Examples";
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Examples" style:UIBarButtonItemStyleBordered target:nil action:nil];
+        self.tableView.backgroundView = nil;
         self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     }
