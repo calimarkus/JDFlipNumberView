@@ -21,6 +21,7 @@
 		D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */; };
 		D25D540B15D1CAA800B791F3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D25D540915D1CAA800B791F3 /* Icon.png */; };
 		D25D540C15D1CAA800B791F3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D25D540A15D1CAA800B791F3 /* Icon@2x.png */; };
+		D2AB6589165F8597007EB7EF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2AB6588165F8597007EB7EF /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberView.bundle; sourceTree = "<group>"; };
 		D25D540915D1CAA800B791F3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D25D540A15D1CAA800B791F3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		D2AB6588165F8597007EB7EF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 		D25D540D15D1CAAE00B791F3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D2AB6588165F8597007EB7EF /* Default-568h@2x.png */,
 				D25D540915D1CAA800B791F3 /* Icon.png */,
 				D25D540A15D1CAA800B791F3 /* Icon@2x.png */,
 			);
@@ -205,6 +208,7 @@
 				D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */,
 				D25D540B15D1CAA800B791F3 /* Icon.png in Resources */,
 				D25D540C15D1CAA800B791F3 /* Icon@2x.png in Resources */,
+				D2AB6589165F8597007EB7EF /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
