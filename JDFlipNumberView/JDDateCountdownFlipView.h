@@ -10,18 +10,18 @@
 
 
 @interface JDDateCountdownFlipView : UIView <JDGroupedFlipNumberViewDelegate>
-{
-    JDGroupedFlipNumberView* mFlipNumberViewDay;
-    JDGroupedFlipNumberView* mFlipNumberViewHour;
-    JDGroupedFlipNumberView* mFlipNumberViewMinute;
-    JDGroupedFlipNumberView* mFlipNumberViewSecond;
-}
-
-- (id)initWithTargetDate: (NSDate*) targetDate;
-
-- (void) setTargetDate: (NSDate*) targetDate;
-- (void) setZDistance: (NSUInteger) zDistance;
-
-- (void) setDebugValues;
+//{
+//    JDGroupedFlipNumberView* mFlipNumberViewDay;
+//    JDGroupedFlipNumberView* mFlipNumberViewHour;
+//    JDGroupedFlipNumberView* mFlipNumberViewMinute;
+//    JDGroupedFlipNumberView* mFlipNumberViewSecond;
+//}
+//
+//- (id)initWithTargetDate: (NSDate*) targetDate;
+//
+//- (void) setTargetDate: (NSDate*) targetDate;
+//- (void) setZDistance: (NSUInteger) zDistance;
+//
+//- (void) setDebugValues;
 
 @end

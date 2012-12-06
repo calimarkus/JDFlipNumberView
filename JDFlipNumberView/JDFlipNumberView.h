@@ -5,80 +5,28 @@
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
-
-typedef enum
-{
-	eFlipStateFirstHalf,
-	eFlipStateSecondHalf
-} eFlipState;
-
-typedef enum
-{
-	eFlipDirectionUp,
-	eFlipDirectionDown
-} eFlipDirection;
 
 @protocol JDFlipNumberViewDelegate;
 
-#pragma mark -
-
 @interface JDFlipNumberView : UIView
-{
-	id<JDFlipNumberViewDelegate> delegate;
-	
-	NSTimer* mTimer;
-	
-	NSArray* mTopImages;
-	NSArray* mBottomImages;
-	
-	UIImageView* mImageViewTop;
-	UIImageView* mImageViewBottom;
-	UIImageView* mImageViewFlip;
-	
-    NSUInteger mMaxValue;
-	NSUInteger mCurrentValue;
-	eFlipState mCurrentState;
-	eFlipDirection mCurrentDirection;
-	CGFloat mCurrentAnimationDuration;
-}
 
 @property (nonatomic, assign) id<JDFlipNumberViewDelegate> delegate;
-@property (nonatomic, readonly) eFlipDirection currentDirection;
-@property (nonatomic, readonly) CGFloat currentAnimationDuration;
+@property (nonatomic, readonly) CGFloat animationDuration;
 @property (nonatomic, assign) NSUInteger intValue;
-@property (nonatomic, assign) NSUInteger maxValue;
 
-- (id) initWithIntValue: (NSUInteger) startNumber;
+- (void)setIntValue:(NSUInteger)intValue animated:(BOOL)animated;
 
-- (void) setFrame: (CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
-- (void) setZDistance: (NSUInteger) zDistance;
-
-- (NSUInteger) nextValue;
-- (NSUInteger) previousValue;
-
-// basic animation
-- (void) animateToNextNumber;
-- (void) animateToNextNumberWithDuration: (CGFloat) duration;
-- (void) animateToPreviousNumber;
-- (void) animateToPreviousNumberWithDuration: (CGFloat) duration;
-
-// timed animation
-- (void) animateUpWithTimeInterval: (NSTimeInterval) timeInterval;
-- (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval;
-
-// cancel all animations
-- (void) stopAnimation;
+- (void)setFrame:(CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
+- (void)setZDistance:(NSUInteger)zDistance;
 
 @end
 
 
 #pragma mark -
-#pragma mark delegate
-
+#pragma mark JDFlipNumberViewDelegate
 
 @protocol JDFlipNumberViewDelegate <NSObject>
 @optional
-- (void) flipNumberView: (JDFlipNumberView*) flipNumberView willChangeToValue: (NSUInteger) newValue;
-- (void) flipNumberView: (JDFlipNumberView*) flipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated;
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue animated:(BOOL)animated;
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
 @end;
