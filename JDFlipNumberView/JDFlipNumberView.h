@@ -10,8 +10,8 @@
 
 @interface JDFlipNumberView : UIView
 
-@property (nonatomic, assign) id<JDFlipNumberViewDelegate> delegate;
-@property (nonatomic, readonly) CGFloat animationDuration;
+@property (nonatomic, weak) id<JDFlipNumberViewDelegate> delegate;
+@property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) NSUInteger intValue;
 
 - (void)setIntValue:(NSUInteger)intValue animated:(BOOL)animated;
