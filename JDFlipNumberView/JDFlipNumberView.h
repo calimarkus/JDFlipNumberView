@@ -8,13 +8,21 @@
 
 @protocol JDFlipNumberViewDelegate;
 
+
+typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
+    JDFlipAnimationTypeNone,
+	JDFlipAnimationTypeTopDown,
+	JDFlipAnimationTypeBottomUp
+};
+
+
 @interface JDFlipNumberView : UIView
 
 @property (nonatomic, weak) id<JDFlipNumberViewDelegate> delegate;
 @property (nonatomic, assign) CGFloat animationDuration;
-@property (nonatomic, assign) NSUInteger intValue;
+@property (nonatomic, assign) NSUInteger value;
 
-- (void)setIntValue:(NSUInteger)intValue animated:(BOOL)animated;
+- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animation;
 
 - (void)setFrame:(CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
 - (void)setZDistance:(NSUInteger)zDistance;
