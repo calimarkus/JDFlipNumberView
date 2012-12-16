@@ -1,13 +1,12 @@
 //
-//  FlipNumberView.h
+//  JDFlipNumberDigitView.h
 //
 //  Created by Markus Emrich on 26.02.11.
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
 
-@protocol JDFlipNumberViewDelegate;
-
+@protocol JDFlipNumberDigitViewDelegate;
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
     JDFlipAnimationTypeNone,
@@ -16,9 +15,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
 };
 
 
-@interface JDFlipNumberView : UIView
+@interface JDFlipNumberDigitView : UIView
 
-@property (nonatomic, weak) id<JDFlipNumberViewDelegate> delegate;
+@property (nonatomic, weak) id<JDFlipNumberDigitViewDelegate> delegate;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) NSUInteger value;
 
@@ -33,8 +32,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
 #pragma mark -
 #pragma mark JDFlipNumberViewDelegate
 
-@protocol JDFlipNumberViewDelegate <NSObject>
+@protocol JDFlipNumberDigitViewDelegate <NSObject>
 @optional
-- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue animated:(BOOL)animated;
-- (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
+- (void)flipNumberDigit:(JDFlipNumberDigitView*)flipNumberDigit willChangeToValue:(NSUInteger)newValue animated:(BOOL)animated;
+- (void)flipNumberDigit:(JDFlipNumberDigitView*)flipNumberDigit didChangeValueAnimated:(BOOL)animated;
 @end;

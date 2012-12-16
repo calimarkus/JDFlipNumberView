@@ -1,5 +1,5 @@
 //
-//  FlipNumberView.m
+//  JDFlipNumberDigitView.m
 //
 //  Created by Markus Emrich on 26.02.11.
 //  Copyright 2011 Markus Emrich. All rights reserved.
@@ -12,7 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "JDFlipNumberViewImageFactory.h"
 
-#import "JDFlipNumberView.h"
+#import "JDFlipNumberDigitView.h"
 
 static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 static CGFloat kFlipAnimationMinimumAnimationDuration = 0.05;
@@ -24,7 +24,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 };
 
 
-@interface JDFlipNumberView ()
+@interface JDFlipNumberDigitView ()
 @property (nonatomic, strong) UIImageView *topImageView;
 @property (nonatomic, strong) UIImageView *flipImageView;
 @property (nonatomic, strong) UIImageView *bottomImageView;
@@ -39,7 +39,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 @end
 
 
-@implementation JDFlipNumberView
+@implementation JDFlipNumberDigitView
 
 - (id)initWithFrame:(CGRect)frame;
 {
@@ -161,18 +161,21 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType;
 {
-	// save new value
+	// save previous value
     self.previousValue = self.value;
-	_value = value % 10;
+	NSInteger newValue = value % 10;
 
     // update animation type
     self.animationType = animationType;
 	BOOL animated = (animationType != JDFlipAnimationTypeNone);
     
 	// inform delegate
-	if ([self.delegate respondsToSelector:@selector(flipNumberView:willChangeToValue:animated:)]) {
-		[self.delegate flipNumberView:self willChangeToValue:self.value animated:animated];
+	if ([self.delegate respondsToSelector:@selector(flipNumberDigit:willChangeToValue:animated:)]) {
+		[self.delegate flipNumberDigit:self willChangeToValue:value animated:animated];
 	}
+    
+    // save new value
+    _value = newValue;
 	
     [self updateImagesAnimated:animated];
 }
@@ -192,8 +195,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         self.flipImageView.hidden = YES;
         
         // inform delegate
-        if ([self.delegate respondsToSelector:@selector(flipNumberView:didChangeValueAnimated:)]) {
-            [self.delegate flipNumberView:self didChangeValueAnimated:NO];
+        if ([self.delegate respondsToSelector:@selector(flipNumberDigit:didChangeValueAnimated:)]) {
+            [self.delegate flipNumberDigit:self didChangeValueAnimated:NO];
         }
     } else {
         self.animationState = JDFlipAnimationStateFirstHalf;
@@ -273,8 +276,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 		[self.flipImageView.layer removeAnimationForKey: kFlipAnimationKey];
         
         // inform delegate
-        if ([self.delegate respondsToSelector:@selector(flipNumberView:didChangeValueAnimated:)]) {
-            [self.delegate flipNumberView:self didChangeValueAnimated:YES];
+        if ([self.delegate respondsToSelector:@selector(flipNumberDigit:didChangeValueAnimated:)]) {
+            [self.delegate flipNumberDigit:self didChangeValueAnimated:YES];
         }
 	}
 }
