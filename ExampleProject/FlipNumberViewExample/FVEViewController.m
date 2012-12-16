@@ -43,20 +43,19 @@
 {
     UIView *view = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 320, 40)];
     view.backgroundColor = [UIColor clearColor];
-    UILabel* label = [[UILabel alloc] initWithFrame: CGRectMake(10, 0, 300, 40)];
+    UILabel* label = [[UILabel alloc] initWithFrame: CGRectMake(20, 10, 290, 30)];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor colorWithWhite:0.65 alpha:1.0];
     label.shadowOffset = CGSizeMake(0,-1);
-    label.shadowColor = [UIColor colorWithWhite:0 alpha:0.3];
-    label.font = [UIFont boldSystemFontOfSize: 16];
+    label.shadowColor = [UIColor colorWithWhite:0 alpha:0.33];
+    label.font = [UIFont boldCustomFontOfSize: 16];
+//    label.textAlignment = UITextAlignmentCenter;
     [view addSubview: label];
     
-    if (section==0) {
-        label.text = @"Basic usage";
-    } else {
-        label.text = @"Targeted animation";
-    }
+    NSString* text = @"Basic usage";
+    if (section==1) text = @"Targeted animation";
+    label.text = [text uppercaseString];
     
     return view;
 }
