@@ -169,11 +169,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     self.animationType = animationType;
 	BOOL animated = (animationType != JDFlipAnimationTypeNone);
     
-	// inform delegate
-	if ([self.delegate respondsToSelector:@selector(flipNumberDigit:willChangeToValue:animated:)]) {
-		[self.delegate flipNumberDigit:self willChangeToValue:value animated:animated];
-	}
-    
     // save new value
     _value = newValue;
 	
@@ -193,11 +188,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         
         // reset state
         self.flipImageView.hidden = YES;
-        
-        // inform delegate
-        if ([self.delegate respondsToSelector:@selector(flipNumberDigit:didChangeValueAnimated:)]) {
-            [self.delegate flipNumberDigit:self didChangeValueAnimated:NO];
-        }
     } else {
         self.animationState = JDFlipAnimationStateFirstHalf;
         [self runAnimation];
@@ -212,7 +202,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	
 	// setup animation
 	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-	animation.duration	= MIN(kFlipAnimationMaximumAnimationDuration,self.animationDuration);
+	animation.duration	= MIN(kFlipAnimationMaximumAnimationDuration,self.animationDuration/2.0);
 	animation.delegate	= self;
 	animation.removedOnCompletion = NO;
 	animation.fillMode = kCAFillModeForwards;
@@ -274,11 +264,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 		
 		// remove old animation
 		[self.flipImageView.layer removeAnimationForKey: kFlipAnimationKey];
-        
-        // inform delegate
-        if ([self.delegate respondsToSelector:@selector(flipNumberDigit:didChangeValueAnimated:)]) {
-            [self.delegate flipNumberDigit:self didChangeValueAnimated:YES];
-        }
 	}
 }
 

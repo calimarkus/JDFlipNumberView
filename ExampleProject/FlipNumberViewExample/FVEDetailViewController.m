@@ -7,7 +7,6 @@
 //
 
 #import "JDFlipNumberView.h"
-#import "JDGroupedFlipNumberView.h"
 #import "JDDateCountdownFlipView.h"
 
 #import "FVEDetailViewController.h"
@@ -67,24 +66,24 @@
 {
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
     flipView.tag = 99;
-    flipView.animationDuration = 1.0;
     flipView.value = arc4random() % 10;
     [self.view addSubview: flipView];
 }
 
 - (void)showMultipleDigits;
 {
-//    JDGroupedFlipNumberView *flipView = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 5];
-//    flipView.intValue = 24;
-//    flipView.tag = 99;
-//    [self.view addSubview: flipView];
-//    
-//    if (self.indexPath.section == 0) {
-//        flipView.maximumValue = 24;
-//        [flipView animateDownWithTimeInterval: 1.0];
-//    } else {
-//        [flipView animateToValue: 9250 withDuration: 3.0];
-//    }
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
+    flipView.tag = 99;
+    [self.view addSubview: flipView];
+    
+    if (self.indexPath.section == 0) {
+        flipView.value = 24;
+        flipView.maximumValue = 24;
+        [flipView animateDownWithTimeInterval:0.3];
+    } else {
+        flipView.value = 2300;
+        [flipView animateToValue:9250 withDuration:3.0];
+    }
 }
 
 - (void)showDateCountdown;
@@ -124,7 +123,7 @@
     NSInteger randomNumber = arc4random()%8 - 4;
     if (randomNumber == 0) randomNumber = 1;
     NSInteger newValue = flipView.value+randomNumber;
-    [flipView setValue:newValue withAnimationType:JDFlipAnimationTypeTopDown];
+    [flipView setValue:newValue animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated

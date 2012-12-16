@@ -17,7 +17,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
 
 @interface JDFlipNumberDigitView : UIView
 
-@property (nonatomic, weak) id<JDFlipNumberDigitViewDelegate> delegate;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) NSUInteger value;
 
@@ -27,13 +26,3 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
 - (void)setZDistance:(NSUInteger)zDistance;
 
 @end
-
-
-#pragma mark -
-#pragma mark JDFlipNumberViewDelegate
-
-@protocol JDFlipNumberDigitViewDelegate <NSObject>
-@optional
-- (void)flipNumberDigit:(JDFlipNumberDigitView*)flipNumberDigit willChangeToValue:(NSUInteger)newValue animated:(BOOL)animated;
-- (void)flipNumberDigit:(JDFlipNumberDigitView*)flipNumberDigit didChangeValueAnimated:(BOOL)animated;
-@end;

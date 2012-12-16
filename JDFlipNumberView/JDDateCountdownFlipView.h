@@ -6,10 +6,10 @@
 //
 
 
-#import "JDGroupedFlipNumberView.h"
+#import "JDFlipNumberView.h"
 
 
-@interface JDDateCountdownFlipView : UIView <JDGroupedFlipNumberViewDelegate>
+@interface JDDateCountdownFlipView : UIView <JDFlipNumberViewDelegate>
 //{
 //    JDGroupedFlipNumberView* mFlipNumberViewDay;
 //    JDGroupedFlipNumberView* mFlipNumberViewHour;
