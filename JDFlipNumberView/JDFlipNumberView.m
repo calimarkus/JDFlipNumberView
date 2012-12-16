@@ -79,16 +79,24 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)setValue:(NSInteger)value;
 {
+    [self stopAnimation];
     [self setValue:value animated:NO];
 }
 
 - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
 {
+    [self stopAnimation];
+    
+    // reset animation Duration
+    self.animationDuration = 1.0;
+    
+    // automatically detect animation type
     self.animationType = JDFlipAnimationTypeTopDown;
     if (newValue < self.value) {
         self.animationType = JDFlipAnimationTypeBottomUp;
     }
     
+    // animate to new value
     [self setValue:newValue animatedInCurrentDirection:animated];
 }
 
@@ -105,7 +113,11 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 		JDFlipNumberDigitView* view = (JDFlipNumberDigitView*)self.digitViews[self.digitViews.count-(1+i)];
 		NSInteger newValue = [[stringValue substringWithRange:NSMakeRange(stringValue.length-(1+i), 1)] intValue];
         if (newValue != view.value) {
-            [view setValue:newValue withAnimationType:self.animationType];
+            if(animated) {
+                [view setValue:newValue withAnimationType:self.animationType];
+            } else {
+                view.value = newValue;
+            }
         }
 	}
 	
@@ -134,6 +146,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 {
     NSInteger absoluteMaximum = pow(10, self.digitViews.count)-1;
     _maximumValue = MIN(maximumValue,absoluteMaximum);
+    if(self.value > maximumValue) {
+        self.value = maximumValue;
+    }
 }
 
 - (CGFloat)animationDuration;

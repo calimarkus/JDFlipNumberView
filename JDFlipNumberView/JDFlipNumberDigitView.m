@@ -16,7 +16,7 @@
 
 static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 static CGFloat kFlipAnimationMinimumAnimationDuration = 0.05;
-static CGFloat kFlipAnimationMaximumAnimationDuration = 0.35;
+static CGFloat kFlipAnimationMaximumAnimationDuration = 0.70;
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	JDFlipAnimationStateFirstHalf,
@@ -65,7 +65,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     // default values
     _value = 0;
     _animationState = JDFlipAnimationStateFirstHalf;
-    _animationDuration = 0.25;
+    _animationDuration = kFlipAnimationMaximumAnimationDuration;
     
     // images & frame
     [self initImagesAndFrames];
@@ -202,7 +202,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	
 	// setup animation
 	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-	animation.duration	= MIN(kFlipAnimationMaximumAnimationDuration,self.animationDuration/2.0);
+	animation.duration	= MIN(kFlipAnimationMaximumAnimationDuration/2.0,self.animationDuration/2.0);
 	animation.delegate	= self;
 	animation.removedOnCompletion = NO;
 	animation.fillMode = kCAFillModeForwards;

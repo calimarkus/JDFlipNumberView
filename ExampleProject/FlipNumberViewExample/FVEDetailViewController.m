@@ -72,18 +72,21 @@
 
 - (void)showMultipleDigits;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
-    flipView.tag = 99;
-    [self.view addSubview: flipView];
+    JDFlipNumberView *flipView = nil;
     
     if (self.indexPath.section == 0) {
-        flipView.value = 24;
-        flipView.maximumValue = 24;
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
+        flipView.value = 32;
+        flipView.maximumValue = 128;
         [flipView animateDownWithTimeInterval:0.3];
     } else {
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
         flipView.value = 2300;
         [flipView animateToValue:9250 withDuration:3.0];
     }
+    
+    flipView.tag = 99;
+    [self.view addSubview: flipView];
 }
 
 - (void)showDateCountdown;
@@ -120,7 +123,7 @@
 {
     JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
 
-    NSInteger randomNumber = arc4random()%8 - 4;
+    NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
     if (randomNumber == 0) randomNumber = 1;
     NSInteger newValue = flipView.value+randomNumber;
     [flipView setValue:newValue animated:YES];
