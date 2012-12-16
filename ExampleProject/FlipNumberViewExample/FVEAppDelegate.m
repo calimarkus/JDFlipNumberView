@@ -29,12 +29,8 @@
 
 - (void)setupAppearance;
 {
-    NSDictionary *titleFormat = @{
-        UITextAttributeFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:16]
-    };
-    
     [[UINavigationBar appearance] setTintColor: [UIColor colorWithHue:0.2 saturation:0.8 brightness:0.6 alpha:1]];
-    [[UINavigationBar appearance] setTitleTextAttributes: titleFormat];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont:[UIFont boldCustomFontOfSize:16] }];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:2 forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:-1 forBarMetrics:UIBarMetricsLandscapePhone];
 }

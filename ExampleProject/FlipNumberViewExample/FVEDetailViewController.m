@@ -44,12 +44,31 @@
     } else {
         [self showDateCountdown];
     }
+
+    // info label
+    CGRect frame = CGRectInset(self.view.bounds, 10, 10);
+    frame.size.height = 20;
+    frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
+    UILabel *label = [[UILabel alloc] initWithFrame: frame];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    label.font = [UIFont boldCustomFontOfSize:13];
+    label.textColor = [UIColor colorWithWhite:1 alpha:0.5];
+    label.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
+    label.shadowOffset = CGSizeMake(-1, -1);
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"Tap anywhere to change the value!";
+    label.textAlignment = UITextAlignmentCenter;
+    [self.view addSubview: label];
+    
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
 }
 
 - (void)showSingleDigit;
 {
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
-    flipView.intValue = arc4random() % 10;
+    flipView.tag = 99;
+    flipView.animationDuration = 1.0;
+    flipView.value = arc4random() % 10;
     [self.view addSubview: flipView];
 }
 
@@ -65,14 +84,6 @@
 //        [flipView animateDownWithTimeInterval: 1.0];
 //    } else {
 //        [flipView animateToValue: 9250 withDuration: 3.0];
-//        
-//        // add random number button
-//        UIButton *button = [UIButton buttonWithType: UIButtonTypeRoundedRect];
-//        button.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-//        button.frame = CGRectMake(20, 10, self.view.frame.size.width-40, 38);
-//        [button setTitle:@"Jump to random number" forState:UIControlStateNormal];
-//        [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
-//        [self.view addSubview: button];
 //    }
 }
 
@@ -106,15 +117,14 @@
 //    }
 }
 
-- (void)buttonTouched:(id)sender
+- (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
-//    JDGroupedFlipNumberView *flipView = (JDGroupedFlipNumberView*)[self.view viewWithTag: 99];
-//
-//    @try {
-//        NSInteger randomNumber = ABS(flipView.intValue + arc4random()%10000 - 5000);
-//        NSLog(@"%d", randomNumber);
-//        [flipView animateToValue:randomNumber withDuration:2.5];
-//    } @catch (NSException *exception) {}
+    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
+
+    NSInteger randomNumber = arc4random()%8 - 4;
+    if (randomNumber == 0) randomNumber = 1;
+    NSInteger newValue = flipView.value+randomNumber;
+    [flipView setValue:newValue withAnimationType:JDFlipAnimationTypeTopDown];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -125,20 +135,29 @@
 
 - (void)layoutSubviews
 {
-    if (self.view.subviews.count == 0) {
+    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
+    if (!flipView) {
         return;
     }
     
-    UIView* view = [[self.view subviews] objectAtIndex: 0];
-    
-    view.frame = CGRectMake(0, 0, self.view.frame.size.width-40, self.view.frame.size.height-40);
-    view.center = CGPointMake(self.view.frame.size.width /2,
-                              (self.view.frame.size.height/2)*0.9);
+    flipView.frame = CGRectInset(self.view.bounds, 40, 40);
+    flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
+                                  floor((self.view.frame.size.height/2)*0.9));
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationPortrait;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
