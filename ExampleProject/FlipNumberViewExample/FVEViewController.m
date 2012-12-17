@@ -50,7 +50,6 @@
     label.shadowOffset = CGSizeMake(0,-1);
     label.shadowColor = [UIColor colorWithWhite:0 alpha:0.33];
     label.font = [UIFont boldCustomFontOfSize: 16];
-//    label.textAlignment = UITextAlignmentCenter;
     [view addSubview: label];
     
     NSString* text = @"Basic usage";

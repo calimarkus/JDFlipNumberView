@@ -48,6 +48,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 		self.backgroundColor = [UIColor clearColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
         self.autoresizesSubviews = NO;
+        _digitCount = digitCount;
         
         // init single digit views
 		JDFlipNumberDigitView* view = nil;

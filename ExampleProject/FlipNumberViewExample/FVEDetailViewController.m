@@ -36,6 +36,7 @@
     
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
+    // show flipNumberView
     if (self.indexPath.section == 1 || self.indexPath.row == 1) {
         [self showMultipleDigits];
     } else if (self.indexPath.row == 0) {
@@ -44,22 +45,25 @@
         [self showDateCountdown];
     }
 
-    // info label
-    CGRect frame = CGRectInset(self.view.bounds, 10, 10);
-    frame.size.height = 20;
-    frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
-    UILabel *label = [[UILabel alloc] initWithFrame: frame];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    label.font = [UIFont boldCustomFontOfSize:13];
-    label.textColor = [UIColor colorWithWhite:1 alpha:0.5];
-    label.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
-    label.shadowOffset = CGSizeMake(-1, -1);
-    label.backgroundColor = [UIColor clearColor];
-    label.text = @"Tap anywhere to change the value!";
-    label.textAlignment = UITextAlignmentCenter;
-    [self.view addSubview: label];
-    
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
+    // add gesture recognizer
+    if (self.indexPath.section == 1 || self.indexPath.row != 2) {
+        // info label
+        CGRect frame = CGRectInset(self.view.bounds, 10, 10);
+        frame.size.height = 20;
+        frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
+        UILabel *label = [[UILabel alloc] initWithFrame: frame];
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        label.font = [UIFont boldCustomFontOfSize:13];
+        label.textColor = [UIColor colorWithWhite:1 alpha:0.5];
+        label.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
+        label.shadowOffset = CGSizeMake(-1, -1);
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Tap anywhere to change the value!";
+        label.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview: label];
+
+        [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
+    }
 }
 
 - (void)showSingleDigit;
@@ -99,32 +103,33 @@
 
 - (void)showDateCountdown;
 {
-//    // countdown to silvester
-//    NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat: @"dd.MM.yy HH:mm"];
-//    NSDate *date = [dateFormatter dateFromString: [NSString stringWithFormat: @"01.01.%d 00:00", currentComps.year+1]];
-//    
-//    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithTargetDate: date];
-//    [self.view addSubview: flipView];
-//    [flipView setDebugValues];
-//    
-//    // add info labels
-//    NSInteger posx = 20;
-//    for (NSInteger i=0; i<4; i++) {
-//        CGRect frame = CGRectMake(posx, 20, 200, 200);
-//        UILabel *label = [[UILabel alloc] initWithFrame: frame];
-//        label.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:12];
-//        label.textColor = [UIColor whiteColor];
-//        label.backgroundColor = [UIColor darkGrayColor];
-//        label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
-//        [label sizeToFit];
-//        label.frame = CGRectInset(label.frame, -4, -4);
-//        label.textAlignment = UITextAlignmentCenter;
-//        [self.view addSubview: label];
-//        
-//        posx += label.frame.size.width + 10;
-//    }
+    // setup flipview
+    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3];
+    flipView.tag = 99;
+    [self.view addSubview: flipView];
+    
+    // countdown to silvester
+    NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat: @"dd.MM.yy HH:mm"];
+    flipView.targetDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"01.01.%d 00:00", currentComps.year+1]];
+    
+    // add info labels
+    NSInteger posx = 20;
+    for (NSInteger i=0; i<4; i++) {
+        CGRect frame = CGRectMake(posx, 20, 200, 200);
+        UILabel *label = [[UILabel alloc] initWithFrame: frame];
+        label.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:12];
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor darkGrayColor];
+        label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
+        [label sizeToFit];
+        label.frame = CGRectInset(label.frame, -4, -4);
+        label.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview: label];
+        
+        posx += label.frame.size.width + 10;
+    }
 }
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
@@ -161,7 +166,7 @@
         return;
     }
     
-    flipView.frame = CGRectInset(self.view.bounds, 40, 40);
+    flipView.frame = CGRectInset(self.view.bounds, 20, 20);
     flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
                                   floor((self.view.frame.size.height/2)*0.9));
 }
