@@ -82,7 +82,15 @@
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
         flipView.value = 2300;
-        [flipView animateToValue:9250 withDuration:3.0];
+        
+        NSInteger targetValue = 9250;
+        NSLog(@"animating to %d", targetValue);
+        NSDate *startDate = [NSDate date];
+        [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
+            if (finished) {
+                NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            }
+        }];
     }
     
     flipView.tag = 99;
@@ -126,7 +134,18 @@
     NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
     if (randomNumber == 0) randomNumber = 1;
     NSInteger newValue = flipView.value+randomNumber;
-    [flipView setValue:newValue animated:YES];
+    
+    if (self.indexPath.section == 0) {
+        [flipView setValue:newValue animated:YES];
+    } else {
+        NSLog(@"animating to %d", [flipView validValueFromValue:newValue]);
+        NSDate *startDate = [NSDate date];
+        [flipView animateToValue:newValue duration:2.50 completion:^(BOOL finished) {
+            if(finished) {
+                NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            }
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

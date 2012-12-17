@@ -9,6 +9,8 @@
 
 @protocol JDFlipNumberViewDelegate;
 
+typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
+
 @interface JDFlipNumberView : UIView
 
 @property (nonatomic, assign) id<JDFlipNumberViewDelegate> delegate;
@@ -23,9 +25,11 @@
 
 // direct value manipulation (jump to value)
 - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
+- (NSUInteger)validValueFromValue:(NSInteger)value;
 
 // animate over every value between old and new value
-- (void)animateToValue:(NSInteger)newValue withDuration:(CGFloat)duration;
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration completion:(JDFlipAnimationCompletionBlock)completion;
 
 // basic animation
 - (void)animateToNextNumber;

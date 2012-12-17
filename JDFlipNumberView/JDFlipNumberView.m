@@ -10,6 +10,8 @@
 #import "JDFlipNumberView.h"
 
 
+static CGFloat kFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
+
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	JDFlipAnimationDirectionUp,
 	JDFlipAnimationDirectionDown
@@ -17,14 +19,18 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 @interface JDFlipNumberView ()
 @property (nonatomic, strong) NSArray *digitViews;
+@property (nonatomic, assign) JDFlipAnimationType animationType;
+
 @property (nonatomic, strong) NSTimer *animationTimer;
+@property (nonatomic, assign) NSTimeInterval neededInterval;
+@property (nonatomic, assign) NSTimeInterval intervalRest;
 @property (nonatomic, assign) BOOL targetMode;
 @property (nonatomic, assign) NSInteger targetValue;
-@property (nonatomic, assign) JDFlipAnimationType animationType;
+@property (nonatomic, copy) JDFlipAnimationCompletionBlock completionBlock;
+
 - (void)setValue:(NSInteger)newValue animatedInCurrentDirection:(BOOL)animated;
 - (void)animateInDirection:(JDFlipAnimationDirection)direction
               timeInterval:(NSTimeInterval)timeInterval;
-- (NSUInteger)validValueFromValue:(NSInteger)value;
 @end
 
 @implementation JDFlipNumberView
@@ -201,49 +207,80 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 - (void)animateInDirection:(JDFlipAnimationDirection)direction
               timeInterval:(NSTimeInterval)timeInterval;
 {
-    self.animationDuration = timeInterval;
-    
-    // choose selector
+    // set animation type
     self.animationType = JDFlipAnimationTypeTopDown;
     if (direction == JDFlipAnimationDirectionDown) {
         self.animationType = JDFlipAnimationTypeBottomUp;
     }
     
     // setup timer
-    self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                                           target:self
-                                                         selector:@selector(handleTimer:)
-                                                         userInfo:nil
-                                                          repeats:YES];
+    self.neededInterval = timeInterval;
+    CGFloat actualInterval = MAX(kFlipAnimationMinimumTimeInterval, timeInterval);
+    self.animationDuration = actualInterval;
+    
+    self.animationTimer = [NSTimer timerWithTimeInterval:actualInterval
+                                                  target:self
+                                                selector:@selector(handleTimer:)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)handleTimer:(NSTimer*)timer
 {
-    NSInteger newValue = self.value+1;
+    // if timer is too slow, add more than 1 per timer call
+    NSInteger step = 1;
+    if (timer.timeInterval > self.neededInterval) {
+        CGFloat ratio = timer.timeInterval/self.neededInterval;
+        step = floor(ratio);
+        self.intervalRest += ratio-step;
+        if (self.intervalRest > 1) {
+            step += floor(self.intervalRest);
+            self.intervalRest -= floor(self.intervalRest);
+        }
+    }
+    
+    // calc new value
+    NSInteger newValue = self.value+step;
     if (self.animationType == JDFlipAnimationTypeBottomUp) {
-        newValue = self.value-1;
+        newValue = self.value-step;
     }
     newValue = [self validValueFromValue:newValue];
     
+    // check target mode finish conditions
     if (self.targetMode) {
         if (newValue == self.targetValue ||
             (self.animationType == JDFlipAnimationTypeTopDown && newValue > self.targetValue) ||
             (self.animationType == JDFlipAnimationTypeBottomUp && newValue < self.targetValue)) {
             [self setValue:self.targetValue animatedInCurrentDirection:YES];
+            if (self.completionBlock != nil) {
+                self.completionBlock(YES);
+                self.completionBlock = nil;
+            }
             [self stopAnimation];
             return;
         }
     }
     
+    // animate new value
     [self setValue:newValue animatedInCurrentDirection:YES];
 }
 
 #pragma mark -
 #pragma mark targeted animation
 
-- (void)animateToValue:(NSInteger)newValue withDuration:(CGFloat)duration;
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
+{
+    [self animateToValue:newValue duration:duration completion:nil];
+}
+
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration completion:(JDFlipAnimationCompletionBlock)completion;
 {
     [self stopAnimation];
+    
+    if (completion) {
+        self.completionBlock = completion;
+    }
     
 	// save target value in valid range
 	NSString* strvalue = [NSString stringWithFormat: @"%50d", newValue];
@@ -267,10 +304,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	
 	// enable target mode (this has do be done after animation start)
 	self.targetMode = YES;
-    
-    // @TOOD: fix targeted animation, use startDate and endDate and targetValue
-    // because too small timeIntervals cannot be handled by NSTimer.
-    // use 1/60.0 maximum timer interval for 60fps updates
 }
 
 
@@ -279,9 +312,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)stopAnimation;
 {
+    if (self.targetMode && self.completionBlock != nil) {
+        self.completionBlock(NO);
+    }
+    
 	self.targetMode = NO;
     [self.animationTimer invalidate];
     self.animationTimer = nil;
+    self.intervalRest = 0;
+    self.completionBlock = nil;
 }
 
 #pragma mark -
