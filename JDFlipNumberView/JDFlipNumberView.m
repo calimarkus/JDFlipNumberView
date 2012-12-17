@@ -216,8 +216,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     
     // setup timer
     self.neededInterval = timeInterval;
+    self.animationDuration = timeInterval;
     CGFloat actualInterval = MAX(kFlipAnimationMinimumTimeInterval, timeInterval);
-    self.animationDuration = actualInterval;
     
     self.animationTimer = [NSTimer timerWithTimeInterval:actualInterval
                                                   target:self
@@ -286,7 +286,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	// save target value in valid range
 	NSString* strvalue = [NSString stringWithFormat: @"%50d", newValue];
 	strvalue = [strvalue substringWithRange:NSMakeRange(strvalue.length-self.digitViews.count, self.digitViews.count)];
-	self.targetValue = [strvalue intValue];
+	self.targetValue = [self validValueFromValue:[strvalue intValue]];
 
     if (newValue == self.value) {
         return;
