@@ -78,13 +78,13 @@
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
             cell.textLabel.text = @"Single Digit";
-            cell.detailTextLabel.text = @"A JDFlipNumberView instance.";
+            cell.detailTextLabel.text = @"A FlipView with one digit.";
         } else if(indexPath.row == 1) {
-            cell.textLabel.text = @"Bigger Number";
-            cell.detailTextLabel.text = @"A JDGroupedFlipNumberView instance.";
+            cell.textLabel.text = @"Multiple Digits";
+            cell.detailTextLabel.text = @"A FlipView with multiple digits.";
         } else {
             cell.textLabel.text = @"Silvester Countdown";
-            cell.detailTextLabel.text = @"A JDDateCountdownView instance.";
+            cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
         }
     } else {
         cell.textLabel.text = @"Bigger Number";
