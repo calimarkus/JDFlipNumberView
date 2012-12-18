@@ -1,22 +1,20 @@
 Pod::Spec.new do |s|
 
   s.name         = "JDFlipNumberView"  
-  s.version      = "1.0.1"  
-  s.summary      = "A simple, yet powerful, customizable FlipNumberView based on CoreAnimation. Contains also a Date Countdown Flip View."
+  s.version      = "2.0"  
+  s.summary      = "A simple, yet powerful, customizable FlipNumberView based on CoreAnimation (Simulating an analog flip display). Contains a DateCountdownFlipView."
   
-  s.description  = "A simple, yet powerful, customizable FlipNumberView based on CoreAnimation. Contains also a Date Countdown Flip View. May be used for Countdowns/Timer or any other Counter. Supports automatic animation in either direction. Can be manually chained. See the DateFlipNumberView as an example. There is also an example project."
+  s.description  = "The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. It may be used for Countdowns, Timers, clocks or any other number display. Supports automatic animation in either direction. An example project is given. Supports ARC."
   
   s.homepage     = "https://github.com/jaydee3/JDFlipNumberView"  
   s.license      = "MIT"  
   s.author       = { "Markus Emrich" => "markus@nxtbgthng.com" }  
   
-  s.source       = { :git => "https://github.com/jaydee3/JDFlipNumberView.git", :tag => "pod-1.0.1" }  
+  s.source       = { :git => "https://github.com/jaydee3/JDFlipNumberView.git", :tag => "pod-2.0" }  
   s.source_files = 'JDFlipNumberView/**/*.{h,m}'  
-  
   s.resource     = "JDFlipNumberView/JDFlipNumberView.bundle"
-  
-  s.platform     = :ios, '3.0'
-  
+  s.platform     = :ios, '5.0'
   s.frameworks   = "QuartzCore"
+  s.requires_arc = true
   
 end
