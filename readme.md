@@ -1,70 +1,84 @@
-JDFlipNumberView
-------------------
+JDFlipNumberView 2.0
+-----------------------
 
-See [screenshots](#screenshots) below.
+The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
 
-The Flip Number View is simulating an analog flip display (like those for the departure time on the airport).
+See [screenshots](#screenshots) of the example project below.  
+If you are using this class, you may list your app on the [wiki page].
 
-It is using CoreAnimation to get the desired effect. It's well abstracted and should be really easy to use. But it still needs some work, so feel free to contribute!
+## Installation
+
+**A) Use CocoaPods** (preferred way, see [cocoapods website])
+
+> 1) add `pod 'JDFlipNumberView'` to your Podfile  
+> 2) run `pod install` 
+
+**B) Manual way** (not needed, if you use cocoapods):
+
+> 1) Add all files from `JDFlipNumberView/JDFlipNumberView/*` to your 
+> project, including the `JDFlipNumberView.bundle`  
+> 2) Link with the `QuartzCore.framework`
 
 ## Contents
 
-You get three classes for different usecases:
+The two main classes are:
 
 - `JDFlipNumberView`  
-  __A single animated digit.__ Range 0-9.
-- `JDGroupedFlipNumberView`  
-  A grouped and chained choosable number of flipviews for higher numbers.  
-  It is using a variable amount of `JDFlipNumberView` instances itself and chains them together.
+  The standard flipNumberView. It shows an integer value as flipView.
+  It has a choosable amount of digits.
 - `JDDateCountdownFlipView`  
-  __A date countdown.__ Just init with a target date and add it as a subview.  
-  It is using four `JDGroupedFlipNumberView` instances itself and chains them together.
-  
-  ![Caution Sign](http://upload.wikimedia.org/wikipedia/en/thumb/f/f7/Nuvola_apps_important.svg/50px-Nuvola_apps_important.svg.png "Caution Sign")  
-  __Note:__ The `JDDateCountdownFlipView` is not yet production ready, because the `maximumValue` of the `JDGroupedFlipNumberView` is interpreted wrong. Don't use a maximum value on grouped flipViews and don't use the Date Countdown at all for now, because it behaves buggy. I'm trying to fix these bugs _ASAP_. (You may follow the progress via the issues and the branches other than master.)
+  __A date countdown.__ Just init with a target date and it will show the remaining days, hours, minutes and seconds until that date.
 
-## How to use
+## Usage
 
-Recommend: Use [cocoapods] to install it.  
+In any case, after installing, you only need to follow some simple steps to get started:
 
-(OR add all files from `JDFlipNumberView/JDFlipNumberView/` manually to your project, including the `JDFlipNumberView.bundle`.  
-And you also need to link the `QuartzCore.framework`)
+__Example:__ A 4 digit flipNumberView animating down every second.
 
-In any case, after installing, you only need to follow these three steps, to use it:
-
-> 1. Init the class
-> 2. Set an int value (or a date)
-> 3. Start the animation
-
-__Example:__ A countdown view from 1000 seconds to 0.
-
-    JDGroupedFlipNumberView *flipNumberView = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 4];
-    flipNumberView.intValue = 1000;
+    // create a new flipNumberView
+    JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:4];
+    // set the start value
+    flipNumberView.value = 1337;
+    // start an animation
     [flipNumberView animateDownWithTimeInterval: 1.0];
     
+    // add to view hierarchy
     [self.view addSubview: flipNumberView];
-    flipNumberView.frame = CGRectMake(10,100,300,100);
+    // set your desired size
+    flipNumberView.frame = CGRectMake(20,100,300,100);
 
-That's it.  
-This will display a working, flipping, animating countdown view!
+That's it. This will display a working, flipping, animating countdown view!
 
-## How to start the animation?
+## Possible animations
 
-Use any of the following methods:
+Basic animations:
 
-    // basic animation
-    - (void) animateToNextNumber;
-    - (void) animateToPreviousNumber;
+    - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
+    - (void)animateToNextNumber;
+    - (void)animateToPreviousNumber;
+
+Targeted animation over time:
+
+    - (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
     
-    // timed animation
-    - (void) animateUpWithTimeInterval: (NSTimeInterval) timeInterval;
-    - (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval;
+Timed animation without target value:
 
+    - (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
+    - (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
 
-## Do you use the JDFlipNumberView?
+## Customization
 
-Feel free to add your app to the
-[wiki](https://github.com/jaydee3/JDFlipNumberView/wiki/Apps-using-JDFlipNumberView).
+*You may use the original `.psd` file from the `gfx` folder to create custom graphics.*
+
+**A) Replace original images**  
+Replace the images within the JDFlipNumberView.bundle. But the next pod install will revert your changes.
+
+**B) Use your own bundle**  
+Add your own graphics bundle to your project. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
+
+Before using any FlipNumberViews, set your own images like this:
+
+    [JD_IMG_FACTORY generateImagesFromBundleNamed:@"yourBundleName"]
 
 ## Screenshots
 
@@ -75,6 +89,7 @@ Feel free to add your app to the
 ![Date Countdown](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/datecountdown.png "Date Countdown")
 
 
-[cocoapods]: https://github.com/CocoaPods/CocoaPods/
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/015f5826a4c4d785736b35a0ae7568ce "githalytics.com")](http://githalytics.com/jaydee3/JDFlipNumberView)
+[Github issue]: https://github.com/jaydee3/JDFlipNumberView/issues
+[cocoapods website]: http://cocoapods.org
+[wiki page]: https://github.com/jaydee3/JDFlipNumberView/wiki/Apps-using-JDFlipNumberView

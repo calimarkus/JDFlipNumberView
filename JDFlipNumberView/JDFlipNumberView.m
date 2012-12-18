@@ -1,469 +1,352 @@
 //
-//  FlipNumberView.m
+//  JDFlipNumberView.m
 //
-//  Created by Markus Emrich on 26.02.11.
+//  Created by Markus Emrich on 27.02.11.
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
-//
-//  based on
-//  www.voyce.com/index.php/2010/04/10/creating-an-ipad-flip-clock-with-core-animation/
-//
+
+#import "JDFlipNumberDigitView.h"
 
 #import "JDFlipNumberView.h"
 
-static NSString* kFlipAnimationKey = @"kFlipAnimationKey";
 
+static CGFloat kFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
 
-@interface JDFlipNumberView (private)
-- (void) initImages;
-- (CGFloat) defaultAnimationDuration;
-- (void) animateIntoCurrentDirectionWithDuration: (CGFloat) duration;
-- (void) nextValueWithoutAnimation: (NSTimer*) timer;
-- (void) updateFlipViewFrame;
-- (NSUInteger) validValueFromInt: (NSInteger) index;
+typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
+	JDFlipAnimationDirectionUp,
+	JDFlipAnimationDirectionDown
+};
+
+@interface JDFlipNumberView ()
+@property (nonatomic, strong) NSArray *digitViews;
+@property (nonatomic, assign) JDFlipAnimationType animationType;
+
+@property (nonatomic, strong) NSTimer *animationTimer;
+@property (nonatomic, assign) NSTimeInterval neededInterval;
+@property (nonatomic, assign) NSTimeInterval intervalRest;
+@property (nonatomic, assign) BOOL targetMode;
+@property (nonatomic, assign) NSInteger targetValue;
+@property (nonatomic, copy) JDFlipAnimationCompletionBlock completionBlock;
+
+- (void)setValue:(NSInteger)newValue animatedInCurrentDirection:(BOOL)animated;
+- (void)animateInDirection:(JDFlipAnimationDirection)direction
+              timeInterval:(NSTimeInterval)timeInterval;
 @end
-
 
 @implementation JDFlipNumberView
 
-@synthesize delegate;
-@synthesize currentDirection = mCurrentDirection;
-@synthesize currentAnimationDuration = mCurrentAnimationDuration;
-@synthesize intValue = mCurrentValue;
-@synthesize maxValue = mMaxValue;
-
-- (id) init
+- (id)init;
 {
-	return [self initWithIntValue: 0];
+	return [self initWithDigitCount:1];
 }
 
-- (id) initWithIntValue: (NSUInteger) startNumber
+- (id)initWithDigitCount:(NSUInteger)digitCount;
 {
-	//NSLog(@"initWithIntValue %d", startNumber);
-	
-    self = [super initWithFrame: CGRectZero];
+    self = [super initWithFrame:CGRectZero];
     if (self)
 	{
 		self.backgroundColor = [UIColor clearColor];
-        self.autoresizesSubviews = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
-		
-        mMaxValue = 9;
-		mCurrentValue = [self validValueFromInt: startNumber];
-		mCurrentState = eFlipStateFirstHalf;
-        mCurrentDirection = eFlipDirectionDown;
-		mCurrentAnimationDuration = 0.25;
-		
-		[self initImages];
-		
-		if (!mTopImages) {
-			NSLog(@"ERROR CREATING IMAGES!");
-			return nil;
+        self.autoresizesSubviews = NO;
+        _digitCount = digitCount;
+        
+        // init single digit views
+		JDFlipNumberDigitView* view = nil;
+		NSMutableArray* allViews = [[NSMutableArray alloc] initWithCapacity:digitCount];
+		for (int i = 0; i < digitCount; i++) {
+			view = [[JDFlipNumberDigitView alloc] init];
+			view.frame = CGRectMake(i*view.frame.size.width, 0, view.frame.size.width, view.frame.size.height);
+			[self addSubview: view];
+			[allViews addObject: view];
 		}
-		
-		// setup frame
-		UIImage* image = [mTopImages objectAtIndex: mCurrentValue];
-		super.frame = CGRectMake(0, 0, image.size.width, image.size.height*2);
+		self.digitViews = [[NSArray alloc] initWithArray: allViews];
+        
+        // setup properties
+        self.animationType = JDFlipAnimationTypeTopDown;
+        self.maximumValue = pow(10, digitCount)-1;
+        self.targetMode = NO;
+		super.frame = CGRectMake(0, 0, digitCount*view.frame.size.width, view.frame.size.height);
     }
     return self;
-}
-
-// needed to release view properly
-- (void) removeFromSuperview
-{
-	[self stopAnimation];
-	[super removeFromSuperview];
-}
-
-- (void)dealloc
-{
-	// NSLog(@"dealloc (value: %d)", mCurrentValue);
-	
-	[mTopImages release];
-	[mBottomImages release];
-	
-	[mImageViewTop release];
-	[mImageViewBottom release];
-	[mImageViewFlip release];
-	
-    [super dealloc];
-}
-
-- (void) initImages
-{
-	NSMutableArray* filenames = [NSMutableArray arrayWithCapacity: 10];
-	for (int i = 0; i < 10; i++) {
-		[filenames addObject: [NSString stringWithFormat: @"JDFlipNumberView.bundle/%d.png", i]];
-	}
-	
-	NSMutableArray* images = [NSMutableArray arrayWithCapacity: [filenames count]*2];
-	
-	// create bottom and top images
-	for (int i = 0; i < 2; i++)
-	{
-		for (NSString* filename in filenames)
-		{
-			UIImage* image	= [UIImage imageNamed: [NSString stringWithFormat: @"%@", filename]];
-			CGSize size		= CGSizeMake(image.size.width, image.size.height/2);
-			CGFloat yPoint	= (i==0) ? 0.0 : -size.height;
-
-			if (!image) {
-				NSLog(@"DIDNT FIND IMAGE: %@", filename);
-				return;
-			}
-			
-			UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
-			[image drawAtPoint:CGPointMake(0.0,yPoint)];
-			UIImage *top = UIGraphicsGetImageFromCurrentImageContext();
-			[images addObject: top];
-			UIGraphicsEndImageContext();
-		}
-	}
-	
-	mTopImages	  = [[images subarrayWithRange: NSMakeRange(0, [filenames count])] retain];
-	mBottomImages = [[images subarrayWithRange: NSMakeRange([filenames count], [filenames count])] retain];
-	
-	// setup image views
-	mImageViewTop	 = [[UIImageView alloc] initWithImage: [mTopImages    objectAtIndex: mCurrentValue]];
-	mImageViewBottom = [[UIImageView alloc] initWithImage: [mBottomImages objectAtIndex: mCurrentValue]];
-	mImageViewFlip	 = [[UIImageView alloc] initWithImage: [mTopImages    objectAtIndex: mCurrentValue]];
-    mImageViewFlip.hidden = YES;
-	
-	mImageViewBottom.frame = CGRectMake(0, mImageViewTop.image.size.height, mImageViewTop.image.size.width, mImageViewTop.image.size.height);
-	
-	// add image views
-	[self addSubview: mImageViewTop];
-	[self addSubview: mImageViewBottom];
-	[self addSubview: mImageViewFlip];
-	
-	// setup default 3d transform
-	[self setZDistance: (mImageViewTop.image.size.height*2)*3];
-}
-
-- (CGSize) sizeThatFits: (CGSize) aSize
-{
-    if (!mTopImages || [mTopImages count] <= 0) {
-        return [super sizeThatFits: aSize];
-    }
-    
-    UIImage* image = (UIImage*)[mTopImages objectAtIndex: 0];
-    CGFloat ratioW     = aSize.width/aSize.height;
-    CGFloat origRatioW = image.size.width/(image.size.height*2);
-    CGFloat origRatioH = (image.size.height*2)/image.size.width;
-    
-    if (ratioW>origRatioW)
-    {
-        aSize.width = aSize.height*origRatioW;
-    }
-    else
-    {
-        aSize.height = aSize.width*origRatioH;
-    }
-    
-    return aSize;
 }
 
 
 #pragma mark -
 #pragma mark external access
 
-- (void) setFrame: (CGRect)rect
+- (NSInteger)value;
 {
-    [self setFrame:rect allowUpscaling:NO];
+	NSMutableString* stringValue = [NSMutableString stringWithCapacity:self.digitViews.count];
+	for (JDFlipNumberDigitView* view in self.digitViews) {
+		[stringValue appendFormat: @"%d", view.value];
+	}
+	
+	return [stringValue intValue];
 }
 
-- (void) setFrame: (CGRect)rect allowUpscaling:(BOOL)upscalingAllowed
+- (void)setValue:(NSInteger)value;
 {
-    if (!upscalingAllowed) {
-        rect.size.width  = MIN(rect.size.width, mImageViewTop.image.size.width);
-        rect.size.height = MIN(rect.size.height, mImageViewTop.image.size.height*2);
+    [self stopAnimation];
+    [self setValue:value animated:NO];
+}
+
+- (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
+{
+    [self stopAnimation];
+    
+    // reset animation Duration
+    self.animationDuration = 1.0;
+    
+    // automatically detect animation type
+    self.animationType = JDFlipAnimationTypeTopDown;
+    if (newValue < self.value) {
+        self.animationType = JDFlipAnimationTypeBottomUp;
     }
     
-    rect.size = [self sizeThatFits: rect.size];
-	[super setFrame: rect];
+    // animate to new value
+    [self setValue:newValue animatedInCurrentDirection:animated];
+}
+
+- (void)setValue:(NSInteger)newValue animatedInCurrentDirection:(BOOL)animated;
+{
+    // stay in max bounds
+    newValue = [self validValueFromValue:newValue];
     
-    rect.origin = CGPointMake(0, 0);
-    rect.size.height /= 2.0;
-    mImageViewTop.frame = rect;
-    rect.origin.y += rect.size.height;
-    mImageViewBottom.frame = rect;
-    
-	if (mCurrentState == eFlipStateFirstHalf) {
-        mImageViewFlip.frame = mImageViewTop.frame;
-    } else {
-        mImageViewFlip.frame = mImageViewBottom.frame;
+    // convert to string
+	NSString* stringValue = [NSString stringWithFormat: @"%50d", newValue];
+	
+    // udpate all flipviews, that have changed
+	for (int i=0; i<stringValue.length && i<self.digitViews.count; i++) {
+		JDFlipNumberDigitView* view = (JDFlipNumberDigitView*)self.digitViews[self.digitViews.count-(1+i)];
+		NSInteger newValue = [[stringValue substringWithRange:NSMakeRange(stringValue.length-(1+i), 1)] intValue];
+        if (newValue != view.value) {
+            if(animated) {
+                [view setValue:newValue withAnimationType:self.animationType];
+            } else {
+                view.value = newValue;
+            }
+        }
+	}
+	
+	if ([self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
+		[self.delegate flipNumberView:self didChangeValueAnimated:NO];
+	}
+}
+
+- (NSUInteger)validValueFromValue:(NSInteger)value;
+{
+    if (value < 0) {
+        value += floor(ABS(value)/self.maximumValue)*self.maximumValue;
+        value += (self.maximumValue+1);
     }
-	
-	[self setZDistance: self.frame.size.height*3];
+	return value%(self.maximumValue+1);
 }
 
-- (void) setZDistance: (NSUInteger) zDistance
+- (void)setZDistance:(NSUInteger)zDistance;
 {
-	// setup 3d transform
-	CATransform3D aTransform = CATransform3DIdentity;
-	aTransform.m34 = -1.0 / zDistance;	
-	self.layer.sublayerTransform = aTransform;
+	for (JDFlipNumberDigitView* view in self.digitViews) {
+		[view setZDistance: zDistance];
+	}
 }
 
-- (void) setIntValue: (NSUInteger) newValue
+- (void)setMaximumValue:(NSUInteger)maximumValue;
 {
-	// save new value
-	mCurrentValue = [self validValueFromInt: newValue];
-	
-	// display new value
-	mImageViewTop.image		= [mTopImages    objectAtIndex: mCurrentValue];
-	mImageViewBottom.image  = [mBottomImages objectAtIndex: mCurrentValue];
-    mImageViewFlip.image    = [mTopImages    objectAtIndex: mCurrentValue];
-	
-	// if animation is running in step2, top&bottom already show the next value
-	if (mCurrentState == eFlipStateSecondHalf) {
-        mImageViewTop.image	 = [mTopImages objectAtIndex: [self nextValue]];
-		mImageViewFlip.image = [mBottomImages objectAtIndex: [self nextValue]];
-	}
-	// if animation is running in step1, top already shows next value
-	else if ([mImageViewFlip.layer.animationKeys count] > 0) {
-		mImageViewTop.image = [mTopImages objectAtIndex: [self nextValue]];
-	}
-	
-	// inform delegate
-	if ([delegate respondsToSelector: @selector(flipNumberView:didChangeValue:animated:)]) {
-		[delegate flipNumberView: self didChangeValue: mCurrentValue animated: NO];
-	}
+    NSInteger absoluteMaximum = pow(10, self.digitViews.count)-1;
+    _maximumValue = MIN(maximumValue,absoluteMaximum);
+    if(self.value > maximumValue) {
+        self.value = maximumValue;
+    }
+}
+
+- (CGFloat)animationDuration;
+{
+    JDFlipNumberDigitView *digit = self.digitViews[0];
+    return digit.animationDuration;
+}
+
+- (void)setAnimationDuration:(CGFloat)animationDuration;
+{
+    for (NSInteger i=self.digitViews.count-1; i>=0; i--) {
+        JDFlipNumberDigitView *digit = self.digitViews[i];
+        digit.animationDuration = animationDuration;
+        animationDuration *= 10;
+    }
 }
 
 #pragma mark -
 #pragma mark animation
 
-- (CGFloat) defaultAnimationDuration
+- (void)animateToNextNumber;
 {
-	if (mTimer != nil) {
-		return [mTimer timeInterval]/3.0;
-	}
-	
-	return 0.15;
+	[self stopAnimation];
+    self.animationType = JDFlipAnimationTypeTopDown;
+	[self setValue:self.value+1 animatedInCurrentDirection:YES];
 }
 
-- (void) animateToNextNumber
+- (void)animateToPreviousNumber;
 {
-	[self animateToNextNumberWithDuration: [self defaultAnimationDuration]];
+	[self stopAnimation];
+    self.animationType = JDFlipAnimationTypeBottomUp;
+    [self setValue:self.value-1 animatedInCurrentDirection:YES];
 }
-
-- (void) animateToNextNumberWithDuration: (CGFloat) duration
-{	
-    mCurrentDirection = eFlipDirectionUp;
-    [self animateIntoCurrentDirectionWithDuration: duration];
-}
-
-- (void) animateToPreviousNumber
-{
-	[self animateToPreviousNumberWithDuration: [self defaultAnimationDuration]];
-}
-
-- (void) animateToPreviousNumberWithDuration: (CGFloat) duration
-{	
-    mCurrentDirection = eFlipDirectionDown;
-    [self animateIntoCurrentDirectionWithDuration: duration];
-}
-
-- (void) animateIntoCurrentDirectionWithDuration: (CGFloat) duration
-{
-	mCurrentAnimationDuration = duration;
-	
-	// get next value
-    NSUInteger nextIndex = [self nextValue];
-    if (mCurrentDirection == eFlipDirectionDown) {
-        nextIndex = [self previousValue];
-    }
-	
-	// if duration is less than 0.05, don't animate
-	if (duration < 0.05) {
-		// inform delegate
-		if ([delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
-			[delegate flipNumberView: self willChangeToValue: nextIndex];
-		}
-		[NSTimer scheduledTimerWithTimeInterval: duration
-										 target: self
-									   selector: @selector(nextValueWithoutAnimation:)
-									   userInfo: nil
-										repeats: NO];
-		return;
-	}
-	
-	[self updateFlipViewFrame];
-	
-	// setup animation
-	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-	animation.duration	= MIN(0.35,mCurrentAnimationDuration);
-	animation.delegate	= self;
-	animation.removedOnCompletion = NO;
-	animation.fillMode = kCAFillModeForwards;
-    
-	// exchange images & setup animation
-	if (mCurrentState == eFlipStateFirstHalf)
-	{
-		// setup first animation half
-		mImageViewFlip.frame   = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2.0);
-		mImageViewFlip.image   = [mTopImages	objectAtIndex: mCurrentValue];
-		mImageViewBottom.image = [mBottomImages objectAtIndex: mCurrentValue];
-		mImageViewTop.image	   = [mTopImages    objectAtIndex: nextIndex];
-        
-		// inform delegate
-		if ([delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
-			[delegate flipNumberView: self willChangeToValue: nextIndex];
-		}
-		
-		animation.fromValue	= [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0.0, 1, 0, 0)];
-		animation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(-M_PI_2, 1, 0, 0)];
-		animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn];
-	}
-	else
-	{
-		// setup second animation half
-		mImageViewFlip.image = [mBottomImages objectAtIndex: nextIndex];
-        
-		animation.fromValue	= [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 1, 0, 0)];
-		animation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0.0, 1, 0, 0)];
-		animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut];
-	}
-	
-	// add/start animation
-	[mImageViewFlip.layer addAnimation: animation forKey: kFlipAnimationKey];
-	 
-	// show animated view
-	mImageViewFlip.hidden = NO;
-}
-
-- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
-{
-	if (!flag) {
-		return;
-	}
-	
-	if (mCurrentState == eFlipStateFirstHalf)
-	{		
-		// do second animation step
-		mCurrentState = eFlipStateSecondHalf;
-		[self animateIntoCurrentDirectionWithDuration: mCurrentAnimationDuration];
-	}
-	else
-	{
-		// reset state
-		mCurrentState = eFlipStateFirstHalf;
-		
-		// set new value
-		NSUInteger nextIndex = [self nextValue];
-		if (mCurrentDirection == eFlipDirectionDown) {
-			nextIndex = [self previousValue];
-		}
-		mCurrentValue = nextIndex;
-		
-		// update images
-		mImageViewBottom.image = [mBottomImages objectAtIndex: mCurrentValue];
-        mImageViewFlip.hidden  = YES;
-		
-		// remove old animation
-		[mImageViewFlip.layer removeAnimationForKey: kFlipAnimationKey];
-		
-		// inform delegate
-		if ([delegate respondsToSelector: @selector(flipNumberView:didChangeValue:animated:)]) {
-			[delegate flipNumberView: self didChangeValue: mCurrentValue animated: YES];
-		}
-	}
-}
-
-- (void) nextValueWithoutAnimation: (NSTimer*) timer
-{
-	// get next value
-    NSUInteger nextIndex = [self nextValue];
-    if (mCurrentDirection == eFlipDirectionDown) {
-        nextIndex = [self previousValue];
-    }
-	
-	// set next value
-	[self setIntValue: nextIndex];
-	
-	// inform delegate
-	if ([delegate respondsToSelector: @selector(flipNumberView:didChangeValue:animated:)]) {
-		[delegate flipNumberView: self didChangeValue: mCurrentValue animated: NO];
-	}
-}
-
 
 #pragma mark -
 #pragma mark timed animation
 
-
-- (void) animateUpWithTimeInterval: (NSTimeInterval) timeInterval
-{	
-	timeInterval = MAX(timeInterval, 0.001);
-	
-	[self stopAnimation];
-	mTimer = [[NSTimer scheduledTimerWithTimeInterval: timeInterval target: self selector: @selector(animateToNextNumber) userInfo: nil repeats: YES] retain];
+- (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
+{
+    [self stopAnimation];
+    [self animateInDirection:JDFlipAnimationDirectionUp timeInterval:timeInterval];
 }
 
-- (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval
-{	
-	timeInterval = MAX(timeInterval, 0.001);
+- (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
+{
+    [self stopAnimation];
+    [self animateInDirection:JDFlipAnimationDirectionDown timeInterval:timeInterval];
+}
+
+- (void)animateInDirection:(JDFlipAnimationDirection)direction
+              timeInterval:(NSTimeInterval)timeInterval;
+{
+    // set animation type
+    self.animationType = JDFlipAnimationTypeTopDown;
+    if (direction == JDFlipAnimationDirectionDown) {
+        self.animationType = JDFlipAnimationTypeBottomUp;
+    }
+    
+    // setup timer
+    self.neededInterval = timeInterval;
+    self.animationDuration = timeInterval;
+    CGFloat actualInterval = MAX(kFlipAnimationMinimumTimeInterval, timeInterval);
+    
+    self.animationTimer = [NSTimer timerWithTimeInterval:actualInterval
+                                                  target:self
+                                                selector:@selector(handleTimer:)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)handleTimer:(NSTimer*)timer
+{
+    // if timer is too slow, add more than 1 per timer call
+    NSInteger step = 1;
+    if (timer.timeInterval > self.neededInterval) {
+        CGFloat ratio = timer.timeInterval/self.neededInterval;
+        step = floor(ratio);
+        self.intervalRest += ratio-step;
+        if (self.intervalRest > 1) {
+            step += floor(self.intervalRest);
+            self.intervalRest -= floor(self.intervalRest);
+        }
+    }
+    
+    // calc new value
+    NSInteger newValue = self.value+step;
+    if (self.animationType == JDFlipAnimationTypeBottomUp) {
+        newValue = self.value-step;
+    }
+    newValue = [self validValueFromValue:newValue];
+    
+    // check target mode finish conditions
+    if (self.targetMode) {
+        if (newValue == self.targetValue ||
+            (self.animationType == JDFlipAnimationTypeTopDown && newValue > self.targetValue) ||
+            (self.animationType == JDFlipAnimationTypeBottomUp && newValue < self.targetValue)) {
+            [self setValue:self.targetValue animatedInCurrentDirection:YES];
+            if (self.completionBlock != nil) {
+                self.completionBlock(YES);
+                self.completionBlock = nil;
+            }
+            [self stopAnimation];
+            return;
+        }
+    }
+    
+    // animate new value
+    [self setValue:newValue animatedInCurrentDirection:YES];
+}
+
+#pragma mark -
+#pragma mark targeted animation
+
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
+{
+    [self animateToValue:newValue duration:duration completion:nil];
+}
+
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration completion:(JDFlipAnimationCompletionBlock)completion;
+{
+    [self stopAnimation];
+    
+    if (completion) {
+        self.completionBlock = completion;
+    }
+    
+	// save target value in valid range
+	NSString* strvalue = [NSString stringWithFormat: @"%50d", newValue];
+	strvalue = [strvalue substringWithRange:NSMakeRange(strvalue.length-self.digitViews.count, self.digitViews.count)];
+	self.targetValue = [self validValueFromValue:[strvalue intValue]];
+
+    if (newValue == self.value) {
+        return;
+    }
+    
+	// determine direction
+	JDFlipAnimationDirection direction = JDFlipAnimationDirectionUp;
+	if (self.targetValue < self.value) {
+        direction = JDFlipAnimationDirectionDown;
+	}
 	
-	[self stopAnimation];
-	mTimer = [[NSTimer scheduledTimerWithTimeInterval: timeInterval target: self selector: @selector(animateToPreviousNumber) userInfo: nil repeats: YES] retain];
+	// determine speed per digit
+	NSInteger difference = ABS(self.targetValue-self.value);
+	CGFloat speed = ABS(duration/difference);
+	[self animateInDirection:direction timeInterval:speed];
+	
+	// enable target mode (this has do be done after animation start)
+	self.targetMode = YES;
 }
 
 
 #pragma mark -
 #pragma mark cancel animation
 
-
-- (void) stopAnimation
+- (void)stopAnimation;
 {
-	[mImageViewFlip.layer removeAllAnimations];
-	mImageViewFlip.hidden = YES;
-	
-	if (mTimer)
-	{
-		[mTimer invalidate];
-		[mTimer release];
-		mTimer = nil;
-	}
+    if (self.targetMode && self.completionBlock != nil) {
+        self.completionBlock(NO);
+    }
+    
+	self.targetMode = NO;
+    [self.animationTimer invalidate];
+    self.animationTimer = nil;
+    self.intervalRest = 0;
+    self.completionBlock = nil;
 }
-
 
 #pragma mark -
-#pragma mark helper
+#pragma mark resizing
 
-
-- (NSUInteger) nextValue
+- (void)setFrame:(CGRect)frame;
 {
-	return [self validValueFromInt: mCurrentValue+1];
-}
-
-- (NSUInteger) previousValue
-{
-	return [self validValueFromInt: mCurrentValue-1];
-}
-
-- (NSUInteger) validValueFromInt: (NSInteger) index
-{
-    if (index<0) {
-        index += (mMaxValue+1);
-    }
-    NSUInteger newIndex = index % (mMaxValue+1);
+    JDFlipNumberView* view = nil;
+	if (self.digitViews && self.digitViews.count > 0) {
+		NSUInteger i, count = self.digitViews.count, xWidth = frame.size.width/count;
+		for (i = 0; i < count; i++) {
+			view = self.digitViews[i];
+			view.frame = CGRectMake(i*xWidth, 0, xWidth, frame.size.height);
+		}
+	}
     
-    return newIndex;
-}
-
-- (void) updateFlipViewFrame
-{	
-	if (mCurrentState == eFlipStateFirstHalf)
-	{
-		mImageViewFlip.layer.anchorPoint = CGPointMake(0.5, 1.0);
-		mImageViewFlip.frame = mImageViewTop.frame;
-	}
-	else
-	{
-		mImageViewFlip.layer.anchorPoint = CGPointMake(0.5, 0.0);
-		mImageViewFlip.frame = mImageViewBottom.frame;
-	}
+    if (view) {
+		// take bottom right of last view for new size, to match size of subviews
+		frame.size.width  = ceil(view.frame.size.width  + view.frame.origin.x);
+		frame.size.height = ceil(view.frame.size.height + view.frame.origin.y);
+    }
+    
+    [super setFrame:frame];
 }
 
 @end
+
+

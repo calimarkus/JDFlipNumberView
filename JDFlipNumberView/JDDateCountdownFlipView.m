@@ -7,173 +7,161 @@
 
 #import "JDDateCountdownFlipView.h"
 
+static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
+
+@interface JDDateCountdownFlipView ()
+@property (nonatomic, strong) JDFlipNumberView* dayFlipNumberView;
+@property (nonatomic, strong) JDFlipNumberView* hourFlipNumberView;
+@property (nonatomic, strong) JDFlipNumberView* minuteFlipNumberView;
+@property (nonatomic, strong) JDFlipNumberView* secondFlipNumberView;
+
+@property (nonatomic, strong) NSTimer *animationTimer;
+- (void)setupUpdateTimer;
+- (void)handleTimer:(NSTimer*)timer;
+@end
 
 @implementation JDDateCountdownFlipView
 
 - (id)init
 {
-    return [self initWithTargetDate: [NSDate date]];
+    return [self initWithDayDigitCount:3];
 }
 
-
-- (id)initWithTargetDate: (NSDate*) targetDate
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame: CGRectZero];
-    if (self)
-    {
-        self.backgroundColor = [UIColor clearColor];
-        self.autoresizesSubviews = NO;
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
-		
-        mFlipNumberViewDay    = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 3];
-        mFlipNumberViewHour   = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
-        mFlipNumberViewMinute = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
-        mFlipNumberViewSecond = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 2];
-        
-        mFlipNumberViewDay.delegate    = self;
-        mFlipNumberViewHour.delegate   = self;
-        mFlipNumberViewMinute.delegate = self;
-        mFlipNumberViewSecond.delegate = self;
-        
-        mFlipNumberViewHour.maximumValue = 23;
-        mFlipNumberViewMinute.maximumValue = 59;
-        mFlipNumberViewSecond.maximumValue = 59;
-        
-        [self setZDistance: 60];
-        
-        CGRect frame = mFlipNumberViewHour.frame;
-        CGFloat spacing = floorf(frame.size.width*0.1);
-        
-        self.frame = CGRectMake(0, 0, frame.size.width*4+spacing*3, frame.size.height);
-        
-        frame.origin.x += frame.size.width + spacing;
-        mFlipNumberViewHour.frame = frame;
-        frame.origin.x += frame.size.width + spacing;
-        mFlipNumberViewMinute.frame = frame;
-        frame.origin.x += frame.size.width + spacing;
-        mFlipNumberViewSecond.frame = frame;
-        
-        [self addSubview: mFlipNumberViewDay];
-        [self addSubview: mFlipNumberViewHour];
-        [self addSubview: mFlipNumberViewMinute];
-        [self addSubview: mFlipNumberViewSecond];
-        
-        [self setTargetDate: targetDate];
-        
-        [mFlipNumberViewSecond animateDownWithTimeInterval: 1.0];
+    self = [self initWithDayDigitCount:3];
+    if (self) {
+        self.frame = frame;
     }
     return self;
 }
 
-- (void)dealloc
+- (id)initWithDayDigitCount:(NSInteger)dayDigits;
 {
-    [mFlipNumberViewDay release];
-    [mFlipNumberViewHour release];
-    [mFlipNumberViewMinute release];
-    [mFlipNumberViewSecond release];
-    
-    [super dealloc];
+    self = [super initWithFrame: CGRectZero];
+    if (self) {
+        // view setup
+        self.backgroundColor = [UIColor clearColor];
+        self.autoresizesSubviews = NO;
+        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+		
+        // setup flipviews
+        self.dayFlipNumberView    = [[JDFlipNumberView alloc] initWithDigitCount:dayDigits];
+        self.hourFlipNumberView   = [[JDFlipNumberView alloc] initWithDigitCount:2];
+        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
+        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
+        
+        self.hourFlipNumberView.maximumValue = 23;
+        self.minuteFlipNumberView.maximumValue = 59;
+        self.secondFlipNumberView.maximumValue = 59;
+
+        [self setZDistance: 60];
+        
+        // set inital frame
+        CGRect frame = self.hourFlipNumberView.frame;
+        self.frame = CGRectMake(0, 0, frame.size.width*(dayDigits+7), frame.size.height);
+        
+        // add subviews
+        for (JDFlipNumberView* view in @[self.dayFlipNumberView, self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
+            [self addSubview:view];
+        }
+        
+        // set inital dates
+        self.targetDate = [NSDate date];
+        [self setupUpdateTimer];
+    }
+    return self;
 }
 
-#pragma mark -
-#pragma mark DEBUG
+#pragma mark setter
 
-- (void) setDebugValues
+- (void)setZDistance:(NSUInteger)zDistance;
 {
-    // DEBUG
-    
-    mFlipNumberViewHour.maximumValue = 2;
-    mFlipNumberViewMinute.maximumValue = 2;
-    mFlipNumberViewSecond.maximumValue = 4;
-    
-    mFlipNumberViewHour.intValue = 2;
-    mFlipNumberViewMinute.intValue = 2;
-    mFlipNumberViewSecond.intValue = 4;
-    
-    [mFlipNumberViewSecond animateDownWithTimeInterval: 0.5];
+    for (JDFlipNumberView* view in @[self.dayFlipNumberView, self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
+        [view setZDistance:zDistance];
+    }
 }
 
-#pragma mark -
-
-- (void) setZDistance: (NSUInteger) zDistance
+- (void)setFrame:(CGRect)frame;
 {
-    [mFlipNumberViewDay setZDistance: zDistance];
-    [mFlipNumberViewHour setZDistance: zDistance];
-    [mFlipNumberViewMinute setZDistance: zDistance];
-    [mFlipNumberViewSecond setZDistance: zDistance];
-}
-
-- (void) setTargetDate: (NSDate*) targetDate
-{
-    NSUInteger flags = NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components: flags fromDate: [NSDate date] toDate: targetDate options: 0];
+    if (self.dayFlipNumberView == nil) {
+        [super setFrame:frame];
+        return;
+    }
     
-    mFlipNumberViewDay.intValue    = [dateComponents day];
-    mFlipNumberViewHour.intValue   = [dateComponents hour];
-    mFlipNumberViewMinute.intValue = [dateComponents minute];
-    mFlipNumberViewSecond.intValue = [dateComponents second];
-}
-
-- (void) setFrame: (CGRect) rect
-{
-    CGFloat digitWidth = rect.size.width/10.0;
+    CGFloat digitWidth = frame.size.width/(self.dayFlipNumberView.digitCount+7);
     CGFloat margin     = digitWidth/3.0;
     CGFloat currentX   = 0;
+
+    // resize first flipview
+    self.dayFlipNumberView.frame = CGRectMake(0, 0, digitWidth*3, frame.size.height);
+    currentX += self.dayFlipNumberView.frame.size.width;
     
-    mFlipNumberViewDay.frame = CGRectMake(currentX, 0, digitWidth*3, rect.size.height);
-    currentX   += mFlipNumberViewDay.frame.size.width;
-    
-    for (JDGroupedFlipNumberView* view in [NSArray arrayWithObjects: mFlipNumberViewHour, mFlipNumberViewMinute, mFlipNumberViewSecond, nil])
-    {
+    // update flipview frames
+    for (JDFlipNumberView* view in @[self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
         currentX   += margin;
-        view.frame = CGRectMake(currentX, 0, digitWidth*2, rect.size.height);
+        view.frame = CGRectMake(currentX, 0, digitWidth*2, frame.size.height);
         currentX   += view.frame.size.width;
     }
     
     // take bottom right of last view for new size, to match size of subviews
-    CGRect lastFrame = mFlipNumberViewSecond.frame;
-    rect.size.width  = ceil(lastFrame.size.width  + lastFrame.origin.x);
-    rect.size.height = ceil(lastFrame.size.height + lastFrame.origin.y);
+    CGRect lastFrame = self.secondFlipNumberView.frame;
+    frame.size.width  = ceil(lastFrame.size.width  + lastFrame.origin.x);
+    frame.size.height = ceil(lastFrame.size.height + lastFrame.origin.y);
     
-    [super setFrame: rect];
+    [super setFrame:frame];
 }
 
-#pragma mark -
-#pragma mark GroupedFlipNumberViewDelegate
-
-
-- (void) groupedFlipNumberView: (JDGroupedFlipNumberView*) groupedFlipNumberView willChangeToValue: (NSUInteger) newValue
+- (void)setTargetDate:(NSDate *)targetDate;
 {
-//    LOG(@"ToValue: %d", newValue);
-    
-    JDGroupedFlipNumberView* animateView = nil;
-    
-    if (groupedFlipNumberView == mFlipNumberViewSecond) {
-        animateView = mFlipNumberViewMinute;
-    }
-    else if (groupedFlipNumberView == mFlipNumberViewMinute) {
-        animateView = mFlipNumberViewHour;
-    }
-    else if (groupedFlipNumberView == mFlipNumberViewHour) {
-        animateView = mFlipNumberViewDay;
-    }
-    
-    if (animateView != nil)
-    {
-        if (groupedFlipNumberView.currentDirection == eFlipDirectionDown && newValue == groupedFlipNumberView.maximumValue)
-        {
-            [animateView animateToPreviousNumber];
-        }
-        else if (groupedFlipNumberView.currentDirection == eFlipDirectionUp && newValue == 0)
-        {
-            [animateView animateToNextNumber];
-        }
+    _targetDate = targetDate;
+    [self updateValuesAnimated:NO];
+}
+
+#pragma mark update timer
+
+
+- (void)start;
+{
+    if (self.animationTimer == nil) {
+        [self setupUpdateTimer];
     }
 }
 
-
-- (void) groupedFlipNumberView: (JDGroupedFlipNumberView*) groupedFlipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated
+- (void)stop;
 {
+    [self.animationTimer invalidate];
+    self.animationTimer = nil;
+}
+
+- (void)setupUpdateTimer;
+{
+    self.animationTimer = [NSTimer timerWithTimeInterval:kFlipAnimationUpdateInterval
+                                                  target:self
+                                                selector:@selector(handleTimer:)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)handleTimer:(NSTimer*)timer;
+{
+    [self updateValuesAnimated:YES];
+}
+
+- (void)updateValuesAnimated:(BOOL)animated;
+{
+    if (self.targetDate == nil) {
+        return;
+    }
+    
+    NSUInteger flags = NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:flags fromDate:[NSDate date] toDate:self.targetDate options:0];
+    
+    [self.dayFlipNumberView setValue:[dateComponents day] animated:animated];
+    [self.hourFlipNumberView setValue:[dateComponents hour] animated:animated];
+    [self.minuteFlipNumberView setValue:[dateComponents minute] animated:animated];
+    [self.secondFlipNumberView setValue:[dateComponents second] animated:animated];
 }
 
 @end

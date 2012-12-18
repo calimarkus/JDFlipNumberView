@@ -7,7 +7,6 @@
 //
 
 #import "JDFlipNumberView.h"
-#import "JDGroupedFlipNumberView.h"
 #import "JDDateCountdownFlipView.h"
 
 #import "FVEDetailViewController.h"
@@ -37,6 +36,7 @@
     
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
+    // show flipNumberView
     if (self.indexPath.section == 1 || self.indexPath.row == 1) {
         [self showMultipleDigits];
     } else if (self.indexPath.row == 0) {
@@ -44,47 +44,75 @@
     } else {
         [self showDateCountdown];
     }
+
+    // add gesture recognizer
+    if (self.indexPath.section == 1 || self.indexPath.row != 2) {
+        // info label
+        CGRect frame = CGRectInset(self.view.bounds, 10, 10);
+        frame.size.height = 20;
+        frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
+        UILabel *label = [[UILabel alloc] initWithFrame: frame];
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        label.font = [UIFont boldCustomFontOfSize:13];
+        label.textColor = [UIColor colorWithWhite:1 alpha:0.5];
+        label.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
+        label.shadowOffset = CGSizeMake(-1, -1);
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Tap anywhere to change the value!";
+        label.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview: label];
+
+        [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
+    }
 }
 
 - (void)showSingleDigit;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithIntValue: 9];
-    [flipView animateDownWithTimeInterval: 1.0];
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
+    flipView.tag = 99;
+    flipView.value = arc4random() % 10;
     [self.view addSubview: flipView];
 }
 
 - (void)showMultipleDigits;
 {
-    JDGroupedFlipNumberView *flipView = [[JDGroupedFlipNumberView alloc] initWithFlipNumberViewCount: 5];
-    flipView.intValue = 11115;
-    flipView.tag = 99;
-    [self.view addSubview: flipView];
+    JDFlipNumberView *flipView = nil;
     
     if (self.indexPath.section == 0) {
-        [flipView animateDownWithTimeInterval: 0.4];
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
+        flipView.value = 32;
+        flipView.maximumValue = 128;
+        [flipView animateDownWithTimeInterval:0.3];
     } else {
-        [flipView animateToValue: 9250 withDuration: 3.0];
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
+        flipView.value = 2300;
         
-        // add random number button
-        UIButton *button = [UIButton buttonWithType: UIButtonTypeRoundedRect];
-        button.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-        button.frame = CGRectMake(20, 10, self.view.frame.size.width-40, 38);
-        [button setTitle:@"Jump to random number" forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview: button];
+        NSInteger targetValue = 9250;
+        NSLog(@"animating to %d", targetValue);
+        NSDate *startDate = [NSDate date];
+        [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
+            if (finished) {
+                NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            }
+        }];
     }
+    
+    flipView.tag = 99;
+    [self.view addSubview: flipView];
 }
 
 - (void)showDateCountdown;
 {
+    // setup flipview
+    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3];
+    flipView.tag = 99;
+    [self.view addSubview: flipView];
+    
     // countdown to silvester
     NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"dd.MM.yy HH:mm"];
-    NSDate *date = [dateFormatter dateFromString: [NSString stringWithFormat: @"01.01.%d 00:00", currentComps.year+1]];
-    
-    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithTargetDate: date];
-    [self.view addSubview: flipView];
+    flipView.targetDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"01.01.%d 00:00", currentComps.year+1]];
     
     // add info labels
     NSInteger posx = 20;
@@ -104,15 +132,25 @@
     }
 }
 
-- (void)buttonTouched:(id)sender
+- (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
-    JDGroupedFlipNumberView *flipView = (JDGroupedFlipNumberView*)[self.view viewWithTag: 99];
+    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
 
-    @try {
-        NSInteger randomNumber = ABS(flipView.intValue + arc4random()%10000 - 5000);
-        NSLog(@"%d", randomNumber);
-        [flipView animateToValue:randomNumber withDuration:2.5];
-    } @catch (NSException *exception) {}
+    NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
+    if (randomNumber == 0) randomNumber = 1;
+    NSInteger newValue = flipView.value+randomNumber;
+    
+    if (self.indexPath.section == 0) {
+        [flipView setValue:newValue animated:YES];
+    } else {
+        NSLog(@"animating to %d", [flipView validValueFromValue:newValue]);
+        NSDate *startDate = [NSDate date];
+        [flipView animateToValue:newValue duration:2.50 completion:^(BOOL finished) {
+            if(finished) {
+                NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            }
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -123,16 +161,29 @@
 
 - (void)layoutSubviews
 {
-    UIView* view = [[self.view subviews] objectAtIndex: 0];
+    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
+    if (!flipView) {
+        return;
+    }
     
-    view.frame = CGRectMake(0, 0, self.view.frame.size.width-40, self.view.frame.size.height-40);
-    view.center = CGPointMake(self.view.frame.size.width /2,
-                              (self.view.frame.size.height/2)*0.9);
+    flipView.frame = CGRectInset(self.view.bounds, 20, 20);
+    flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
+                                  floor((self.view.frame.size.height/2)*0.9));
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationPortrait;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

@@ -6,22 +6,20 @@
 //
 
 
-#import "JDGroupedFlipNumberView.h"
+#import "JDFlipNumberView.h"
 
 
-@interface JDDateCountdownFlipView : UIView <JDGroupedFlipNumberViewDelegate>
-{
-    JDGroupedFlipNumberView* mFlipNumberViewDay;
-    JDGroupedFlipNumberView* mFlipNumberViewHour;
-    JDGroupedFlipNumberView* mFlipNumberViewMinute;
-    JDGroupedFlipNumberView* mFlipNumberViewSecond;
-}
+@interface JDDateCountdownFlipView : UIView <JDFlipNumberViewDelegate>
 
-- (id)initWithTargetDate: (NSDate*) targetDate;
+@property (nonatomic, strong) NSDate *targetDate;
 
-- (void) setTargetDate: (NSDate*) targetDate;
-- (void) setZDistance: (NSUInteger) zDistance;
+- (id)initWithDayDigitCount:(NSInteger)dayDigits;
 
-- (void) setDebugValues;
+- (void)setZDistance:(NSUInteger)zDistance;
+
+- (void)start;
+- (void)stop;
+
+- (void)updateValuesAnimated:(BOOL)animated;
 
 @end

@@ -1,74 +1,47 @@
 //
-//  FlipNumberView.h
+//  JDFlipNumberView.h
 //
-//  Created by Markus Emrich on 26.02.11.
+//  Created by Markus Emrich on 27.02.11.
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
 
-typedef enum
-{
-	eFlipStateFirstHalf,
-	eFlipStateSecondHalf
-} eFlipState;
-
-typedef enum
-{
-	eFlipDirectionUp,
-	eFlipDirectionDown
-} eFlipDirection;
 
 @protocol JDFlipNumberViewDelegate;
 
-#pragma mark -
+typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 
 @interface JDFlipNumberView : UIView
-{
-	id<JDFlipNumberViewDelegate> delegate;
-	
-	NSTimer* mTimer;
-	
-	NSArray* mTopImages;
-	NSArray* mBottomImages;
-	
-	UIImageView* mImageViewTop;
-	UIImageView* mImageViewBottom;
-	UIImageView* mImageViewFlip;
-	
-    NSUInteger mMaxValue;
-	NSUInteger mCurrentValue;
-	eFlipState mCurrentState;
-	eFlipDirection mCurrentDirection;
-	CGFloat mCurrentAnimationDuration;
-}
 
 @property (nonatomic, assign) id<JDFlipNumberViewDelegate> delegate;
-@property (nonatomic, readonly) eFlipDirection currentDirection;
-@property (nonatomic, readonly) CGFloat currentAnimationDuration;
-@property (nonatomic, assign) NSUInteger intValue;
-@property (nonatomic, assign) NSUInteger maxValue;
+@property (nonatomic, assign) NSInteger value;
+@property (nonatomic, assign) NSUInteger maximumValue;
+@property (nonatomic, assign) CGFloat animationDuration;
+@property (nonatomic, readonly) NSUInteger digitCount;
 
-- (id) initWithIntValue: (NSUInteger) startNumber;
 
-- (void) setFrame: (CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
-- (void) setZDistance: (NSUInteger) zDistance;
+- (id)initWithDigitCount:(NSUInteger)digitCount;
 
-- (NSUInteger) nextValue;
-- (NSUInteger) previousValue;
+- (void)setZDistance:(NSUInteger)zDistance;
+
+// direct value manipulation (jump to value)
+- (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
+- (NSUInteger)validValueFromValue:(NSInteger)value;
+
+// animate over every value between old and new value
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration completion:(JDFlipAnimationCompletionBlock)completion;
 
 // basic animation
-- (void) animateToNextNumber;
-- (void) animateToNextNumberWithDuration: (CGFloat) duration;
-- (void) animateToPreviousNumber;
-- (void) animateToPreviousNumberWithDuration: (CGFloat) duration;
+- (void)animateToNextNumber;
+- (void)animateToPreviousNumber;
 
 // timed animation
-- (void) animateUpWithTimeInterval: (NSTimeInterval) timeInterval;
-- (void) animateDownWithTimeInterval: (NSTimeInterval) timeInterval;
+- (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
+- (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
 
-// cancel all animations
-- (void) stopAnimation;
+// cancel animation
+- (void)stopAnimation;
 
 @end
 
@@ -76,9 +49,10 @@ typedef enum
 #pragma mark -
 #pragma mark delegate
 
-
 @protocol JDFlipNumberViewDelegate <NSObject>
 @optional
-- (void) flipNumberView: (JDFlipNumberView*) flipNumberView willChangeToValue: (NSUInteger) newValue;
-- (void) flipNumberView: (JDFlipNumberView*) flipNumberView didChangeValue: (NSUInteger) newValue animated: (BOOL) animated;
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
 @end;
+
+
