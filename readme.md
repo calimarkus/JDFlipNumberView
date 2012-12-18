@@ -68,11 +68,13 @@ Timed animation without target value:
 
 ## Customization
 
+*You may use the original `.psd` file from the `gfx` folder to create custom graphics.*
+
 **A) Replace original images**  
 Replace the images within the JDFlipNumberView.bundle. But the next pod install will revert your changes.
 
 **B) Use your own bundle**  
-Add your own graphics bundle with custom graphics. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
+Add your own graphics bundle to your project. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
 
 Before using any FlipNumberViews, set your own images like this:
 
