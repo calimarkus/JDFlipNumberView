@@ -24,27 +24,24 @@ If you are using this class, you may list your app on the [wiki page].
 The two main classes are:
 
 - `JDFlipNumberView`  
-  The standard flipNumberView. It shows an integer value as flipView.
+  The **Standard FlipNumberView**. It shows an integer value as FlipView.
   It has a choosable amount of digits.
 - `JDDateCountdownFlipView`  
   __A date countdown.__ Just init with a target date and it will show the remaining days, hours, minutes and seconds until that date.
 
 ## Usage
 
-In any case, after installing, you only need to follow some simple steps to get started:
+In any case, after installing, you only need to follow some simple steps to get started. Here is a full example usage:
 
-__Example:__ A 4 digit flipNumberView animating down every second.
+__Example:__ A 4 digit FlipNumberView animating down every second.
 
-    // create a new flipNumberView
+    // create a new FlipNumberView, set a value, start an animation
     JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:4];
-    // set the start value
     flipNumberView.value = 1337;
-    // start an animation
     [flipNumberView animateDownWithTimeInterval: 1.0];
     
-    // add to view hierarchy
+    // add to view hierarchy and resize
     [self.view addSubview: flipNumberView];
-    // set your desired size
     flipNumberView.frame = CGRectMake(20,100,300,100);
 
 That's it. This will display a working, flipping, animating countdown view!
