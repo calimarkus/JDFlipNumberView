@@ -224,6 +224,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
                                                 selector:@selector(handleTimer:)
                                                 userInfo:nil
                                                  repeats:YES];
+    [self.animationTimer fire]; // fire instantly for first change
     [[NSRunLoop currentRunLoop] addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
 }
 
