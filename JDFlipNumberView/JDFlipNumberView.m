@@ -246,7 +246,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     if (self.animationType == JDFlipAnimationTypeBottomUp) {
         newValue = self.value-step;
     }
-    newValue = [self validValueFromValue:newValue];
     
     // check target mode finish conditions
     if (self.targetMode) {
@@ -262,6 +261,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
             return;
         }
     }
+    
+    // get valid value
+    newValue = [self validValueFromValue:newValue];
     
     // animate new value
     [self setValue:newValue animatedInCurrentDirection:YES];
@@ -288,7 +290,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	strvalue = [strvalue substringWithRange:NSMakeRange(strvalue.length-self.digitViews.count, self.digitViews.count)];
 	self.targetValue = [self validValueFromValue:[strvalue intValue]];
 
-    if (newValue == self.value) {
+    if (self.targetValue == self.value) {
         return;
     }
     
