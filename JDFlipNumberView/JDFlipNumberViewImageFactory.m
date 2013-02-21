@@ -13,8 +13,8 @@ static JDFlipNumberViewImageFactory *sharedInstance;
 @interface JDFlipNumberViewImageFactory ()
 @property (nonatomic, strong) NSArray *topImages;
 @property (nonatomic, strong) NSArray *bottomImages;
+@property (nonatomic, strong) NSString *imageBundle;
 - (void)setup;
-- (void)generateDefaultImages;
 @end
 
 @implementation JDFlipNumberViewImageFactory
@@ -39,6 +39,7 @@ static JDFlipNumberViewImageFactory *sharedInstance;
         self = [super init];
         if (self) {
             sharedInstance = self;
+            self.imageBundle = @"JDFlipNumberView";
             [self setup];
         }
         return self;
@@ -48,7 +49,7 @@ static JDFlipNumberViewImageFactory *sharedInstance;
 - (void)setup;
 {
     // create default images
-    [self generateDefaultImages];
+    [self generateImagesFromBundleNamed:self.imageBundle];
     
     // register for memory warnings
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -73,7 +74,7 @@ static JDFlipNumberViewImageFactory *sharedInstance;
     @synchronized(self)
     {
         if (_topImages.count == 0) {
-            [self generateDefaultImages];
+            [self generateImagesFromBundleNamed:self.imageBundle];
         }
         
         return _topImages;
@@ -85,7 +86,7 @@ static JDFlipNumberViewImageFactory *sharedInstance;
     @synchronized(self)
     {
         if (_bottomImages.count == 0) {
-            [self generateDefaultImages];
+            [self generateImagesFromBundleNamed:self.imageBundle];
         }
         
         return _bottomImages;
@@ -99,14 +100,9 @@ static JDFlipNumberViewImageFactory *sharedInstance;
 
 #pragma mark -
 #pragma mark image generation
-
-- (void)generateDefaultImages;
-{
-    [self generateImagesFromBundleNamed:@"JDFlipNumberView"];
-}
-
 - (void)generateImagesFromBundleNamed:(NSString*)bundleName;
 {
+    self.imageBundle = bundleName;
     // create image array
 	NSMutableArray* topImages = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray* bottomImages = [NSMutableArray arrayWithCapacity:10];
