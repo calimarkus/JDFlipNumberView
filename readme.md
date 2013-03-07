@@ -3,8 +3,7 @@ JDFlipNumberView 2.0
 
 The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
 
-See [screenshots](#screenshots) of the example project below.  
-If you are using this class, you may list your app on the [wiki page].
+![Screenshots](gfx/screenshots.png "Screenshots")
 
 ## Installation
 
@@ -77,13 +76,12 @@ Before using any FlipNumberViews, set your own images like this:
 
     [JD_IMG_FACTORY generateImagesFromBundleNamed:@"yourBundleName"]
 
-## Screenshots
+## Twitter
 
-![Overview](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/menu.png "Overview")
+I'm [@jaydee3](http://twitter.com/jaydee3) on Twitter.  
+Feel free to [post a tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3), if you like the FlipNumberView.  
 
-![Single Digit](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/singledigit.png "Single Digit")
-
-![Date Countdown](https://raw.github.com/jaydee3/JDFlipNumberView/master/Screenshots/datecountdown.png "Date Countdown")
+[![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3)
 
 
 
