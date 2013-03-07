@@ -11,8 +11,9 @@
 
 #import "FVEDetailViewController.h"
 
-@interface FVEDetailViewController ()
+@interface FVEDetailViewController () <JDFlipNumberViewDelegate>
 @property (nonatomic) NSIndexPath *indexPath;
+@property (nonatomic) UILabel *infoLabel;
 - (void)showSingleDigit;
 - (void)showMultipleDigits;
 - (void)showDateCountdown;
@@ -51,16 +52,16 @@
         CGRect frame = CGRectInset(self.view.bounds, 10, 10);
         frame.size.height = 20;
         frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
-        UILabel *label = [[UILabel alloc] initWithFrame: frame];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        label.font = [UIFont boldCustomFontOfSize:13];
-        label.textColor = [UIColor colorWithWhite:1 alpha:0.5];
-        label.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
-        label.shadowOffset = CGSizeMake(-1, -1);
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Tap anywhere to change the value!";
-        label.textAlignment = UITextAlignmentCenter;
-        [self.view addSubview: label];
+        self.infoLabel = [[UILabel alloc] initWithFrame: frame];
+        self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        self.infoLabel.font = [UIFont boldCustomFontOfSize:13];
+        self.infoLabel.textColor = [UIColor colorWithWhite:1 alpha:0.5];
+        self.infoLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
+        self.infoLabel.shadowOffset = CGSizeMake(-1, -1);
+        self.infoLabel.backgroundColor = [UIColor clearColor];
+        self.infoLabel.text = @"Tap anywhere to change the value!";
+        self.infoLabel.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview: self.infoLabel];
 
         [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
     }
@@ -71,6 +72,7 @@
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
     flipView.tag = 99;
     flipView.value = arc4random() % 10;
+    flipView.delegate = self;
     [self.view addSubview: flipView];
 }
 
@@ -86,6 +88,7 @@
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
         flipView.value = 2300;
+        flipView.delegate = self;
         
         NSInteger targetValue = 9250;
         NSLog(@"animating to %d", targetValue);
@@ -189,6 +192,18 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self layoutSubviews];
+}
+
+#pragma mark delegate
+
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
+{
+    self.infoLabel.text = [NSString stringWithFormat: @"Will animate to %d", newValue];
+}
+
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
+{
+    self.infoLabel.text = [NSString stringWithFormat: @"Finished animation."];
 }
 
 @end
