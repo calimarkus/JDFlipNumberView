@@ -86,7 +86,6 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
         flipView.value = 32;
         flipView.maximumValue = 128;
-        flipView.delegate = self;
         [flipView animateDownWithTimeInterval:0.3];
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
@@ -145,6 +144,10 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
     JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
+    
+    if (flipView.tag != FVEDetailControllerTargetedViewTag) {
+        flipView.delegate = self;
+    }
 
     NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
     if (randomNumber == 0) randomNumber = 1;
