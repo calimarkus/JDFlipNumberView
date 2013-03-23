@@ -11,7 +11,10 @@
 
 #import "FVEDetailViewController.h"
 
+static CGFloat const FVEDetailControllerTargetedViewTag = 111;
+
 @interface FVEDetailViewController () <JDFlipNumberViewDelegate>
+@property (nonatomic) UIView *flipView;
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
 - (void)showSingleDigit;
@@ -35,17 +38,8 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
-    
-    // show flipNumberView
-    if (self.indexPath.section == 1 || self.indexPath.row == 1) {
-        [self showMultipleDigits];
-    } else if (self.indexPath.row == 0) {
-        [self showSingleDigit];
-    } else {
-        [self showDateCountdown];
-    }
 
-    // add gesture recognizer
+    // add info label + gesture recognizer
     if (self.indexPath.section == 1 || self.indexPath.row != 2) {
         // info label
         CGRect frame = CGRectInset(self.view.bounds, 10, 10);
@@ -64,15 +58,24 @@
 
         [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
     }
+    
+    // show flipNumberView
+    if (self.indexPath.section == 1 || self.indexPath.row == 1) {
+        [self showMultipleDigits];
+    } else if (self.indexPath.row == 0) {
+        [self showSingleDigit];
+    } else {
+        [self showDateCountdown];
+    }
 }
 
 - (void)showSingleDigit;
 {
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
-    flipView.tag = 99;
     flipView.value = arc4random() % 10;
     flipView.delegate = self;
     [self.view addSubview: flipView];
+    self.flipView = flipView;
 }
 
 - (void)showMultipleDigits;
@@ -88,27 +91,29 @@
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
         flipView.value = 2300;
-        flipView.delegate = self;
+        flipView.tag = FVEDetailControllerTargetedViewTag;
         
         NSInteger targetValue = 9250;
-        NSLog(@"animating to %d", targetValue);
         NSDate *startDate = [NSDate date];
         [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
             if (finished) {
                 NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            } else {
+                NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
             }
+            [self flipNumberView:flipView didChangeValueAnimated:finished];
         }];
+        [self flipNumberView:flipView willChangeToValue:targetValue];
     }
     
-    flipView.tag = 99;
     [self.view addSubview: flipView];
+    self.flipView = flipView;
 }
 
 - (void)showDateCountdown;
 {
     // setup flipview
     JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3];
-    flipView.tag = 99;
     [self.view addSubview: flipView];
     
     // countdown to silvester
@@ -133,26 +138,31 @@
         
         posx += label.frame.size.width + 10;
     }
+    
+    self.flipView = flipView;
 }
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
-    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
+    JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
 
     NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
     if (randomNumber == 0) randomNumber = 1;
-    NSInteger newValue = flipView.value+randomNumber;
+    NSInteger newValue = ABS(flipView.value+randomNumber);
     
     if (self.indexPath.section == 0) {
         [flipView setValue:newValue animated:YES];
     } else {
-        NSLog(@"animating to %d", [flipView validValueFromValue:newValue]);
         NSDate *startDate = [NSDate date];
         [flipView animateToValue:newValue duration:2.50 completion:^(BOOL finished) {
             if(finished) {
                 NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            } else {
+                NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
             }
+            [self flipNumberView:flipView didChangeValueAnimated:finished];
         }];
+        [self flipNumberView:flipView willChangeToValue:newValue];
     }
 }
 
@@ -164,13 +174,12 @@
 
 - (void)layoutSubviews
 {
-    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
-    if (!flipView) {
+    if (!self.flipView) {
         return;
     }
     
-    flipView.frame = CGRectInset(self.view.bounds, 20, 20);
-    flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
+    self.flipView.frame = CGRectInset(self.view.bounds, 20, 20);
+    self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
                                   floor((self.view.frame.size.height/2)*0.9));
 }
 
