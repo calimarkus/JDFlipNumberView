@@ -112,25 +112,43 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     // stay in max bounds
     newValue = [self validValueFromValue:newValue];
     
+    // inform delegate
+	if (animated && [self.delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
+		[self.delegate flipNumberView:self willChangeToValue:newValue];
+	}
+    
     // convert to string
 	NSString* stringValue = [NSString stringWithFormat: @"%50d", newValue];
 	
     // udpate all flipviews, that have changed
+    __block NSUInteger completedDigits = 0;
 	for (int i=0; i<stringValue.length && i<self.digitViews.count; i++) {
 		JDFlipNumberDigitView* view = (JDFlipNumberDigitView*)self.digitViews[self.digitViews.count-(1+i)];
 		NSInteger newValue = [[stringValue substringWithRange:NSMakeRange(stringValue.length-(1+i), 1)] intValue];
         if (newValue != view.value) {
             if(animated) {
-                [view setValue:newValue withAnimationType:self.animationType];
+                [view setValue:newValue withAnimationType:self.animationType completion:^(BOOL completed){
+                    completedDigits = completedDigits + 1;
+                    if (completedDigits == self.digitViews.count) {
+                        // inform delegate, when all digits finished animation
+                        if (animated && [self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
+                            [self.delegate flipNumberView:self didChangeValueAnimated:NO];
+                        }
+                    }
+                }];
             } else {
                 view.value = newValue;
             }
+        } else {
+            // also count not animated view
+            completedDigits++;
         }
 	}
-	
-	if ([self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
-		[self.delegate flipNumberView:self didChangeValueAnimated:NO];
-	}
+    
+    // inform delegate
+    if (!animated && [self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
+        [self.delegate flipNumberView:self didChangeValueAnimated:NO];
+    }
 }
 
 - (NSUInteger)validValueFromValue:(NSInteger)value;

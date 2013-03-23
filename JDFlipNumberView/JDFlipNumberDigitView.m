@@ -31,6 +31,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 @property (nonatomic, assign) JDFlipAnimationState animationState;
 @property (nonatomic, assign) JDFlipAnimationType animationType;
 @property (nonatomic, assign) NSUInteger previousValue;
+@property (nonatomic, copy) JDDigitAnimationCompletionBlock completionBlock;
 - (void)commonInit;
 - (void)initImagesAndFrames;
 - (void)updateFlipViewFrame;
@@ -156,11 +157,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (void)setValue:(NSUInteger)value
 {
-    [self setValue:value withAnimationType:JDFlipAnimationTypeNone];
+    [self setValue:value withAnimationType:JDFlipAnimationTypeNone completion:nil];
 }
 
-- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType;
+- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
+      completion:(JDDigitAnimationCompletionBlock)completionBlock;
 {
+    // copy completion block
+    self.completionBlock = completionBlock;
+    
 	// save previous value
     self.previousValue = self.value;
 	NSInteger newValue = value % 10;
@@ -188,6 +193,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         
         // reset state
         self.flipImageView.hidden = YES;
+        
+        // call completion immediatly
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+            self.completionBlock = nil;
+        }
     } else {
         self.animationState = JDFlipAnimationStateFirstHalf;
         [self runAnimation];
@@ -243,6 +254,10 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)finished
 {
 	if (!finished) {
+        if (self.completionBlock) {
+            self.completionBlock(NO);
+            self.completionBlock = nil;
+        }
 		return;
 	}
 	
@@ -264,6 +279,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 		
 		// remove old animation
 		[self.flipImageView.layer removeAnimationForKey: kFlipAnimationKey];
+        
+        // call completion block
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+            self.completionBlock = nil;
+        }
 	}
 }
 

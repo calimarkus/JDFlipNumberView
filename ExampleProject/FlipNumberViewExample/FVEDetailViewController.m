@@ -11,8 +11,12 @@
 
 #import "FVEDetailViewController.h"
 
-@interface FVEDetailViewController ()
+static CGFloat const FVEDetailControllerTargetedViewTag = 111;
+
+@interface FVEDetailViewController () <JDFlipNumberViewDelegate>
+@property (nonatomic) UIView *flipView;
 @property (nonatomic) NSIndexPath *indexPath;
+@property (nonatomic) UILabel *infoLabel;
 - (void)showSingleDigit;
 - (void)showMultipleDigits;
 - (void)showDateCountdown;
@@ -29,12 +33,31 @@
     return self;
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+
+    // add info label + gesture recognizer
+    if (self.indexPath.section == 1 || self.indexPath.row != 2) {
+        // info label
+        CGRect frame = CGRectInset(self.view.bounds, 10, 10);
+        frame.size.height = 20;
+        frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
+        self.infoLabel = [[UILabel alloc] initWithFrame: frame];
+        self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        self.infoLabel.font = [UIFont boldCustomFontOfSize:13];
+        self.infoLabel.textColor = [UIColor colorWithWhite:1 alpha:0.5];
+        self.infoLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
+        self.infoLabel.shadowOffset = CGSizeMake(-1, -1);
+        self.infoLabel.backgroundColor = [UIColor clearColor];
+        self.infoLabel.text = @"Tap anywhere to change the value!";
+        self.infoLabel.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview: self.infoLabel];
+
+        [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
+    }
     
     // show flipNumberView
     if (self.indexPath.section == 1 || self.indexPath.row == 1) {
@@ -44,34 +67,15 @@
     } else {
         [self showDateCountdown];
     }
-
-    // add gesture recognizer
-    if (self.indexPath.section == 1 || self.indexPath.row != 2) {
-        // info label
-        CGRect frame = CGRectInset(self.view.bounds, 10, 10);
-        frame.size.height = 20;
-        frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
-        UILabel *label = [[UILabel alloc] initWithFrame: frame];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        label.font = [UIFont boldCustomFontOfSize:13];
-        label.textColor = [UIColor colorWithWhite:1 alpha:0.5];
-        label.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
-        label.shadowOffset = CGSizeMake(-1, -1);
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Tap anywhere to change the value!";
-        label.textAlignment = UITextAlignmentCenter;
-        [self.view addSubview: label];
-
-        [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
-    }
 }
 
 - (void)showSingleDigit;
 {
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
-    flipView.tag = 99;
     flipView.value = arc4random() % 10;
+    flipView.delegate = self;
     [self.view addSubview: flipView];
+    self.flipView = flipView;
 }
 
 - (void)showMultipleDigits;
@@ -86,26 +90,29 @@
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
         flipView.value = 2300;
+        flipView.tag = FVEDetailControllerTargetedViewTag;
         
         NSInteger targetValue = 9250;
-        NSLog(@"animating to %d", targetValue);
         NSDate *startDate = [NSDate date];
         [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
             if (finished) {
                 NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            } else {
+                NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
             }
+            [self flipNumberView:flipView didChangeValueAnimated:finished];
         }];
+        [self flipNumberView:flipView willChangeToValue:targetValue];
     }
     
-    flipView.tag = 99;
     [self.view addSubview: flipView];
+    self.flipView = flipView;
 }
 
 - (void)showDateCountdown;
 {
     // setup flipview
     JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3];
-    flipView.tag = 99;
     [self.view addSubview: flipView];
     
     // countdown to silvester
@@ -130,26 +137,35 @@
         
         posx += label.frame.size.width + 10;
     }
+    
+    self.flipView = flipView;
 }
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
-    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
+    JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
+    
+    if (flipView.tag != FVEDetailControllerTargetedViewTag) {
+        flipView.delegate = self;
+    }
 
     NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
     if (randomNumber == 0) randomNumber = 1;
-    NSInteger newValue = flipView.value+randomNumber;
+    NSInteger newValue = ABS(flipView.value+randomNumber);
     
     if (self.indexPath.section == 0) {
         [flipView setValue:newValue animated:YES];
     } else {
-        NSLog(@"animating to %d", [flipView validValueFromValue:newValue]);
         NSDate *startDate = [NSDate date];
         [flipView animateToValue:newValue duration:2.50 completion:^(BOOL finished) {
             if(finished) {
                 NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+            } else {
+                NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
             }
+            [self flipNumberView:flipView didChangeValueAnimated:finished];
         }];
+        [self flipNumberView:flipView willChangeToValue:newValue];
     }
 }
 
@@ -161,13 +177,12 @@
 
 - (void)layoutSubviews
 {
-    JDFlipNumberView *flipView = (JDFlipNumberView*)[self.view viewWithTag: 99];
-    if (!flipView) {
+    if (!self.flipView) {
         return;
     }
     
-    flipView.frame = CGRectInset(self.view.bounds, 20, 20);
-    flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
+    self.flipView.frame = CGRectInset(self.view.bounds, 20, 20);
+    self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
                                   floor((self.view.frame.size.height/2)*0.9));
 }
 
@@ -189,6 +204,18 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self layoutSubviews];
+}
+
+#pragma mark delegate
+
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
+{
+    self.infoLabel.text = [NSString stringWithFormat: @"Will animate to %d", newValue];
+}
+
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
+{
+    self.infoLabel.text = [NSString stringWithFormat: @"Finished animation to %d.", flipNumberView.value];
 }
 
 @end

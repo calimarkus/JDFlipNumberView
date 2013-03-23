@@ -14,13 +14,16 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
 	JDFlipAnimationTypeBottomUp
 };
 
+typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
+
 
 @interface JDFlipNumberDigitView : UIView
 
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) NSUInteger value;
 
-- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animation;
+- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
+      completion:(JDDigitAnimationCompletionBlock)completionBlock;
 
 - (void)setFrame:(CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
 - (void)setZDistance:(NSUInteger)zDistance;
