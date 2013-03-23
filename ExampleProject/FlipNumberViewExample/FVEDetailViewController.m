@@ -8,6 +8,7 @@
 
 #import "JDFlipNumberView.h"
 #import "JDDateCountdownFlipView.h"
+#import "UIFont+FlipNumberViewExample.h"
 
 #import "FVEDetailViewController.h"
 
@@ -39,31 +40,35 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
 
-    // add info label + gesture recognizer
-    if (self.indexPath.section == 1 || self.indexPath.row != 2) {
-        // info label
-        CGRect frame = CGRectInset(self.view.bounds, 10, 10);
-        frame.size.height = 20;
-        frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
-        self.infoLabel = [[UILabel alloc] initWithFrame: frame];
-        self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        self.infoLabel.font = [UIFont boldCustomFontOfSize:13];
-        self.infoLabel.textColor = [UIColor colorWithWhite:1 alpha:0.5];
-        self.infoLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.2];
-        self.infoLabel.shadowOffset = CGSizeMake(-1, -1);
-        self.infoLabel.backgroundColor = [UIColor clearColor];
+    // add info label
+    CGRect frame = CGRectInset(self.view.bounds, 10, 10);
+    frame.size.height = 20;
+    frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
+    self.infoLabel = [[UILabel alloc] initWithFrame: frame];
+    self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    self.infoLabel.font = [UIFont boldCustomFontOfSize:15];
+    self.infoLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+    self.infoLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+    self.infoLabel.shadowOffset = CGSizeMake(0, 1);
+    self.infoLabel.backgroundColor = [UIColor clearColor];
+    self.infoLabel.textAlignment = UITextAlignmentCenter;
+    [self.view addSubview: self.infoLabel];
+        
+    // add gesture recognizer
+    if (self.indexPath.section != 2) {
         self.infoLabel.text = @"Tap anywhere to change the value!";
-        self.infoLabel.textAlignment = UITextAlignmentCenter;
-        [self.view addSubview: self.infoLabel];
-
         [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
     }
     
     // show flipNumberView
-    if (self.indexPath.section == 1 || self.indexPath.row == 1) {
+    if (self.indexPath.section == 0) {
+        if (self.indexPath.row == 0) {
+            [self showSingleDigit];
+        } else {
+            [self showMultipleDigits];
+        }
+    } else if (self.indexPath.section == 1) {
         [self showMultipleDigits];
-    } else if (self.indexPath.row == 0) {
-        [self showSingleDigit];
     } else {
         [self showDateCountdown];
     }

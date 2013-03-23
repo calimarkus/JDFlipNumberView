@@ -7,6 +7,7 @@
 //
 
 #import "FVEAppDelegate.h"
+#import "UIFont+FlipNumberViewExample.h"
 
 #import "FVEViewController.h"
 

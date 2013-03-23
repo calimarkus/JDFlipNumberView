@@ -14,7 +14,7 @@
 {
     UIFont *font = [UIFont fontWithName:@"AvenirNextCondensed-Bold" size:size];
     if (![font.fontName isEqualToString:@"AvenirNextCondensed-Bold"]) {
-        font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:size-1];
+        font = [UIFont boldSystemFontOfSize:size];
     }
     return font;
 }
