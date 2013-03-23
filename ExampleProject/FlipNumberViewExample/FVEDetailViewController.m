@@ -30,7 +30,6 @@
     return self;
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -84,6 +83,7 @@
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
         flipView.value = 32;
         flipView.maximumValue = 128;
+        flipView.delegate = self;
         [flipView animateDownWithTimeInterval:0.3];
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
@@ -203,7 +203,7 @@
 
 - (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
 {
-    self.infoLabel.text = [NSString stringWithFormat: @"Finished animation."];
+    self.infoLabel.text = [NSString stringWithFormat: @"Finished animation to %d.", flipNumberView.value];
 }
 
 @end

@@ -163,13 +163,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 - (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;
 {
-    // remove previous block
-    self.completionBlock = nil;
-    
     // copy completion block
-    if (animationType != JDFlipAnimationTypeNone) {
-        self.completionBlock = completionBlock;
-    }
+    self.completionBlock = completionBlock;
     
 	// save previous value
     self.previousValue = self.value;
@@ -198,6 +193,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         
         // reset state
         self.flipImageView.hidden = YES;
+        
+        // call completion immediatly
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+            self.completionBlock = nil;
+        }
     } else {
         self.animationState = JDFlipAnimationStateFirstHalf;
         [self runAnimation];
@@ -255,6 +256,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	if (!finished) {
         if (self.completionBlock) {
             self.completionBlock(NO);
+            self.completionBlock = nil;
         }
 		return;
 	}
@@ -281,6 +283,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         // call completion block
         if (self.completionBlock) {
             self.completionBlock(YES);
+            self.completionBlock = nil;
         }
 	}
 }
