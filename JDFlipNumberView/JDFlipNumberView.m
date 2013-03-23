@@ -11,7 +11,7 @@
 
 
 static CGFloat JDFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
-static CGFloat JDFlipViewRelativeMargin = 0.15; // use 15% of width as margin
+static CGFloat JDFlipViewRelativeMargin = 0.05; // use 10% of width as margin
 
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
@@ -354,26 +354,52 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 #pragma mark -
 #pragma mark resizing
 
+- (CGSize)sizeThatFits:(CGSize)size;
+{
+	if (self.digitViews && self.digitViews.count > 0)
+    {
+        CGFloat rightX = 0;
+        CGSize lastSize = CGSizeZero;
+		NSUInteger i, count = self.digitViews.count;
+        NSUInteger xWidth = floor(size.width*(1-JDFlipViewRelativeMargin))/count;
+        NSUInteger margin = floor((size.width*JDFlipViewRelativeMargin)/(count-1));
+		for (i = 0; i < count; i++) {
+			JDFlipNumberView* view = self.digitViews[i];
+			lastSize = [view sizeThatFits:CGSizeMake(xWidth, size.height)];
+			rightX += floor(lastSize.width + margin);
+		}
+        
+        rightX -= margin;
+        
+        // take bottom right of last view for new size, to match size of subviews
+        return CGSizeMake(rightX, lastSize.height);
+	}
+    
+    return [super sizeThatFits:size];
+}
+
+- (void)sizeToFit;
+{
+    [super sizeToFit];
+}
+
 - (void)setFrame:(CGRect)frame;
 {
 	if (self.digitViews && self.digitViews.count > 0)
     {
         JDFlipNumberView* previousView = nil;
 		NSUInteger i, count = self.digitViews.count;
-        NSUInteger xWidth = (frame.size.width*(1-JDFlipViewRelativeMargin))/count;
+        NSUInteger xWidth = floor(frame.size.width*(1-JDFlipViewRelativeMargin))/count;
+        NSUInteger margin = floor((frame.size.width*JDFlipViewRelativeMargin)/(count-1));
 		for (i = 0; i < count; i++) {
 			JDFlipNumberView* view = self.digitViews[i];
             CGFloat xpos = 0;
             if (previousView) {
-                xpos = floor(CGRectGetMaxX(previousView.frame)+CGRectGetWidth(previousView.frame)*JDFlipViewRelativeMargin);
+                xpos = floor(CGRectGetMaxX(previousView.frame)+margin);
             }
 			view.frame = CGRectMake(xpos, 0, xWidth, frame.size.height);
 			previousView = self.digitViews[i];
 		}
-        
-		// take bottom right of last view for new size, to match size of subviews
-		frame.size.width  = ceil(previousView.frame.size.width  + previousView.frame.origin.x);
-		frame.size.height = ceil(previousView.frame.size.height + previousView.frame.origin.y);
 	}
     
     [super setFrame:frame];
