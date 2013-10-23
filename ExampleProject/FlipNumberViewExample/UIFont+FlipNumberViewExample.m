@@ -12,11 +12,15 @@
 
 + (UIFont*)boldCustomFontOfSize:(CGFloat)size;
 {
-    UIFont *font = [UIFont fontWithName:@"AvenirNextCondensed-Bold" size:size];
-    if (![font.fontName isEqualToString:@"AvenirNextCondensed-Bold"]) {
-        font = [UIFont boldSystemFontOfSize:size];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        UIFont *font = [UIFont fontWithName:@"AvenirNextCondensed-Bold" size:size];
+        if (![font.fontName isEqualToString:@"AvenirNextCondensed-Bold"]) {
+            font = [UIFont boldSystemFontOfSize:size];
+        }
+        return font;
+    } else {
+        return [UIFont fontWithName:@"HelveticaNeue-Light" size:size];
     }
-    return font;
 }
 
 @end

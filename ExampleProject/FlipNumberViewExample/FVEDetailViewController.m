@@ -139,9 +139,13 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     // add info labels
     NSInteger posx = 20;
     for (NSInteger i=0; i<4; i++) {
-        CGRect frame = CGRectMake(posx, 20, 200, 200);
+        CGFloat yPosition = 20;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+            yPosition = 74.0;
+        }
+        CGRect frame = CGRectMake(posx, yPosition, 200, 200);
         UILabel *label = [[UILabel alloc] initWithFrame: frame];
-        label.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:12];
+        label.font = [UIFont boldCustomFontOfSize:12];
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor darkGrayColor];
         label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
