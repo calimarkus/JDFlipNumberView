@@ -24,9 +24,12 @@
         self.title = @"JDFlipNumberView Examples";
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Examples" style:UIBarButtonItemStyleBordered target:nil action:nil];
         self.tableView.backgroundView = nil;
-        self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         self.tableView.rowHeight = 52.0;
+
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+            self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+        }
     }
     return self;
 }
@@ -38,23 +41,33 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
 {
-    return 60;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        return 60.0;
+    } else {
+        return 40.0;
+    }
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    CGFloat height = [self tableView:tableView heightForHeaderInSection:section];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
     view.backgroundColor = [UIColor clearColor];
     
     // add label
     UILabel* label = [[UILabel alloc] init];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    label.shadowOffset = CGSizeMake(0,-1);
-    label.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
     label.font = [UIFont boldCustomFontOfSize: 16];
     [view addSubview: label];
+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        label.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+        label.shadowOffset = CGSizeMake(0,-1);
+        label.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+    } else {
+        label.textColor = [UIColor colorWithWhite:0.66 alpha:1.0];
+    }
     
     // set text
     NSString* text = @"Basic usage";
@@ -67,12 +80,14 @@
     label.center = CGPointMake(CGRectGetMidX(label.frame)+20, view.center.y);
     
     // add line
-    CGRect frame = label.frame;
-    frame.size.height = 3;
-    frame.origin.y = label.frame.origin.y + label.frame.size.height;
-    UIView *lineView = [[UIView alloc] initWithFrame:frame];
-    lineView.backgroundColor = label.textColor;
-    [view addSubview:lineView];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        CGRect frame = label.frame;
+        frame.size.height = 3;
+        frame.origin.y = label.frame.origin.y + label.frame.size.height;
+        UIView *lineView = [[UIView alloc] initWithFrame:frame];
+        lineView.backgroundColor = label.textColor;
+        [view addSubview:lineView];
+    }
     
     return view;
 }

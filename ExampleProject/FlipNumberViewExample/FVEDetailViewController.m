@@ -38,7 +38,11 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    } else {
+        self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
 
     // add info label
     CGRect frame = CGRectInset(self.view.bounds, 10, 10);
