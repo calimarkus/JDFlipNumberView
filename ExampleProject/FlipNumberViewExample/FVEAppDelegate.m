@@ -30,7 +30,10 @@
 
 - (void)setupAppearance;
 {
-    [[UINavigationBar appearance] setTintColor: [UIColor colorWithHue:0.2 saturation:0.8 brightness:0.6 alpha:1]];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        [[UINavigationBar appearance] setTintColor: [UIColor colorWithHue:0.2 saturation:0.8 brightness:0.6 alpha:1]];
+    }
+    
     [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont:[UIFont boldCustomFontOfSize:16] }];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:2 forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:-1 forBarMetrics:UIBarMetricsLandscapePhone];

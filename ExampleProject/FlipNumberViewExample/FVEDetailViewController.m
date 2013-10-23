@@ -7,6 +7,7 @@
 //
 
 #import "JDFlipNumberView.h"
+#import "JDFlipNumberViewImageFactory.h"
 #import "JDDateCountdownFlipView.h"
 #import "UIFont+FlipNumberViewExample.h"
 
@@ -38,7 +39,11 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    } else {
+        self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
 
     // add info label
     CGRect frame = CGRectInset(self.view.bounds, 10, 10);
@@ -58,6 +63,11 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     if (self.indexPath.section != 2) {
         self.infoLabel.text = @"Tap anywhere to change the value!";
         [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
+    }
+    
+    // setup flip number view style
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        [JD_IMG_FACTORY generateImagesFromBundleNamed:@"JDFlipNumberViewIOS7"];
     }
     
     // show flipNumberView
@@ -129,9 +139,13 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     // add info labels
     NSInteger posx = 20;
     for (NSInteger i=0; i<4; i++) {
-        CGRect frame = CGRectMake(posx, 20, 200, 200);
+        CGFloat yPosition = 20;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+            yPosition = 74.0;
+        }
+        CGRect frame = CGRectMake(posx, yPosition, 200, 200);
         UILabel *label = [[UILabel alloc] initWithFrame: frame];
-        label.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:12];
+        label.font = [UIFont boldCustomFontOfSize:12];
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor darkGrayColor];
         label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
@@ -186,9 +200,14 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         return;
     }
     
+    CGFloat multiplier = 0.9;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        multiplier = 1.0;
+    }
+    
     self.flipView.frame = CGRectInset(self.view.bounds, 20, 20);
     self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
-                                  floor((self.view.frame.size.height/2)*0.9));
+                                  floor((self.view.frame.size.height/2)*multiplier));
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

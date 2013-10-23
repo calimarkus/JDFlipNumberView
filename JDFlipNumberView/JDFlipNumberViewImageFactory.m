@@ -113,6 +113,9 @@ static JDFlipNumberViewImageFactory *sharedInstance;
             NSString *imageName = [NSString stringWithFormat: @"%d.png", j];
             NSString *bundleImageName = [NSString stringWithFormat: @"%@.bundle/%@", bundleName, imageName];
             NSString *path = [[NSBundle mainBundle] pathForResource:bundleImageName ofType:nil];
+            
+            NSAssert(path != nil, @"Bundle named '%@' not found!", bundleName);
+            
 			UIImage *sourceImage = [[UIImage alloc] initWithContentsOfFile:path];
 			CGSize size		= CGSizeMake(sourceImage.size.width, sourceImage.size.height/2);
 			CGFloat yPoint	= (i==0) ? 0 : -size.height;

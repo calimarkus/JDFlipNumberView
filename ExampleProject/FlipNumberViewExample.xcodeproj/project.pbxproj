@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D209810516701F77002EF55F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D209810416701F77002EF55F /* Default-568h@2x.png */; };
+		D22C60DE1817EE4F00E647F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22C60DD1817EE4F00E647F6 /* Images.xcassets */; };
+		D24399C41817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D24399C31817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle */; };
 		D25D53CB15D1B3D200B791F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CA15D1B3D200B791F3 /* UIKit.framework */; };
 		D25D53CD15D1B3D200B791F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CC15D1B3D200B791F3 /* Foundation.framework */; };
 		D25D53CF15D1B3D200B791F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CE15D1B3D200B791F3 /* CoreGraphics.framework */; };
@@ -19,21 +20,14 @@
 		D25D540215D1BA0300B791F3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D540115D1BA0300B791F3 /* QuartzCore.framework */; };
 		D25D540515D1BA3B00B791F3 /* FVEDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25D540415D1BA3B00B791F3 /* FVEDetailViewController.m */; };
 		D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */; };
-		D25D540B15D1CAA800B791F3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D25D540915D1CAA800B791F3 /* Icon.png */; };
-		D25D540C15D1CAA800B791F3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D25D540A15D1CAA800B791F3 /* Icon@2x.png */; };
 		D2D0560A1670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D056091670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m */; };
 		D2FDCA16167E3B30008FC0A6 /* UIFont+FlipNumberViewExample.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FDCA15167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.m */; };
 		D2FDCA30167E4E1C008FC0A6 /* JDFlipNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */; };
-		D2FE288716FDFFA400D54A1E /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D2FE288116FDFFA400D54A1E /* Icon-72.png */; };
-		D2FE288816FDFFA400D54A1E /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2FE288216FDFFA400D54A1E /* Icon-72@2x.png */; };
-		D2FE288916FDFFA400D54A1E /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = D2FE288316FDFFA400D54A1E /* Icon-Small-50.png */; };
-		D2FE288A16FDFFA400D54A1E /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2FE288416FDFFA400D54A1E /* Icon-Small-50@2x.png */; };
-		D2FE288B16FDFFA400D54A1E /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = D2FE288516FDFFA400D54A1E /* Icon-Small.png */; };
-		D2FE288C16FDFFA400D54A1E /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2FE288616FDFFA400D54A1E /* Icon-Small@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D209810416701F77002EF55F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D22C60DD1817EE4F00E647F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D24399C31817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewIOS7.bundle; sourceTree = "<group>"; };
 		D25D53C615D1B3D200B791F3 /* FlipNumberViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipNumberViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25D53CA15D1B3D200B791F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D25D53CC15D1B3D200B791F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -53,20 +47,12 @@
 		D25D540315D1BA3B00B791F3 /* FVEDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVEDetailViewController.h; sourceTree = "<group>"; };
 		D25D540415D1BA3B00B791F3 /* FVEDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FVEDetailViewController.m; sourceTree = "<group>"; };
 		D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberView.bundle; sourceTree = "<group>"; };
-		D25D540915D1CAA800B791F3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		D25D540A15D1CAA800B791F3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		D2D056081670006D00CC7BA3 /* JDFlipNumberViewImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberViewImageFactory.h; sourceTree = "<group>"; };
 		D2D056091670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberViewImageFactory.m; sourceTree = "<group>"; };
 		D2FDCA14167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+FlipNumberViewExample.h"; sourceTree = "<group>"; };
 		D2FDCA15167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FlipNumberViewExample.m"; sourceTree = "<group>"; };
 		D2FDCA2A167E4CD5008FC0A6 /* JDFlipNumberView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberView.h; sourceTree = "<group>"; };
 		D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberView.m; sourceTree = "<group>"; };
-		D2FE288116FDFFA400D54A1E /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
-		D2FE288216FDFFA400D54A1E /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		D2FE288316FDFFA400D54A1E /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
-		D2FE288416FDFFA400D54A1E /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
-		D2FE288516FDFFA400D54A1E /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
-		D2FE288616FDFFA400D54A1E /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +105,7 @@
 				D25D53D115D1B3D200B791F3 /* Supporting Files */,
 				D25D540615D1BA4400B791F3 /* Classes */,
 				D25D540D15D1CAAE00B791F3 /* Images */,
+				D22C60DD1817EE4F00E647F6 /* Images.xcassets */,
 			);
 			path = FlipNumberViewExample;
 			sourceTree = "<group>";
@@ -165,15 +152,7 @@
 		D25D540D15D1CAAE00B791F3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D209810416701F77002EF55F /* Default-568h@2x.png */,
-				D2FE288116FDFFA400D54A1E /* Icon-72.png */,
-				D2FE288216FDFFA400D54A1E /* Icon-72@2x.png */,
-				D2FE288316FDFFA400D54A1E /* Icon-Small-50.png */,
-				D2FE288416FDFFA400D54A1E /* Icon-Small-50@2x.png */,
-				D2FE288516FDFFA400D54A1E /* Icon-Small.png */,
-				D2FE288616FDFFA400D54A1E /* Icon-Small@2x.png */,
-				D25D540915D1CAA800B791F3 /* Icon.png */,
-				D25D540A15D1CAA800B791F3 /* Icon@2x.png */,
+				D24399C31817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -241,16 +220,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D22C60DE1817EE4F00E647F6 /* Images.xcassets in Resources */,
 				D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */,
-				D25D540B15D1CAA800B791F3 /* Icon.png in Resources */,
-				D25D540C15D1CAA800B791F3 /* Icon@2x.png in Resources */,
-				D209810516701F77002EF55F /* Default-568h@2x.png in Resources */,
-				D2FE288716FDFFA400D54A1E /* Icon-72.png in Resources */,
-				D2FE288816FDFFA400D54A1E /* Icon-72@2x.png in Resources */,
-				D2FE288916FDFFA400D54A1E /* Icon-Small-50.png in Resources */,
-				D2FE288A16FDFFA400D54A1E /* Icon-Small-50@2x.png in Resources */,
-				D2FE288B16FDFFA400D54A1E /* Icon-Small.png in Resources */,
-				D2FE288C16FDFFA400D54A1E /* Icon-Small@2x.png in Resources */,
+				D24399C41817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +287,8 @@
 		D25D53E515D1B3D200B791F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
@@ -327,6 +301,8 @@
 		D25D53E615D1B3D200B791F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
