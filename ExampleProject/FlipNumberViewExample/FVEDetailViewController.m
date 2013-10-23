@@ -7,6 +7,7 @@
 //
 
 #import "JDFlipNumberView.h"
+#import "JDFlipNumberViewImageFactory.h"
 #import "JDDateCountdownFlipView.h"
 #import "UIFont+FlipNumberViewExample.h"
 
@@ -62,6 +63,11 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     if (self.indexPath.section != 2) {
         self.infoLabel.text = @"Tap anywhere to change the value!";
         [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
+    }
+    
+    // setup flip number view style
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        [JD_IMG_FACTORY generateImagesFromBundleNamed:@"JDFlipNumberViewIOS7"];
     }
     
     // show flipNumberView

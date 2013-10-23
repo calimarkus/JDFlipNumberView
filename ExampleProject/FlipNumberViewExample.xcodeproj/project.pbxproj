@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D209810516701F77002EF55F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D209810416701F77002EF55F /* Default-568h@2x.png */; };
+		D24399C41817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D24399C31817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle */; };
 		D25D53CB15D1B3D200B791F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CA15D1B3D200B791F3 /* UIKit.framework */; };
 		D25D53CD15D1B3D200B791F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CC15D1B3D200B791F3 /* Foundation.framework */; };
 		D25D53CF15D1B3D200B791F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CE15D1B3D200B791F3 /* CoreGraphics.framework */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		D209810416701F77002EF55F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D24399C31817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewIOS7.bundle; sourceTree = "<group>"; };
 		D25D53C615D1B3D200B791F3 /* FlipNumberViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipNumberViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25D53CA15D1B3D200B791F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D25D53CC15D1B3D200B791F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -165,6 +167,7 @@
 		D25D540D15D1CAAE00B791F3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D24399C31817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle */,
 				D209810416701F77002EF55F /* Default-568h@2x.png */,
 				D2FE288116FDFFA400D54A1E /* Icon-72.png */,
 				D2FE288216FDFFA400D54A1E /* Icon-72@2x.png */,
@@ -244,6 +247,7 @@
 				D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */,
 				D25D540B15D1CAA800B791F3 /* Icon.png in Resources */,
 				D25D540C15D1CAA800B791F3 /* Icon@2x.png in Resources */,
+				D24399C41817E1A200CCAE5D /* JDFlipNumberViewIOS7.bundle in Resources */,
 				D209810516701F77002EF55F /* Default-568h@2x.png in Resources */,
 				D2FE288716FDFFA400D54A1E /* Icon-72.png in Resources */,
 				D2FE288816FDFFA400D54A1E /* Icon-72@2x.png in Resources */,
