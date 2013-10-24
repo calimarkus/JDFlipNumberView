@@ -79,10 +79,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	self.flipImageView	 = [[UIImageView alloc] initWithImage: JD_IMG_FACTORY.topImages[0]];
 	self.bottomImageView = [[UIImageView alloc] initWithImage: JD_IMG_FACTORY.bottomImages[0]];
     self.flipImageView.hidden = YES;
-	
-	self.bottomImageView.frame = CGRectMake(0, JD_IMG_FACTORY.imageSize.height,
-                                            JD_IMG_FACTORY.imageSize.width,
-                                            JD_IMG_FACTORY.imageSize.height);
     self.flipImageView.layer.zPosition = 1;
 	
 	// add image views
@@ -93,8 +89,10 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	// setup default 3d transform
 	[self setZDistance: (JD_IMG_FACTORY.imageSize.height*2)*3];
     
-    // setup frame
-    super.frame = CGRectMake(0, 0, JD_IMG_FACTORY.imageSize.width, JD_IMG_FACTORY.imageSize.height*2);
+    // setup frames
+    CGSize size = JD_IMG_FACTORY.imageSize;
+	self.bottomImageView.frame = CGRectMake(0, size.height, size.width, size.height);
+    super.frame = CGRectMake(0, 0, size.width, size.height*2);
 }
 
 - (CGSize)sizeThatFits:(CGSize)aSize;
@@ -276,7 +274,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         } else {
             self.topImageView.image = JD_IMG_FACTORY.topImages[self.value];
         }
-        self.flipImageView.hidden  = YES;
 		
 		// remove old animation
 		[self.flipImageView.layer removeAnimationForKey: kFlipAnimationKey];
@@ -286,6 +283,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
             self.completionBlock(YES);
             self.completionBlock = nil;
         }
+        
+        // hide animated view
+        self.flipImageView.hidden = YES;
 	}
 }
 
