@@ -36,7 +36,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
@@ -73,6 +73,7 @@
     NSString* text = @"Basic usage";
     if (section==1) text = @"Targeted animation";
     if (section==2) text = @"Date Countdown";
+    if (section==3) text = @"Settings";
     label.text = [text uppercaseString];
     
     // position label
@@ -108,6 +109,8 @@
         cell.detailTextLabel.font = [UIFont systemFontOfSize: 13];
     }
     
+    cell.accessoryView = nil;
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Single Digit";
@@ -119,9 +122,16 @@
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"Animate to a target value";
         cell.detailTextLabel.text = @"A FlipView using animateToValue:duration:";
-    } else {
+    } else if (indexPath.section == 2) {
         cell.textLabel.text = @"Silvester Countdown";
         cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
+    } else {
+        cell.textLabel.text = @"Reverse Flipping Disabled";
+        cell.detailTextLabel.text = @"Stop flipping bottom-up";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UISwitch *aSwitch = [[UISwitch alloc] init];
+        [aSwitch addTarget:self action:@selector(switchTouched:) forControlEvents:UIControlEventValueChanged];
+        cell.accessoryView = aSwitch;
     }
     
     return cell;
@@ -129,11 +139,24 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 3) {
+        UISwitch *aSwitch = (UISwitch *)[[tableView cellForRowAtIndexPath:indexPath] accessoryView];
+        [aSwitch setOn:!aSwitch.on animated:YES];
+        [self switchTouched:aSwitch];
+        return;
+    }
     
     FVEDetailViewController* viewController = [[FVEDetailViewController alloc] initWithIndexPath:indexPath];
     viewController.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
     [self.navigationController pushViewController: viewController animated: YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)switchTouched:(UISwitch*)sender;
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"reverseFlippingDisabled"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

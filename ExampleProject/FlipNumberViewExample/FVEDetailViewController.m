@@ -89,6 +89,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
     flipView.value = arc4random() % 10;
     flipView.delegate = self;
+    flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
     [self.view addSubview: flipView];
     self.flipView = flipView;
 }
@@ -101,11 +102,13 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
         flipView.value = 32;
         flipView.maximumValue = 128;
+        flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
         [flipView animateDownWithTimeInterval:0.3];
     } else {
         flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
         flipView.value = 2300;
         flipView.tag = FVEDetailControllerTargetedViewTag;
+        flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
         
         NSInteger targetValue = 9250;
         NSDate *startDate = [NSDate date];
@@ -158,6 +161,11 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     }
     
     self.flipView = flipView;
+}
+
+- (BOOL)isReverseFlippingDisabled;
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
 }
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
