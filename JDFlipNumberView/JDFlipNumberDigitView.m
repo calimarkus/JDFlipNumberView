@@ -79,7 +79,11 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	self.flipImageView	 = [[UIImageView alloc] initWithImage: JD_IMG_FACTORY.topImages[0]];
 	self.bottomImageView = [[UIImageView alloc] initWithImage: JD_IMG_FACTORY.bottomImages[0]];
     self.flipImageView.hidden = YES;
-    self.flipImageView.layer.zPosition = 1;
+    
+    // set z positions
+    self.topImageView.layer.zPosition = -1;
+    self.bottomImageView.layer.zPosition = -1;
+    self.flipImageView.layer.zPosition = 0;
 	
 	// add image views
 	[self addSubview:self.topImageView];
