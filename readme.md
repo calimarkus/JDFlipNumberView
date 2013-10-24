@@ -5,10 +5,6 @@ The FlipNumberView is simulating an analog flip display (like those for the depa
 
 ![Screenshots](gfx/screenshots.png "Screenshots")
 
-## iOS 7 issues
-
-Sadly, on iOS 7, at least on the iPhone 5, the animation has a flickering effect in it. I wasn't able to solve it yet. Sorry.
-
 ## Installation
 
 **A) Use CocoaPods** (preferred way, see [cocoapods website])
