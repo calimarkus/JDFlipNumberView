@@ -83,6 +83,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	self.bottomImageView.frame = CGRectMake(0, JD_IMG_FACTORY.imageSize.height,
                                             JD_IMG_FACTORY.imageSize.width,
                                             JD_IMG_FACTORY.imageSize.height);
+    self.flipImageView.layer.zPosition = 1;
 	
 	// add image views
 	[self addSubview:self.topImageView];
