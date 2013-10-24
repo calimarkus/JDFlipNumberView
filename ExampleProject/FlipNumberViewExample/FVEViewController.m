@@ -131,6 +131,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UISwitch *aSwitch = [[UISwitch alloc] init];
         [aSwitch addTarget:self action:@selector(switchTouched:) forControlEvents:UIControlEventValueChanged];
+        aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
         cell.accessoryView = aSwitch;
     }
     
