@@ -14,11 +14,13 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @interface JDFlipNumberView : UIView
 
 @property (nonatomic, weak) id<JDFlipNumberViewDelegate> delegate;
+
 @property (nonatomic, assign) NSInteger value;
 @property (nonatomic, assign) NSUInteger maximumValue;
 @property (nonatomic, assign) CGFloat animationDuration;
-@property (nonatomic, readonly) NSUInteger digitCount;
+@property (nonatomic, assign) BOOL reverseFlippingDisabled;
 
+@property (nonatomic, readonly) NSUInteger digitCount;
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 

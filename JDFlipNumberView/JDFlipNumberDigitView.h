@@ -19,8 +19,8 @@ typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
 
 @interface JDFlipNumberDigitView : UIView
 
-@property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) NSUInteger value;
+@property (nonatomic, assign) CGFloat animationDuration;
 
 - (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;
