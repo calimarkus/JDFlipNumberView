@@ -53,9 +53,16 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
         self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
         
+        // set maximum values
         self.hourFlipNumberView.maximumValue = 23;
         self.minuteFlipNumberView.maximumValue = 59;
         self.secondFlipNumberView.maximumValue = 59;
+        
+        // disable reverse flipping
+        self.dayFlipNumberView.reverseFlippingDisabled = YES;
+        self.hourFlipNumberView.reverseFlippingDisabled = YES;
+        self.minuteFlipNumberView.reverseFlippingDisabled = YES;
+        self.secondFlipNumberView.reverseFlippingDisabled = YES;
 
         [self setZDistance: 60];
         
