@@ -51,7 +51,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
     self.infoLabel = [[UILabel alloc] initWithFrame: frame];
     self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    self.infoLabel.font = [UIFont boldCustomFontOfSize:15];
+    self.infoLabel.font = [UIFont customFontOfSize:15];
     self.infoLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
     self.infoLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
     self.infoLabel.shadowOffset = CGSizeMake(0, 1);
@@ -148,7 +148,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         }
         CGRect frame = CGRectMake(posx, yPosition, 200, 200);
         UILabel *label = [[UILabel alloc] initWithFrame: frame];
-        label.font = [UIFont boldCustomFontOfSize:12];
+        label.font = [UIFont customFontOfSize:12];
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor darkGrayColor];
         label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";

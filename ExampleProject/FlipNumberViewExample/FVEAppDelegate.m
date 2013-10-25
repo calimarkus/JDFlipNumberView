@@ -36,7 +36,7 @@
         [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:-1 forBarMetrics:UIBarMetricsLandscapePhone];
     }
     
-    [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont:[UIFont boldCustomFontOfSize:16] }];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont:[UIFont customFontOfSize:16] }];
 }
 
 @end

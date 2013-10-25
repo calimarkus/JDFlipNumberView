@@ -10,7 +10,7 @@
 
 @implementation UIFont (FlipNumberViewExample)
 
-+ (UIFont*)boldCustomFontOfSize:(CGFloat)size;
++ (UIFont*)customFontOfSize:(CGFloat)size;
 {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
         UIFont *font = [UIFont fontWithName:@"AvenirNextCondensed-Bold" size:size];

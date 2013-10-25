@@ -10,6 +10,6 @@
 
 @interface UIFont (FlipNumberViewExample)
 
-+ (UIFont*)boldCustomFontOfSize:(CGFloat)size;
++ (UIFont*)customFontOfSize:(CGFloat)size;
 
 @end

@@ -58,7 +58,7 @@
     UILabel* label = [[UILabel alloc] init];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldCustomFontOfSize: 16];
+    label.font = [UIFont customFontOfSize: 16];
     [view addSubview: label];
 
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
