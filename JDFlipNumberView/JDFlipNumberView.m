@@ -45,10 +45,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 {
     self = [super initWithFrame:CGRectZero];
-    if (self)
-	{
+    if (self) {
 		self.backgroundColor = [UIColor clearColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
         self.autoresizesSubviews = NO;
         _digitCount = digitCount;
         
@@ -352,7 +350,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 }
 
 #pragma mark -
-#pragma mark resizing
+#pragma mark layout
 
 - (CGSize)sizeThatFits:(CGSize)size;
 {
@@ -378,9 +376,11 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     return [super sizeThatFits:size];
 }
 
-- (void)sizeToFit;
+- (void)layoutSubviews;
 {
-    [super sizeToFit];
+    [super layoutSubviews];
+    
+    // @TODO: replace setFrame.. use layoutSubviews
 }
 
 - (void)setFrame:(CGRect)frame;
