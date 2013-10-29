@@ -91,40 +91,51 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
     }
 }
 
-- (void)setFrame:(CGRect)frame;
+- (void)setTargetDate:(NSDate *)targetDate;
 {
+    _targetDate = targetDate;
+    [self updateValuesAnimated:NO];
+}
+
+#pragma mark layout
+
+- (CGSize)sizeThatFits:(CGSize)size;
+{
+    // @TODO: implement
+    
+    return [super sizeThatFits:size];
+}
+
+- (void)layoutSubviews;
+{
+    [super layoutSubviews];
+    
     if (self.dayFlipNumberView == nil) {
-        [super setFrame:frame];
         return;
     }
     
-    CGFloat digitWidth = frame.size.width/(self.dayFlipNumberView.digitCount+7);
+    // @TODO: fix this
+    
+    CGSize size = self.bounds.size;
+    CGFloat digitWidth = size.width/(self.dayFlipNumberView.digitCount+7);
     CGFloat margin     = digitWidth/3.0;
     CGFloat currentX   = 0;
-
+    
     // resize first flipview
-    self.dayFlipNumberView.frame = CGRectMake(0, 0, digitWidth * self.dayDigitCount, frame.size.height);
+    self.dayFlipNumberView.frame = CGRectMake(0, 0, digitWidth * self.dayDigitCount, size.height);
     currentX += self.dayFlipNumberView.frame.size.width;
     
     // update flipview frames
     for (JDFlipNumberView* view in @[self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
         currentX   += margin;
-        view.frame = CGRectMake(currentX, 0, digitWidth*2, frame.size.height);
+        view.frame = CGRectMake(currentX, 0, digitWidth*2, size.height);
         currentX   += view.frame.size.width;
     }
     
     // take bottom right of last view for new size, to match size of subviews
     CGRect lastFrame = self.secondFlipNumberView.frame;
-    frame.size.width  = ceil(lastFrame.size.width  + lastFrame.origin.x);
-    frame.size.height = ceil(lastFrame.size.height + lastFrame.origin.y);
-    
-    [super setFrame:frame];
-}
-
-- (void)setTargetDate:(NSDate *)targetDate;
-{
-    _targetDate = targetDate;
-    [self updateValuesAnimated:NO];
+    size.width  = ceil(lastFrame.size.width  + lastFrame.origin.x);
+    size.height = ceil(lastFrame.size.height + lastFrame.origin.y);
 }
 
 #pragma mark update timer
