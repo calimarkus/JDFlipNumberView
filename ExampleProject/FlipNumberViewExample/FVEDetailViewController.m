@@ -210,8 +210,6 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         return;
     }
     
-    self.flipView.backgroundColor = [UIColor redColor];
-    
     CGFloat multiplier = 0.9;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         multiplier = 1.0;
@@ -219,8 +217,8 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 
     self.flipView.frame = CGRectInset(self.view.bounds, 20, 20);
     [self.flipView sizeToFit];
-    self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
-                                  floor((self.view.frame.size.height/2)*multiplier));
+    self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2.0),
+                                       floor((self.view.frame.size.height/2.0)*multiplier));
 }
 
 #pragma mark rotation

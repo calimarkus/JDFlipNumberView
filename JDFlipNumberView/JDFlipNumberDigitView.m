@@ -59,7 +59,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 - (void)commonInit;
 {
     // setup view
-    self.backgroundColor = [UIColor greenColor];
+    self.backgroundColor = [UIColor clearColor];
     self.autoresizesSubviews = NO;
     
     // default values
