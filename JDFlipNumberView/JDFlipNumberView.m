@@ -387,6 +387,13 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 		NSUInteger i, count = self.digitViews.count;
         NSUInteger margin = ((frameSize.width*JDFlipViewRelativeMargin)/(count-1));
         NSUInteger xWidth = ((frameSize.width-margin*(count-1))/count);
+        
+        // apply calculated size to first digitView & update to actual sizes
+        JDFlipNumberDigitView *firstDigit = self.digitViews[0];
+        firstDigit.frame = CGRectMake(0, 0, floor(xWidth), floor(frameSize.height));
+        xWidth = firstDigit.frame.size.width;
+        margin = (frameSize.width-xWidth*count)/(count - 1);
+        
 		for (i = 0; i < count; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
 			view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
