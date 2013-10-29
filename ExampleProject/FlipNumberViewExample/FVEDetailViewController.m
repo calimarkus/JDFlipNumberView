@@ -163,10 +163,14 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     self.flipView = flipView;
 }
 
+#pragma mark helper
+
 - (BOOL)isReverseFlippingDisabled;
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
 }
+
+#pragma mark interaction
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
@@ -196,14 +200,12 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self layoutSubviews];
-}
+#pragma mark layout
 
-- (void)layoutSubviews
+- (void)viewDidLayoutSubviews
 {
+    [super viewDidLayoutSubviews];
+    
     if (!self.flipView) {
         return;
     }
@@ -221,24 +223,21 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
                                   floor((self.view.frame.size.height/2)*multiplier));
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
+#pragma mark rotation
 
 - (BOOL)shouldAutorotate
 {
     return YES;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationPortrait;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self layoutSubviews];
 }
 
 #pragma mark delegate

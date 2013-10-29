@@ -100,6 +100,7 @@ static JDFlipNumberViewImageFactory *sharedInstance;
 
 #pragma mark -
 #pragma mark image generation
+
 - (void)generateImagesFromBundleNamed:(NSString*)bundleName;
 {
     self.imageBundle = bundleName;

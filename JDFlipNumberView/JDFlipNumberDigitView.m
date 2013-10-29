@@ -115,19 +115,24 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         aSize.height = aSize.width*origRatioH;
     }
     
+    if (!self.upscalingAllowed) {
+        aSize = [self sizeWithMaximumSize:aSize];
+    }
+    
     return aSize;
+}
+
+- (CGSize)sizeWithMaximumSize:(CGSize)size;
+{
+    size.width  = MIN(size.width, JD_IMG_FACTORY.imageSize.width);
+    size.height = MIN(size.height, JD_IMG_FACTORY.imageSize.height*2);
+    return size;
 }
 
 - (void)setFrame:(CGRect)rect;
 {
-    [self setFrame:rect allowUpscaling:NO];
-}
-
-- (void)setFrame:(CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
-{
-    if (!upscalingAllowed) {
-        rect.size.width  = MIN(rect.size.width, JD_IMG_FACTORY.imageSize.width);
-        rect.size.height = MIN(rect.size.height, JD_IMG_FACTORY.imageSize.height*2);
+    if (!self.upscalingAllowed) {
+        rect.size = [self sizeWithMaximumSize:rect.size];
     }
     
     rect.size = [self sizeThatFits:rect.size];

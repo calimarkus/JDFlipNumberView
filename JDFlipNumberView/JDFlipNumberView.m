@@ -11,7 +11,7 @@
 
 
 static CGFloat JDFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
-static CGFloat JDFlipViewRelativeMargin = 0.05; // use 10% of width as margin
+static CGFloat JDFlipViewRelativeMargin = 0.05; // use 5% of width as margin
 
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
@@ -132,7 +132,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
                     type = JDFlipAnimationTypeTopDown;
                 }
                 [view setValue:newValue withAnimationType:type completion:^(BOOL completed){
-                    completedDigits = completedDigits + 1;
+                    completedDigits++;
                     if (completedDigits == self.digitViews.count) {
                         // inform delegate, when all digits finished animation
                         if (animated && [self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
@@ -356,21 +356,20 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 {
 	if (self.digitViews && self.digitViews.count > 0)
     {
-        CGFloat rightX = 0;
+        CGFloat xpos = 0;
         CGSize lastSize = CGSizeZero;
 		NSUInteger i, count = self.digitViews.count;
         NSUInteger xWidth = floor(size.width*(1-JDFlipViewRelativeMargin))/count;
         NSUInteger margin = floor((size.width*JDFlipViewRelativeMargin)/(count-1));
 		for (i = 0; i < count; i++) {
-			JDFlipNumberView* view = self.digitViews[i];
+			JDFlipNumberDigitView* view = self.digitViews[i];
 			lastSize = [view sizeThatFits:CGSizeMake(xWidth, size.height)];
-			rightX += floor(lastSize.width + margin);
+			xpos += floor(lastSize.width + margin);
 		}
-        
-        rightX -= margin;
+        xpos -= margin;
         
         // take bottom right of last view for new size, to match size of subviews
-        return CGSizeMake(rightX, lastSize.height);
+        return CGSizeMake(ceil(xpos), ceil(lastSize.height));
 	}
     
     return [super sizeThatFits:size];
@@ -380,29 +379,20 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 {
     [super layoutSubviews];
     
-    // @TODO: replace setFrame.. use layoutSubviews
-}
-
-- (void)setFrame:(CGRect)frame;
-{
 	if (self.digitViews && self.digitViews.count > 0)
     {
-        JDFlipNumberView* previousView = nil;
+        CGSize frameSize = self.bounds.size;
+        
+        CGFloat xpos = 0;
 		NSUInteger i, count = self.digitViews.count;
-        NSUInteger xWidth = floor(frame.size.width*(1-JDFlipViewRelativeMargin))/count;
-        NSUInteger margin = floor((frame.size.width*JDFlipViewRelativeMargin)/(count-1));
+        NSUInteger xWidth = floor(frameSize.width*(1-JDFlipViewRelativeMargin))/count;
+        NSUInteger margin = floor((frameSize.width*JDFlipViewRelativeMargin)/(count-1));
 		for (i = 0; i < count; i++) {
-			JDFlipNumberView* view = self.digitViews[i];
-            CGFloat xpos = 0;
-            if (previousView) {
-                xpos = floor(CGRectGetMaxX(previousView.frame)+margin);
-            }
-			view.frame = CGRectMake(xpos, 0, xWidth, frame.size.height);
-			previousView = self.digitViews[i];
+			JDFlipNumberDigitView* view = self.digitViews[i];
+			view.frame = CGRectMake(floor(xpos), 0, floor(xWidth), floor(frameSize.height));
+            xpos = floor(CGRectGetMaxX(view.frame)+margin);
 		}
 	}
-    
-    [super setFrame:frame];
 }
 
 @end
