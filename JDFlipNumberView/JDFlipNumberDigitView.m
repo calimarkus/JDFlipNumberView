@@ -131,10 +131,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (void)setFrame:(CGRect)rect;
 {
-    if (!self.upscalingAllowed) {
-        rect.size = [self sizeWithMaximumSize:rect.size];
-    }
-    
     rect.size = [self sizeThatFits:rect.size];
 	[super setFrame:rect];
     

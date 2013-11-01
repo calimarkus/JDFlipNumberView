@@ -399,6 +399,16 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 			view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
             xpos = floor(CGRectGetMaxX(view.frame)+margin);
 		}
+        xpos -= margin;
+        
+        // center views in superview
+        CGPoint centerOffset = CGPointMake(xpos, firstDigit.frame.size.height);
+        centerOffset.x = floor((self.bounds.size.width - centerOffset.x)/2.0);
+        centerOffset.y = floor((self.bounds.size.height - centerOffset.y)/2.0);
+        for (NSInteger i=0; i<count; i++) {
+			JDFlipNumberDigitView* view = self.digitViews[i];
+            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+        }
 	}
 }
 
