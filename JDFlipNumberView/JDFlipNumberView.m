@@ -11,7 +11,7 @@
 
 
 static CGFloat JDFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
-static CGFloat JDFlipViewRelativeMargin = 0.15; // use 15% of width as margin
+static CGFloat JDFlipViewRelativeMargin = 0.05; // use 5% of width as margin
 
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
@@ -45,10 +45,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 {
     self = [super initWithFrame:CGRectZero];
-    if (self)
-	{
+    if (self) {
 		self.backgroundColor = [UIColor clearColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
         self.autoresizesSubviews = NO;
         _digitCount = digitCount;
         
@@ -134,7 +132,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
                     type = JDFlipAnimationTypeTopDown;
                 }
                 [view setValue:newValue withAnimationType:type completion:^(BOOL completed){
-                    completedDigits = completedDigits + 1;
+                    completedDigits++;
                     if (completedDigits == self.digitViews.count) {
                         // inform delegate, when all digits finished animation
                         if (animated && [self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
@@ -352,31 +350,56 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 }
 
 #pragma mark -
-#pragma mark resizing
+#pragma mark layout
 
-- (void)setFrame:(CGRect)frame;
+- (CGSize)sizeThatFits:(CGSize)size;
 {
 	if (self.digitViews && self.digitViews.count > 0)
     {
-        JDFlipNumberView* previousView = nil;
+        CGFloat xpos = 0;
+        CGSize lastSize = CGSizeZero;
 		NSUInteger i, count = self.digitViews.count;
-        NSUInteger xWidth = (frame.size.width*(1-JDFlipViewRelativeMargin))/count;
+        NSUInteger margin = ((size.width*JDFlipViewRelativeMargin)/(count-1));
+        NSUInteger xWidth = ((size.width-margin*(count-1))/count);
 		for (i = 0; i < count; i++) {
-			JDFlipNumberView* view = self.digitViews[i];
-            CGFloat xpos = 0;
-            if (previousView) {
-                xpos = floor(CGRectGetMaxX(previousView.frame)+CGRectGetWidth(previousView.frame)*JDFlipViewRelativeMargin);
-            }
-			view.frame = CGRectMake(xpos, 0, xWidth, frame.size.height);
-			previousView = self.digitViews[i];
+			JDFlipNumberDigitView* view = self.digitViews[i];
+			lastSize = [view sizeThatFits:CGSizeMake(xWidth, size.height)];
+			xpos += lastSize.width + margin;
 		}
+        xpos -= margin;
         
-		// take bottom right of last view for new size, to match size of subviews
-		frame.size.width  = ceil(previousView.frame.size.width  + previousView.frame.origin.x);
-		frame.size.height = ceil(previousView.frame.size.height + previousView.frame.origin.y);
+        // take bottom right of last view for new size, to match size of subviews
+        return CGSizeMake(floor(xpos), floor(lastSize.height));
 	}
     
-    [super setFrame:frame];
+    return [super sizeThatFits:size];
+}
+
+- (void)layoutSubviews;
+{
+    [super layoutSubviews];
+    
+	if (self.digitViews && self.digitViews.count > 0)
+    {
+        CGSize frameSize = self.bounds.size;
+        
+        CGFloat xpos = 0;
+		NSUInteger i, count = self.digitViews.count;
+        NSUInteger margin = ((frameSize.width*JDFlipViewRelativeMargin)/(count-1));
+        NSUInteger xWidth = ((frameSize.width-margin*(count-1))/count);
+        
+        // apply calculated size to first digitView & update to actual sizes
+        JDFlipNumberDigitView *firstDigit = self.digitViews[0];
+        firstDigit.frame = CGRectMake(0, 0, floor(xWidth), floor(frameSize.height));
+        xWidth = firstDigit.frame.size.width;
+        margin = (frameSize.width-xWidth*count)/(count - 1);
+        
+		for (i = 0; i < count; i++) {
+			JDFlipNumberDigitView* view = self.digitViews[i];
+			view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
+            xpos = floor(CGRectGetMaxX(view.frame)+margin);
+		}
+	}
 }
 
 @end

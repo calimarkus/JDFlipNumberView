@@ -61,7 +61,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     // setup view
     self.backgroundColor = [UIColor clearColor];
     self.autoresizesSubviews = NO;
-    self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     
     // default values
     _value = 0;
@@ -99,6 +98,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     super.frame = CGRectMake(0, 0, size.width, size.height*2);
 }
 
+#pragma mark -
+#pragma mark layout
+
 - (CGSize)sizeThatFits:(CGSize)aSize;
 {
     CGSize imageSize = JD_IMG_FACTORY.imageSize;
@@ -113,27 +115,28 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         aSize.height = aSize.width*origRatioH;
     }
     
+    if (!self.upscalingAllowed) {
+        aSize = [self sizeWithMaximumSize:aSize];
+    }
+    
     return aSize;
 }
 
-
-#pragma mark -
-#pragma mark external access
+- (CGSize)sizeWithMaximumSize:(CGSize)size;
+{
+    size.width  = MIN(size.width, JD_IMG_FACTORY.imageSize.width);
+    size.height = MIN(size.height, JD_IMG_FACTORY.imageSize.height*2);
+    return size;
+}
 
 - (void)setFrame:(CGRect)rect;
 {
-    [self setFrame:rect allowUpscaling:NO];
-}
-
-- (void)setFrame:(CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
-{
-    if (!upscalingAllowed) {
-        rect.size.width  = MIN(rect.size.width, JD_IMG_FACTORY.imageSize.width);
-        rect.size.height = MIN(rect.size.height, JD_IMG_FACTORY.imageSize.height*2);
+    if (!self.upscalingAllowed) {
+        rect.size = [self sizeWithMaximumSize:rect.size];
     }
     
-    rect.size = [self sizeThatFits: rect.size];
-	[super setFrame: rect];
+    rect.size = [self sizeThatFits:rect.size];
+	[super setFrame:rect];
     
     // update imageView frames
     rect.origin = CGPointMake(0, 0);
@@ -143,8 +146,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     self.bottomImageView.frame = rect;
 
     // update flip imageView frame
-    BOOL isFirstHalf = (self.animationState == JDFlipAnimationStateFirstHalf);
-    self.flipImageView.frame = (isFirstHalf) ? self.topImageView.frame : self.bottomImageView.frame;
+    [self updateFlipViewFrame];
 	
     // reset Z distance
 	[self setZDistance: self.frame.size.height*3];
@@ -157,6 +159,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	aTransform.m34 = -1.0 / zDistance;	
 	self.layer.sublayerTransform = aTransform;
 }
+
+#pragma mark value setter
 
 - (void)setValue:(NSUInteger)value
 {

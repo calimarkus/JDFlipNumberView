@@ -163,10 +163,14 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     self.flipView = flipView;
 }
 
+#pragma mark helper
+
 - (BOOL)isReverseFlippingDisabled;
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
 }
+
+#pragma mark interaction
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
@@ -196,14 +200,12 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self layoutSubviews];
-}
+#pragma mark layout
 
-- (void)layoutSubviews
+- (void)viewDidLayoutSubviews
 {
+    [super viewDidLayoutSubviews];
+    
     if (!self.flipView) {
         return;
     }
@@ -212,10 +214,18 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         multiplier = 1.0;
     }
-    
+
     self.flipView.frame = CGRectInset(self.view.bounds, 20, 20);
-    self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2),
-                                  floor((self.view.frame.size.height/2)*multiplier));
+    [self.flipView sizeToFit];
+    self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2.0),
+                                       floor((self.view.frame.size.height/2.0)*multiplier));
+}
+
+#pragma mark rotation
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -223,19 +233,9 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
-
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationPortrait;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self layoutSubviews];
 }
 
 #pragma mark delegate

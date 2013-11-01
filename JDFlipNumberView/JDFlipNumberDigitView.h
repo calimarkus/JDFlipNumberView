@@ -21,11 +21,11 @@ typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
 
 @property (nonatomic, assign) NSUInteger value;
 @property (nonatomic, assign) CGFloat animationDuration;
+@property (nonatomic, assign) BOOL upscalingAllowed;
 
 - (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;
 
-- (void)setFrame:(CGRect)rect allowUpscaling:(BOOL)upscalingAllowed;
 - (void)setZDistance:(NSUInteger)zDistance;
 
 @end
