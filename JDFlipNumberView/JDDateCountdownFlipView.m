@@ -101,9 +101,33 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 - (CGSize)sizeThatFits:(CGSize)size;
 {
-    // @TODO: implement
+    if (self.dayFlipNumberView == nil) {
+        return [super sizeThatFits:size];
+    }
     
-    return [super sizeThatFits:size];
+    CGFloat digitWidth = size.width/(self.dayFlipNumberView.digitCount+7);
+    CGFloat margin     = digitWidth/3.0;
+    CGFloat currentX   = 0;
+    
+    // check first number size
+    CGSize firstSize = CGSizeMake(digitWidth * self.dayDigitCount, size.height);
+    firstSize = [self.dayFlipNumberView sizeThatFits:firstSize];
+    currentX += firstSize.width;
+    
+    // check other numbers
+    CGSize nextSize;
+    for (JDFlipNumberView* view in @[self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
+        currentX += margin;
+        nextSize = CGSizeMake(digitWidth*2, size.height);
+        nextSize = [view sizeThatFits:nextSize];
+        currentX += nextSize.width;
+    }
+    
+    // use bottom right of last number
+    size.width  = ceil(currentX);
+    size.height = ceil(nextSize.height);
+    
+    return size;
 }
 
 - (void)layoutSubviews;
@@ -113,8 +137,6 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
     if (self.dayFlipNumberView == nil) {
         return;
     }
-    
-    // @TODO: fix this
     
     CGSize size = self.bounds.size;
     CGFloat digitWidth = size.width/(self.dayFlipNumberView.digitCount+7);
