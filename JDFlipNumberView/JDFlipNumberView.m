@@ -388,6 +388,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         NSUInteger margin = ((frameSize.width*JDFlipViewRelativeMargin)/(count-1));
         NSUInteger xWidth = ((frameSize.width-margin*(count-1))/count);
         
+        // allow upscaling for layout
+		for (i = 0; i < count; i++) {
+			JDFlipNumberDigitView* view = self.digitViews[i];
+            view.upscalingAllowed = YES;
+        }
+        
         // apply calculated size to first digitView & update to actual sizes
         JDFlipNumberDigitView *firstDigit = self.digitViews[0];
         firstDigit.frame = CGRectMake(0, 0, floor(xWidth), floor(frameSize.height));
@@ -408,6 +414,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         for (NSInteger i=0; i<count; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
             view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+        }
+        
+        // stop upscaling, so sizeToFit works properly
+		for (i = 0; i < count; i++) {
+			JDFlipNumberDigitView* view = self.digitViews[i];
+            view.upscalingAllowed = NO;
         }
 	}
 }
