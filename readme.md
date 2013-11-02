@@ -65,28 +65,34 @@ Timed animation without target value:
 
 ## Customization
 
-*You may use the original `.psd` file from the `gfx` folder to create custom graphics.*
+*You may use the original `.psd` file from the `gfx` folder to create custom numbers.*
+
+![Digit images](gfx/digits.png)
 
 **A) Replace original images**  
-Replace the images within the JDFlipNumberView.bundle. But the next pod install will revert your changes.
+Replace the images within the JDFlipNumberView.bundle. (In the Finder just `Rightclick > Show Contents` to see the images.) But the next pod install will revert any changes.
 
 **B) Use your own bundle**  
-Add your own graphics bundle to your project. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
+Add your own graphics bundle to your project. A bundle is nothing else, than a regular folder, but named with `.bundle` as extension. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
+
+#### Implementing a custom bundle
 
 To use your own bundles, create the FlipViews like this:
 	             
 	[JDFlipNumberView initWithDigitCount:<#count#> 
                              bundleNamed:<#bundleName#>];
 
+or for a DateCountDown like this:
+	             
+	[JDDateCountdownFlipView initWithDayDigitCount:<#count#>
+                                       bundleNamed:<#bundleName#>];
+
 ## Twitter
 
-I'm [@jaydee3](http://twitter.com/jaydee3) on Twitter.  
-Feel free to [post a tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3), if you like the FlipNumberView.  
+I'm [@jaydee3](http://twitter.com/jaydee3) on Twitter. Feel free to [post a tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3), if you like the FlipNumberView.  
 
 [![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3)
 
 
-
 [Github issue]: https://github.com/jaydee3/JDFlipNumberView/issues
 [cocoapods website]: http://cocoapods.org
-[wiki page]: https://github.com/jaydee3/JDFlipNumberView/wiki/Apps-using-JDFlipNumberView
