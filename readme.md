@@ -73,9 +73,10 @@ Replace the images within the JDFlipNumberView.bundle. But the next pod install 
 **B) Use your own bundle**  
 Add your own graphics bundle to your project. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
 
-Before using any FlipNumberViews, set your own images like this:
-
-    [JD_IMG_FACTORY generateImagesFromBundleNamed:@"yourBundleName"]
+To use your own bundles, create the FlipViews like this:
+	             
+	[JDFlipNumberView initWithDigitCount:<#count#> 
+                             bundleNamed:<#bundleName#>];
 
 ## Twitter
 
