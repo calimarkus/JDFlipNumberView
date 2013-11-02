@@ -39,6 +39,12 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
 {
+    return [self initWithDayDigitCount:dayDigits bundleNamed:nil];
+}
+
+- (id)initWithDayDigitCount:(NSInteger)dayDigits
+                bundleNamed:(NSString*)imageBundle;
+{
     self = [super initWithFrame: CGRectZero];
     if (self) {
         _dayDigitCount = dayDigits;
@@ -48,10 +54,10 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
 		
         // setup flipviews
-        self.dayFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:_dayDigitCount];
-        self.hourFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
-        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
-        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2];
+        self.dayFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:_dayDigitCount bundleNamed:imageBundle];
+        self.hourFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 bundleNamed:imageBundle];
+        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 bundleNamed:imageBundle];
+        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 bundleNamed:imageBundle];
         
         // set maximum values
         self.hourFlipNumberView.maximumValue = 23;

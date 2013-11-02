@@ -23,6 +23,8 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, readonly) NSUInteger digitCount;
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
+- (id)initWithDigitCount:(NSUInteger)digitCount
+             bundleNamed:(NSString*)imageBundle;
 
 - (void)setZDistance:(NSUInteger)zDistance;
 

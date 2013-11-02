@@ -8,94 +8,67 @@
 
 #import "JDFlipNumberViewImageFactory.h"
 
-static JDFlipNumberViewImageFactory *sharedInstance;
-
 @interface JDFlipNumberViewImageFactory ()
-@property (nonatomic, strong) NSArray *topImages;
-@property (nonatomic, strong) NSArray *bottomImages;
-@property (nonatomic, strong) NSString *imageBundle;
-- (void)setup;
+@property (nonatomic, strong) NSMutableDictionary *topImages;
+@property (nonatomic, strong) NSMutableDictionary *bottomImages;
 @end
 
 @implementation JDFlipNumberViewImageFactory
 
-+ (JDFlipNumberViewImageFactory*)sharedInstance;
++ (instancetype)sharedInstance;
 {
-    if (sharedInstance != nil) {
-        return sharedInstance;
-    }
+    static JDFlipNumberViewImageFactory *_sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedInstance = [[self alloc] init];
+    });
     
-    return [[self alloc] init];
+    return _sharedInstance;
 }
 
 - (id)init
 {
-    @synchronized(self)
-    {
-        if (sharedInstance != nil) {
-            return sharedInstance;
-        }
+    self = [super init];
+    if (self) {
+        _topImages = [NSMutableDictionary dictionary];
+        _bottomImages = [NSMutableDictionary dictionary];
         
-        self = [super init];
-        if (self) {
-            sharedInstance = self;
-            self.imageBundle = @"JDFlipNumberView";
-            [self setup];
-        }
-        return self;
+        // register for memory warnings
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(didReceiveMemoryWarning:)
+         name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     }
-}
-
-- (void)setup;
-{
-    // create default images
-    [self generateImagesFromBundleNamed:self.imageBundle];
-    
-    // register for memory warnings
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveMemoryWarning:)
-                                                 name:UIApplicationDidReceiveMemoryWarningNotification
-                                               object:nil];
-}
-
-+ (id)allocWithZone:(NSZone *)zone;
-{
-    if (sharedInstance != nil) {
-        return sharedInstance;
-    }
-    return [super allocWithZone:zone];
+    return self;
 }
 
 #pragma mark -
 #pragma mark getter
 
-- (NSArray *)topImages;
+- (NSArray *)topImagesForBundleNamed:(NSString *)bundleName;
 {
-    @synchronized(self)
-    {
-        if (_topImages.count == 0) {
-            [self generateImagesFromBundleNamed:self.imageBundle];
-        }
-        
-        return _topImages;
+    if ([_topImages[bundleName] count] == 0) {
+        [self generateImagesFromBundleNamed:bundleName];
     }
+    
+    return _topImages[bundleName];
 }
 
-- (NSArray *)bottomImages;
+- (NSArray *)bottomImagesForBundleNamed:(NSString *)bundleName;
 {
-    @synchronized(self)
-    {
-        if (_bottomImages.count == 0) {
-            [self generateImagesFromBundleNamed:self.imageBundle];
-        }
-        
-        return _bottomImages;
+    if ([_bottomImages[bundleName] count] == 0) {
+        [self generateImagesFromBundleNamed:bundleName];
     }
+    
+    return _bottomImages[bundleName];
 }
 
-- (CGSize)imageSize
+- (CGSize)imageSizeForBundleNamed:(NSString *)bundleName;
 {
-    return ((UIImage*)self.topImages[0]).size;
+    NSArray *images = self.topImages[bundleName];
+    if (images.count > 0) {
+        return [images[0] size];
+    }
+    return CGSizeZero;
 }
 
 #pragma mark -
@@ -103,7 +76,6 @@ static JDFlipNumberViewImageFactory *sharedInstance;
 
 - (void)generateImagesFromBundleNamed:(NSString*)bundleName;
 {
-    self.imageBundle = bundleName;
     // create image array
 	NSMutableArray* topImages = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray* bottomImages = [NSMutableArray arrayWithCapacity:10];
@@ -139,18 +111,18 @@ static JDFlipNumberViewImageFactory *sharedInstance;
 	}
 	
     // save images
-	self.topImages    = [NSArray arrayWithArray:topImages];
-	self.bottomImages = [NSArray arrayWithArray:bottomImages];
+	self.topImages[bundleName]    = [NSArray arrayWithArray:topImages];
+	self.bottomImages[bundleName] = [NSArray arrayWithArray:bottomImages];
 }
 
 #pragma mark -
 #pragma mark memory
 
-// clear memory
 - (void)didReceiveMemoryWarning:(NSNotification*)notification;
 {
-    self.topImages = @[];
-    self.bottomImages = @[];
+    // remove all saved images
+    _topImages = [NSMutableDictionary dictionary];
+    _bottomImages = [NSMutableDictionary dictionary];
 }
 
 @end

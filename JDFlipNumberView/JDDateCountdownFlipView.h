@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSDate *targetDate;
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
+- (id)initWithDayDigitCount:(NSInteger)dayDigits
+                bundleNamed:(NSString*)imageBundle;
 
 - (void)setZDistance:(NSUInteger)zDistance;
 

@@ -19,6 +19,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 @property (nonatomic) UIView *flipView;
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
+@property (nonatomic) NSString *imageBundleName;
 - (void)showSingleDigit;
 - (void)showMultipleDigits;
 - (void)showDateCountdown;
@@ -67,7 +68,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     
     // setup flip number view style
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        [JD_IMG_FACTORY generateImagesFromBundleNamed:@"JDFlipNumberViewIOS7"];
+        self.imageBundleName = @"JDFlipNumberViewIOS7";
     }
     
     // show flipNumberView
@@ -86,7 +87,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 
 - (void)showSingleDigit;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] init];
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1 bundleNamed:self.imageBundleName];
     flipView.value = arc4random() % 10;
     flipView.delegate = self;
     flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
@@ -99,13 +100,13 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     JDFlipNumberView *flipView = nil;
     
     if (self.indexPath.section == 0) {
-        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 bundleNamed:self.imageBundleName];
         flipView.value = 32;
         flipView.maximumValue = 128;
         flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
         [flipView animateDownWithTimeInterval:0.3];
     } else {
-        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5];
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5 bundleNamed:self.imageBundleName];
         flipView.value = 2300;
         flipView.tag = FVEDetailControllerTargetedViewTag;
         flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
@@ -130,7 +131,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 - (void)showDateCountdown;
 {
     // setup flipview
-    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3];
+    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3 bundleNamed:self.imageBundleName];
     [self.view addSubview: flipView];
     
     // countdown to silvester

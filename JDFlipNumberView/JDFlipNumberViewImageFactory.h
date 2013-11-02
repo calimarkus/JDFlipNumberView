@@ -8,16 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#define JD_IMG_FACTORY [JDFlipNumberViewImageFactory sharedInstance]
-
 @interface JDFlipNumberViewImageFactory : NSObject
 
-@property (nonatomic, strong, readonly) NSArray *topImages;
-@property (nonatomic, strong, readonly) NSArray *bottomImages;
-
-@property (nonatomic, readonly) CGSize imageSize;
-
 + (JDFlipNumberViewImageFactory*)sharedInstance;
-- (void)generateImagesFromBundleNamed:(NSString*)bundleName;
+
+- (CGSize)imageSizeForBundleNamed:(NSString*)bundleName;
+- (NSArray*)topImagesForBundleNamed:(NSString*)bundleName;
+- (NSArray*)bottomImagesForBundleNamed:(NSString*)bundleName;
 
 @end
