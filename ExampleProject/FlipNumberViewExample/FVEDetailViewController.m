@@ -67,8 +67,8 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     }
     
     // setup flip number view style
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        self.imageBundleName = @"JDFlipNumberViewIOS7";
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        self.imageBundleName = @"JDFlipNumberViewIOS6";
     }
     
     // show flipNumberView
