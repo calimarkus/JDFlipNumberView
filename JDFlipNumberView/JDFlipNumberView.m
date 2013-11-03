@@ -76,27 +76,17 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 {
     self.backgroundColor = [UIColor clearColor];
     self.autoresizesSubviews = NO;
-    _digitCount = digitCount;
-    
-    // init single digit views
-    JDFlipNumberDigitView* view = nil;
-    NSMutableArray* allViews = [[NSMutableArray alloc] initWithCapacity:digitCount];
-    for (int i = 0; i < digitCount; i++) {
-        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:self.imageBundleName];
-        view.frame = CGRectMake(i*view.frame.size.width, 0, view.frame.size.width, view.frame.size.height);
-        [self addSubview: view];
-        [allViews addObject: view];
-    }
-    self.digitViews = [[NSArray alloc] initWithArray: allViews];
     
     // setup properties
+    self.digitCount = digitCount;
     self.animationType = JDFlipAnimationTypeTopDown;
     self.maximumValue = pow(10, digitCount)-1;
     self.targetMode = NO;
     
     // update frame
+    CGSize digitSize = [self.digitViews.lastObject bounds].size;
     super.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
-                             digitCount*view.frame.size.width, view.frame.size.height);
+                             digitCount*digitSize.width, digitSize.height);
 }
 
 #pragma mark -
@@ -114,7 +104,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)setValue:(NSInteger)value;
 {
-    [self stopAnimation];
     [self setValue:value animated:NO];
 }
 
@@ -221,6 +210,35 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         digit.animationDuration = animationDuration;
         animationDuration *= 10;
     }
+}
+
+- (void)setDigitCount:(NSUInteger)digitCount;
+{
+    _digitCount = MAX(1,digitCount);
+    
+    // remember value
+    NSInteger currentValue = self.value;
+    
+    // remove current digit views
+    for (JDFlipNumberDigitView *digit in self.digitViews) {
+        [digit removeFromSuperview];
+    }
+    
+    // init & add new digit views
+    JDFlipNumberDigitView* view = nil;
+    NSMutableArray* digitViews = [[NSMutableArray alloc] initWithCapacity:digitCount];
+    for (int i = 0; i < digitCount; i++) {
+        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:self.imageBundleName];
+        [self addSubview:view];
+        [digitViews addObject:view];
+    }
+    self.digitViews = [digitViews copy];
+    
+    // set value again
+    [self setValue:currentValue];
+    
+    // relayout
+    [self setNeedsLayout];
 }
 
 - (void)setImageBundleName:(NSString*)imageBundleName;

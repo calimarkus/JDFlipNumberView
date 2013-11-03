@@ -20,7 +20,7 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL reverseFlippingDisabled;
 
-@property (nonatomic, readonly) NSUInteger digitCount;
+@property (nonatomic, assign) NSUInteger digitCount;
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 - (id)initWithDigitCount:(NSUInteger)digitCount
