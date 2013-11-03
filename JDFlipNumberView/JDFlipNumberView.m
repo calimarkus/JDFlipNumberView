@@ -80,7 +80,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     // setup properties
     self.digitCount = digitCount;
     self.animationType = JDFlipAnimationTypeTopDown;
-    self.maximumValue = pow(10, digitCount)-1;
     self.targetMode = NO;
     
     // update frame
@@ -214,7 +213,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)setDigitCount:(NSUInteger)digitCount;
 {
-    _digitCount = MAX(1,digitCount);
+    digitCount = MAX(1,digitCount);
+    if (digitCount == _digitCount) return;
+    _digitCount = digitCount;
     
     // remember value
     NSInteger currentValue = self.value;
@@ -233,6 +234,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         [digitViews addObject:view];
     }
     self.digitViews = [digitViews copy];
+    
+    // update max value
+    self.maximumValue = pow(10, digitCount)-1;
     
     // set value again
     [self setValue:currentValue];
