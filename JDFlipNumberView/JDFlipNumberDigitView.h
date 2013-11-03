@@ -22,8 +22,9 @@ typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) NSUInteger value;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL upscalingAllowed;
+@property (nonatomic, copy) NSString *imageBundleName;
 
-- (id)initWithImageBundle:(NSString*)bundleName;
+- (id)initWithImageBundle:(NSString*)imageBundleName;
 
 - (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;

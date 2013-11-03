@@ -27,7 +27,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 @interface JDFlipNumberDigitView ()
 
-@property (nonatomic, copy) NSString *bundleName;
 @property (nonatomic, strong) UIImageView *topImageView;
 @property (nonatomic, strong) UIImageView *flipImageView;
 @property (nonatomic, strong) UIImageView *bottomImageView;
@@ -49,9 +48,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
-        if (bundleName == nil) bundleName = JDFlipNumerViewDefaultBundle;
-        _bundleName = bundleName;
-        
         // setup view
         self.backgroundColor = [UIColor clearColor];
         self.autoresizesSubviews = NO;
@@ -62,6 +58,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         _animationDuration = kFlipAnimationMaximumAnimationDuration;
         
         // images & frame
+        self.bundleName = bundleName;
         [self initImagesAndFrames];
     }
     return self;
@@ -70,9 +67,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 - (void)initImagesAndFrames;
 {
 	// setup image views
-	self.topImageView	 = [[UIImageView alloc] initWithImage: self.topImages[0]];
-	self.flipImageView	 = [[UIImageView alloc] initWithImage: self.topImages[0]];
-	self.bottomImageView = [[UIImageView alloc] initWithImage: self.bottomImages[0]];
+	self.topImageView	 = [[UIImageView alloc] initWithImage:self.topImages[0]];
+	self.flipImageView	 = [[UIImageView alloc] initWithImage:self.topImages[0]];
+	self.bottomImageView = [[UIImageView alloc] initWithImage:self.bottomImages[0]];
     self.flipImageView.hidden = YES;
     
     // set z positions
@@ -96,22 +93,33 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 #pragma mark factory access
 
+- (void)setBundleName:(NSString *)imageBundleName;
+{
+    if (imageBundleName == nil) imageBundleName = JDFlipNumerViewDefaultBundle;
+    _imageBundleName = [imageBundleName copy];
+    
+    // update images
+    self.topImageView.image	   = self.topImages[self.value];
+    self.flipImageView.image   = self.topImages[self.value];
+    self.bottomImageView.image = self.bottomImages[self.value];
+}
+
 - (NSArray*)topImages;
 {
     JDFlipNumberViewImageFactory *factory = [JDFlipNumberViewImageFactory sharedInstance];
-    return [factory topImagesForBundleNamed:self.bundleName];
+    return [factory topImagesForBundleNamed:self.imageBundleName];
 }
 
 - (NSArray*)bottomImages;
 {
     JDFlipNumberViewImageFactory *factory = [JDFlipNumberViewImageFactory sharedInstance];
-    return [factory bottomImagesForBundleNamed:self.bundleName];
+    return [factory bottomImagesForBundleNamed:self.imageBundleName];
 }
 
 - (CGSize)imageSize;
 {
     JDFlipNumberViewImageFactory *factory = [JDFlipNumberViewImageFactory sharedInstance];
-    return [factory imageSizeForBundleNamed:self.bundleName];
+    return [factory imageSizeForBundleNamed:self.imageBundleName];
 }
 
 #pragma mark -

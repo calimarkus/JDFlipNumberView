@@ -20,7 +20,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 };
 
 @interface JDFlipNumberView ()
-@property (nonatomic, copy) NSString *bundleName;
+@property (nonatomic, copy) NSString *imageBundleName;
 @property (nonatomic, strong) NSArray *digitViews;
 @property (nonatomic, assign) JDFlipAnimationType animationType;
 
@@ -58,15 +58,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 {
-    return [self initWithDigitCount:digitCount bundleNamed:nil];
+    return [self initWithDigitCount:digitCount imageBundleName:nil];
 }
 
 - (id)initWithDigitCount:(NSUInteger)digitCount
-             bundleNamed:(NSString*)imageBundle;
+         imageBundleName:(NSString*)imageBundleName;
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
-        self.bundleName = imageBundle;
+        _imageBundleName = imageBundleName;
         [self commonInitForDigitCount:digitCount];
     }
     return self;
@@ -82,7 +82,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     JDFlipNumberDigitView* view = nil;
     NSMutableArray* allViews = [[NSMutableArray alloc] initWithCapacity:digitCount];
     for (int i = 0; i < digitCount; i++) {
-        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:self.bundleName];
+        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:self.imageBundleName];
         view.frame = CGRectMake(i*view.frame.size.width, 0, view.frame.size.width, view.frame.size.height);
         [self addSubview: view];
         [allViews addObject: view];
@@ -220,6 +220,16 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         JDFlipNumberDigitView *digit = self.digitViews[i];
         digit.animationDuration = animationDuration;
         animationDuration *= 10;
+    }
+}
+
+- (void)setImageBundleName:(NSString*)imageBundleName;
+{
+    _imageBundleName = imageBundleName;
+    
+    // update digits
+    for (JDFlipNumberDigitView *digit in self.digitViews) {
+        [digit setImageBundleName:imageBundleName];
     }
 }
 

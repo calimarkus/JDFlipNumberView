@@ -80,12 +80,12 @@ Add your own graphics bundle to your project. A bundle is nothing else, than a r
 To use your own bundles, create the FlipViews like this:
 	             
 	[JDFlipNumberView initWithDigitCount:<#count#> 
-                             bundleNamed:<#bundleName#>];
+                         imageBundleName:<#imageBundleName#>];
 
 or for a DateCountDown like this:
 	             
 	[JDDateCountdownFlipView initWithDayDigitCount:<#count#>
-                                       bundleNamed:<#bundleName#>];
+                                   imageBundleName:<#imageBundleName#>];
 
 ## Twitter
 

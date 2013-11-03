@@ -15,7 +15,7 @@
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
 - (id)initWithDayDigitCount:(NSInteger)dayDigits
-                bundleNamed:(NSString*)imageBundle;
+            imageBundleName:(NSString*)imageBundleName;
 
 - (void)setZDistance:(NSUInteger)zDistance;
 

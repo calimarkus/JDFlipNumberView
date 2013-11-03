@@ -87,7 +87,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 
 - (void)showSingleDigit;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1 bundleNamed:self.imageBundleName];
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1 imageBundleName:self.imageBundleName];
     flipView.value = arc4random() % 10;
     flipView.delegate = self;
     flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
@@ -100,13 +100,13 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     JDFlipNumberView *flipView = nil;
     
     if (self.indexPath.section == 0) {
-        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 bundleNamed:self.imageBundleName];
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 imageBundleName:self.imageBundleName];
         flipView.value = 32;
         flipView.maximumValue = 128;
         flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
         [flipView animateDownWithTimeInterval:0.3];
     } else {
-        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5 bundleNamed:self.imageBundleName];
+        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:self.imageBundleName];
         flipView.value = 2300;
         flipView.tag = FVEDetailControllerTargetedViewTag;
         flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
@@ -131,7 +131,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 - (void)showDateCountdown;
 {
     // setup flipview
-    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3 bundleNamed:self.imageBundleName];
+    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3 imageBundleName:self.imageBundleName];
     [self.view addSubview: flipView];
     
     // countdown to silvester
