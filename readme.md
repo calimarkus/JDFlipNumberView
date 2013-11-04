@@ -1,5 +1,5 @@
-JDFlipNumberView 2.0
------------------------
+JDFlipNumberView
+----------------
 
 The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
 
