@@ -129,7 +129,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     newValue = [self validValueFromValue:newValue];
     
     // inform delegate
-	if (animated && [self.delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
+	if (animated && !self.targetMode && [self.delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
 		[self.delegate flipNumberView:self willChangeToValue:newValue];
 	}
     
@@ -151,7 +151,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
                     completedDigits++;
                     if (completedDigits == self.digitViews.count) {
                         // inform delegate, when all digits finished animation
-                        if (animated && [self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
+                        if (animated && !self.targetMode && [self.delegate respondsToSelector: @selector(flipNumberView:didChangeValueAnimated:)]) {
                             [self.delegate flipNumberView:self didChangeValueAnimated:NO];
                         }
                     }
@@ -398,8 +398,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)stopAnimation;
 {
-    if (self.targetMode && self.completionBlock != nil) {
-        self.completionBlock(NO);
+    if (self.targetMode) {
+        // call completion block
+        if (self.completionBlock != nil) {
+            self.completionBlock(NO);
+        }
+        // inform delegate
+        if ([self.delegate respondsToSelector:@selector(flipNumberView:didChangeValueAnimated:)]) {
+            [self.delegate flipNumberView:self didChangeValueAnimated:NO];
+        }
     }
     
 	self.targetMode = NO;

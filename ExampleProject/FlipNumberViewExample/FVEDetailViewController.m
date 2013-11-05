@@ -13,8 +13,6 @@
 
 #import "FVEDetailViewController.h"
 
-static CGFloat const FVEDetailControllerTargetedViewTag = 111;
-
 @interface FVEDetailViewController () <JDFlipNumberViewDelegate>
 @property (nonatomic) UIView *flipView;
 @property (nonatomic) NSIndexPath *indexPath;
@@ -112,7 +110,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 {
     JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:self.imageBundleName];
     flipView.value = 2300;
-    flipView.tag = FVEDetailControllerTargetedViewTag;
+    flipView.delegate = self;
     flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
     [self.view addSubview: flipView];
     self.flipView = flipView;
@@ -131,9 +129,7 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         } else {
             NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
         }
-        [self flipNumberView:flipView didChangeValueAnimated:finished];
     }];
-    [self flipNumberView:flipView willChangeToValue:targetValue];
 }
 
 - (void)showDateCountdown;
