@@ -102,9 +102,10 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     flipView.value = 32;
     flipView.maximumValue = 128;
     flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
-    [flipView animateDownWithTimeInterval:0.3];
     [self.view addSubview: flipView];
     self.flipView = flipView;
+    
+    [flipView animateDownWithTimeInterval:0.3];
 }
 
 - (void)showTargetedAnimation;
@@ -113,8 +114,16 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     flipView.value = 2300;
     flipView.tag = FVEDetailControllerTargetedViewTag;
     flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
+    [self.view addSubview: flipView];
+    self.flipView = flipView;
     
-    NSInteger targetValue = 9250;
+    [self animateToTargetValue:9250];
+}
+
+- (void)animateToTargetValue:(NSInteger)targetValue;
+{
+    JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
+    
     NSDate *startDate = [NSDate date];
     [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
         if (finished) {
@@ -125,9 +134,6 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
         [self flipNumberView:flipView didChangeValueAnimated:finished];
     }];
     [self flipNumberView:flipView willChangeToValue:targetValue];
-    
-    [self.view addSubview: flipView];
-    self.flipView = flipView;
 }
 
 - (void)showDateCountdown;
@@ -179,7 +185,8 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 {
     JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
     
-    if (flipView.tag != FVEDetailControllerTargetedViewTag) {
+    // set delegate after first touch
+    if (self.indexPath.row == 1) {
         flipView.delegate = self;
     }
 
@@ -187,19 +194,10 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     if (randomNumber == 0) randomNumber = 1;
     NSInteger newValue = ABS(flipView.value+randomNumber);
     
-    if (self.indexPath.section == 0) {
+    if (self.indexPath.row < 2) {
         [flipView setValue:newValue animated:YES];
     } else {
-        NSDate *startDate = [NSDate date];
-        [flipView animateToValue:newValue duration:2.50 completion:^(BOOL finished) {
-            if(finished) {
-                NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-            } else {
-                NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-            }
-            [self flipNumberView:flipView didChangeValueAnimated:finished];
-        }];
-        [self flipNumberView:flipView willChangeToValue:newValue];
+        [self animateToTargetValue:newValue];
     }
 }
 

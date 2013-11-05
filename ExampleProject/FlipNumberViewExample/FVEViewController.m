@@ -120,7 +120,7 @@
             cell.textLabel.text = @"Animate to a target value";
             cell.detailTextLabel.text = @"A FlipView using animateToValue:duration:";
         } else if (indexPath.row == 3) {
-            cell.textLabel.text = @"Silvester Countdown";
+            cell.textLabel.text = @"Silvester Date Countdown";
             cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
         }
     } else {
