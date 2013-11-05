@@ -27,6 +27,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 @property (nonatomic, strong) NSTimer *animationTimer;
 @property (nonatomic, assign) NSTimeInterval neededInterval;
 @property (nonatomic, assign) NSTimeInterval intervalRest;
+@property (nonatomic, assign) BOOL delegateEnabled;
 @property (nonatomic, assign) BOOL targetMode;
 @property (nonatomic, assign) NSInteger targetValue;
 @property (nonatomic, copy) JDFlipAnimationCompletionBlock completionBlock;
@@ -81,6 +82,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     self.digitCount = digitCount;
     self.animationType = JDFlipAnimationTypeTopDown;
     self.targetMode = NO;
+    self.delegateEnabled = YES;
     
     // update frame
     CGSize digitSize = [self.digitViews.lastObject bounds].size;
@@ -129,7 +131,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     newValue = [self validValueFromValue:newValue];
     
     // inform delegate
-	if (animated && !self.targetMode && [self.delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
+	if (animated && self.delegateEnabled && !self.targetMode && [self.delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
 		[self.delegate flipNumberView:self willChangeToValue:newValue];
 	}
     
@@ -377,16 +379,27 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         return;
     }
     
+    // inform delegate
+	if ([self.delegate respondsToSelector: @selector(flipNumberView:willChangeToValue:)]) {
+		[self.delegate flipNumberView:self willChangeToValue:self.targetValue];
+	}
+    
 	// determine direction
 	JDFlipAnimationDirection direction = JDFlipAnimationDirectionUp;
 	if (self.targetValue < self.value) {
         direction = JDFlipAnimationDirectionDown;
 	}
 	
+    // don't send delegate messages
+    self.delegateEnabled = NO;
+    
 	// determine speed per digit
 	NSInteger difference = ABS(self.targetValue-self.value);
 	CGFloat speed = ABS(duration/difference);
 	[self animateInDirection:direction timeInterval:speed];
+	
+    // send delegate messages again
+    self.delegateEnabled = YES;
 	
 	// enable target mode (this has do be done after animation start)
 	self.targetMode = YES;
