@@ -12,7 +12,7 @@
 #import "FVEViewController.h"
 
 @interface FVEViewController ()
-
+@property (nonatomic, assign) BOOL useAlternativeImages;
 @end
 
 @implementation FVEViewController
@@ -32,11 +32,6 @@
         }
     }
     return self;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
@@ -70,10 +65,8 @@
     }
     
     // set text
-    NSString* text = @"Basic usage";
-    if (section==1) text = @"Targeted animation";
-    if (section==2) text = @"Date Countdown";
-    if (section==3) text = @"Settings";
+    NSString* text = @"Examples";
+    if (section==1) text = @"Settings";
     label.text = [text uppercaseString];
     
     // position label
@@ -93,9 +86,14 @@
     return view;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (section==0) ? 2 : 1;
+    return (section==0) ? 4 : 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -118,21 +116,31 @@
         } else if (indexPath.row == 1) {
             cell.textLabel.text = @"Multiple Digits";
             cell.detailTextLabel.text = @"A FlipView with multiple digits.";
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"Animate to a target value";
+            cell.detailTextLabel.text = @"A FlipView using animateToValue:duration:";
+        } else if (indexPath.row == 3) {
+            cell.textLabel.text = @"Silvester Countdown";
+            cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
         }
-    } else if (indexPath.section == 1) {
-        cell.textLabel.text = @"Animate to a target value";
-        cell.detailTextLabel.text = @"A FlipView using animateToValue:duration:";
-    } else if (indexPath.section == 2) {
-        cell.textLabel.text = @"Silvester Countdown";
-        cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
     } else {
-        cell.textLabel.text = @"Reverse Flipping Disabled";
-        cell.detailTextLabel.text = @"Stop flipping bottom-up";
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UISwitch *aSwitch = [[UISwitch alloc] init];
-        [aSwitch addTarget:self action:@selector(switchTouched:) forControlEvents:UIControlEventValueChanged];
-        aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
-        cell.accessoryView = aSwitch;
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"Reverse Flipping Disabled";
+            cell.detailTextLabel.text = @"Stop flipping bottom-up";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UISwitch *aSwitch = [[UISwitch alloc] init];
+            [aSwitch addTarget:self action:@selector(switchTouched:) forControlEvents:UIControlEventValueChanged];
+            aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
+            cell.accessoryView = aSwitch;
+        } else {
+            cell.textLabel.text = @"Use alternative Images";
+            cell.detailTextLabel.text = @"Switch between iOS6 & iOS7 style";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UISwitch *aSwitch = [[UISwitch alloc] init];
+            [aSwitch addTarget:self action:@selector(styleSwitchTouched:) forControlEvents:UIControlEventValueChanged];
+            aSwitch.on = self.useAlternativeImages;
+            cell.accessoryView = aSwitch;
+        }
     }
     
     return cell;
@@ -140,7 +148,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 3) {
+    if (indexPath.section == 1) {
         UISwitch *aSwitch = (UISwitch *)[[tableView cellForRowAtIndexPath:indexPath] accessoryView];
         [aSwitch setOn:!aSwitch.on animated:YES];
         [self switchTouched:aSwitch];
@@ -148,6 +156,7 @@
     }
     
     FVEDetailViewController* viewController = [[FVEDetailViewController alloc] initWithIndexPath:indexPath];
+    viewController.useAlternativeImages = self.useAlternativeImages;
     viewController.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
     [self.navigationController pushViewController: viewController animated: YES];
     
@@ -158,6 +167,11 @@
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"reverseFlippingDisabled"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)styleSwitchTouched:(UISwitch*)sender;
+{
+    self.useAlternativeImages = sender.on;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

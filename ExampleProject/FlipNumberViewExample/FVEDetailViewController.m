@@ -20,9 +20,6 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
 @property (nonatomic) NSString *imageBundleName;
-- (void)showSingleDigit;
-- (void)showMultipleDigits;
-- (void)showDateCountdown;
 @end
 
 @implementation FVEDetailViewController
@@ -59,29 +56,33 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
     self.infoLabel.backgroundColor = [UIColor clearColor];
     self.infoLabel.textAlignment = UITextAlignmentCenter;
     [self.view addSubview: self.infoLabel];
-        
-    // add gesture recognizer
-    if (self.indexPath.section != 2) {
-        self.infoLabel.text = @"Tap anywhere to change the value!";
-        [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)]];
-    }
     
     // setup flip number view style
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        self.imageBundleName = @"JDFlipNumberViewIOS6";
+        self.imageBundleName = self.useAlternativeImages ? nil : @"JDFlipNumberViewIOS6";
+    } else {
+        self.imageBundleName = self.useAlternativeImages ? @"JDFlipNumberViewIOS6" : nil;
     }
     
     // show flipNumberView
-    if (self.indexPath.section == 0) {
-        if (self.indexPath.row == 0) {
-            [self showSingleDigit];
-        } else {
-            [self showMultipleDigits];
-        }
-    } else if (self.indexPath.section == 1) {
+    BOOL addGestureRecognizer = YES;
+    NSInteger row = self.indexPath.row;
+    if (row == 0) {
+        [self showSingleDigit];
+    } else if (row == 1) {
         [self showMultipleDigits];
-    } else {
+    }  else if (row == 2) {
+        [self showTargetedAnimation];
+    }  else if (row == 3) {
         [self showDateCountdown];
+        addGestureRecognizer = NO;
+    }
+    
+    // add gesture recognizer
+    if (addGestureRecognizer) {
+        self.infoLabel.text = @"Tap anywhere to change the value!";
+        [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc]
+                                         initWithTarget:self action:@selector(viewTapped:)]];
     }
 }
 
@@ -97,32 +98,33 @@ static CGFloat const FVEDetailControllerTargetedViewTag = 111;
 
 - (void)showMultipleDigits;
 {
-    JDFlipNumberView *flipView = nil;
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 imageBundleName:self.imageBundleName];
+    flipView.value = 32;
+    flipView.maximumValue = 128;
+    flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
+    [flipView animateDownWithTimeInterval:0.3];
+    [self.view addSubview: flipView];
+    self.flipView = flipView;
+}
+
+- (void)showTargetedAnimation;
+{
+    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:self.imageBundleName];
+    flipView.value = 2300;
+    flipView.tag = FVEDetailControllerTargetedViewTag;
+    flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
     
-    if (self.indexPath.section == 0) {
-        flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 imageBundleName:self.imageBundleName];
-        flipView.value = 32;
-        flipView.maximumValue = 128;
-        flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
-        [flipView animateDownWithTimeInterval:0.3];
-    } else {
-        flipView = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:self.imageBundleName];
-        flipView.value = 2300;
-        flipView.tag = FVEDetailControllerTargetedViewTag;
-        flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
-        
-        NSInteger targetValue = 9250;
-        NSDate *startDate = [NSDate date];
-        [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
-            if (finished) {
-                NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-            } else {
-                NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-            }
-            [self flipNumberView:flipView didChangeValueAnimated:finished];
-        }];
-        [self flipNumberView:flipView willChangeToValue:targetValue];
-    }
+    NSInteger targetValue = 9250;
+    NSDate *startDate = [NSDate date];
+    [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
+        if (finished) {
+            NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+        } else {
+            NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+        }
+        [self flipNumberView:flipView didChangeValueAnimated:finished];
+    }];
+    [self flipNumberView:flipView willChangeToValue:targetValue];
     
     [self.view addSubview: flipView];
     self.flipView = flipView;
