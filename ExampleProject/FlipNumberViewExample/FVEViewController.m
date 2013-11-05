@@ -151,7 +151,12 @@
     if (indexPath.section == 1) {
         UISwitch *aSwitch = (UISwitch *)[[tableView cellForRowAtIndexPath:indexPath] accessoryView];
         [aSwitch setOn:!aSwitch.on animated:YES];
-        [self switchTouched:aSwitch];
+        
+        if (indexPath.row == 0) {
+            [self switchTouched:aSwitch];
+        } else {
+            [self styleSwitchTouched:aSwitch];
+        }
         return;
     }
     
