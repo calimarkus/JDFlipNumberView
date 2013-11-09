@@ -7,8 +7,9 @@
 //
 
 #import "JDFlipNumberView.h"
-#import "JDFlipNumberViewImageFactory.h"
+#import "JDFlipClockView.h"
 #import "JDDateCountdownFlipView.h"
+#import "JDFlipNumberViewImageFactory.h"
 #import "UIFont+FlipNumberViewExample.h"
 
 #import "FVEDetailViewController.h"
@@ -72,8 +73,13 @@
     }  else if (row == 2) {
         [self showTargetedAnimation];
     }  else if (row == 3) {
+        [self showTime];
+        addGestureRecognizer = NO;
+        self.infoLabel.text = @"The current time.";
+    }  else if (row == 4) {
         [self showDateCountdown];
         addGestureRecognizer = NO;
+        self.infoLabel.text = @"Counting the days…";
     }
     
     // add gesture recognizer
@@ -118,18 +124,12 @@
     [self animateToTargetValue:9250];
 }
 
-- (void)animateToTargetValue:(NSInteger)targetValue;
+- (void)showTime;
 {
-    JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
-    
-    NSDate *startDate = [NSDate date];
-    [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
-        if (finished) {
-            NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-        } else {
-            NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-        }
-    }];
+    JDFlipClockView *flipView  = [[JDFlipClockView alloc] initWithImageBundleName:self.imageBundleName];
+    flipView.showsSeconds = YES;
+    [self.view addSubview: flipView];
+    self.flipView = flipView;
 }
 
 - (void)showDateCountdown;
@@ -195,6 +195,20 @@
     } else {
         [self animateToTargetValue:newValue];
     }
+}
+
+- (void)animateToTargetValue:(NSInteger)targetValue;
+{
+    JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
+    
+    NSDate *startDate = [NSDate date];
+    [flipView animateToValue:targetValue duration:2.50 completion:^(BOOL finished) {
+        if (finished) {
+            NSLog(@"Animation needed: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+        } else {
+            NSLog(@"Animation canceled after: %.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+        }
+    }];
 }
 
 #pragma mark layout

@@ -20,6 +20,7 @@
 		D25D540215D1BA0300B791F3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D540115D1BA0300B791F3 /* QuartzCore.framework */; };
 		D25D540515D1BA3B00B791F3 /* FVEDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25D540415D1BA3B00B791F3 /* FVEDetailViewController.m */; };
 		D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */; };
+		D274C512182EEE4700F45683 /* JDFlipClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = D274C511182EEE4700F45683 /* JDFlipClockView.m */; };
 		D2D0560A1670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D056091670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m */; };
 		D2FDCA16167E3B30008FC0A6 /* UIFont+FlipNumberViewExample.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FDCA15167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.m */; };
 		D2FDCA30167E4E1C008FC0A6 /* JDFlipNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */; };
@@ -47,6 +48,8 @@
 		D25D540315D1BA3B00B791F3 /* FVEDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVEDetailViewController.h; sourceTree = "<group>"; };
 		D25D540415D1BA3B00B791F3 /* FVEDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FVEDetailViewController.m; sourceTree = "<group>"; };
 		D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberView.bundle; sourceTree = "<group>"; };
+		D274C510182EEE4700F45683 /* JDFlipClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipClockView.h; sourceTree = "<group>"; };
+		D274C511182EEE4700F45683 /* JDFlipClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipClockView.m; sourceTree = "<group>"; };
 		D2D056081670006D00CC7BA3 /* JDFlipNumberViewImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberViewImageFactory.h; sourceTree = "<group>"; };
 		D2D056091670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberViewImageFactory.m; sourceTree = "<group>"; };
 		D2FDCA14167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+FlipNumberViewExample.h"; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				D2FDCA24167E4A45008FC0A6 /* Internals */,
 				D2FDCA2A167E4CD5008FC0A6 /* JDFlipNumberView.h */,
 				D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */,
+				D274C510182EEE4700F45683 /* JDFlipClockView.h */,
+				D274C511182EEE4700F45683 /* JDFlipClockView.m */,
 				D25D53F615D1B97F00B791F3 /* JDDateCountdownFlipView.h */,
 				D25D53F715D1B97F00B791F3 /* JDDateCountdownFlipView.m */,
 				D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */,
@@ -239,6 +244,7 @@
 				D25D53FD15D1B97F00B791F3 /* JDDateCountdownFlipView.m in Sources */,
 				D25D53FF15D1B97F00B791F3 /* JDFlipNumberDigitView.m in Sources */,
 				D25D540515D1BA3B00B791F3 /* FVEDetailViewController.m in Sources */,
+				D274C512182EEE4700F45683 /* JDFlipClockView.m in Sources */,
 				D2D0560A1670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m in Sources */,
 				D2FDCA16167E3B30008FC0A6 /* UIFont+FlipNumberViewExample.m in Sources */,
 				D2FDCA30167E4E1C008FC0A6 /* JDFlipNumberView.m in Sources */,

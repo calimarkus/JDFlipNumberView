@@ -93,7 +93,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (section==0) ? 4 : 2;
+    return (section==0) ? 5 : 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,6 +120,9 @@
             cell.textLabel.text = @"Animate to a target value";
             cell.detailTextLabel.text = @"A FlipView using animateToValue:duration:";
         } else if (indexPath.row == 3) {
+            cell.textLabel.text = @"Flip Clock";
+            cell.detailTextLabel.text = @"A JDFlipClockView instance.";
+        } else if (indexPath.row == 4) {
             cell.textLabel.text = @"Silvester Date Countdown";
             cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
         }
