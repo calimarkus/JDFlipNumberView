@@ -6,9 +6,6 @@
 //
 
 
-#import "JDFlipNumberView.h"
-
-
 @interface JDDateCountdownFlipView : UIView
 
 @property (nonatomic, strong) NSDate *targetDate;

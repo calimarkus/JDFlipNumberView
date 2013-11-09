@@ -5,6 +5,8 @@
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
+#import "JDFlipNumberView.h"
+
 #import "JDDateCountdownFlipView.h"
 
 static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
@@ -18,8 +20,6 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 @property (nonatomic, strong) JDFlipNumberView* secondFlipNumberView;
 
 @property (nonatomic, strong) NSTimer *animationTimer;
-- (void)setupUpdateTimer;
-- (void)handleTimer:(NSTimer*)timer;
 @end
 
 @implementation JDDateCountdownFlipView
@@ -46,13 +46,12 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 - (id)initWithDayDigitCount:(NSInteger)dayDigits
             imageBundleName:(NSString*)imageBundleName;
 {
-    self = [super initWithFrame: CGRectZero];
+    self = [super initWithFrame:CGRectZero];
     if (self) {
         _dayDigitCount = dayDigits;
         // view setup
         self.backgroundColor = [UIColor clearColor];
         self.autoresizesSubviews = NO;
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
 		
         // setup flipviews
         _imageBundleName = imageBundleName;
@@ -161,11 +160,6 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         view.frame = CGRectMake(currentX, 0, digitWidth*2, size.height);
         currentX   += view.frame.size.width;
     }
-    
-    // take bottom right of last view for new size, to match size of subviews
-    CGRect lastFrame = self.secondFlipNumberView.frame;
-    size.width  = ceil(lastFrame.size.width  + lastFrame.origin.x);
-    size.height = ceil(lastFrame.size.height + lastFrame.origin.y);
 }
 
 #pragma mark update timer
