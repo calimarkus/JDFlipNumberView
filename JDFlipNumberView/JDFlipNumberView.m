@@ -432,6 +432,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 #pragma mark -
 #pragma mark layout
 
+- (NSUInteger)marginForWidth:(CGFloat)width;
+{
+    if (self.digitViews.count <= 1) return 0;
+    return ((width*JDFlipViewRelativeMargin)/(self.digitViews.count-1));
+}
+
 - (CGSize)sizeThatFits:(CGSize)size;
 {
 	if (self.digitViews && self.digitViews.count > 0)
@@ -439,7 +445,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         CGFloat xpos = 0;
         CGSize lastSize = CGSizeZero;
 		NSUInteger i, count = self.digitViews.count;
-        NSUInteger margin = ((size.width*JDFlipViewRelativeMargin)/(count-1));
+        NSUInteger margin = [self marginForWidth:size.width];
         NSUInteger xWidth = ((size.width-margin*(count-1))/count);
 		for (i = 0; i < count; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
@@ -465,7 +471,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         
         CGFloat xpos = 0;
 		NSUInteger i, count = self.digitViews.count;
-        NSUInteger margin = ((frameSize.width*JDFlipViewRelativeMargin)/(count-1));
+        NSUInteger margin = [self marginForWidth:frameSize.width];
         NSUInteger xWidth = ((frameSize.width-margin*(count-1))/count);
         
         // allow upscaling for layout
@@ -478,7 +484,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         JDFlipNumberDigitView *firstDigit = self.digitViews[0];
         firstDigit.frame = CGRectMake(0, 0, floor(xWidth), floor(frameSize.height));
         xWidth = firstDigit.frame.size.width;
-        margin = (frameSize.width-xWidth*count)/(count - 1);
+        margin = [self marginForWidth:xWidth];
         
 		for (i = 0; i < count; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
