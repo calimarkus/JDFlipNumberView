@@ -113,7 +113,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
     }
     
     CGFloat digitWidth = size.width/(self.dayFlipNumberView.digitCount+7);
-    CGFloat margin     = digitWidth/3.0;
+    CGFloat margin     = digitWidth/4.0;
     CGFloat currentX   = 0;
     
     // check first number size
@@ -145,13 +145,13 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         return;
     }
     
-    CGSize size = self.bounds.size;
+    CGSize size = [self sizeThatFits:self.bounds.size];
     CGFloat digitWidth = size.width/(self.dayFlipNumberView.digitCount+7);
-    CGFloat margin     = digitWidth/3.0;
-    CGFloat currentX   = 0;
+    CGFloat margin     = digitWidth/4.0;
+    CGFloat currentX = round((self.bounds.size.width - size.width)/2.0);
     
     // resize first flipview
-    self.dayFlipNumberView.frame = CGRectMake(0, 0, digitWidth * self.dayDigitCount, size.height);
+    self.dayFlipNumberView.frame = CGRectMake(currentX, 0, digitWidth * self.dayDigitCount, size.height);
     currentX += self.dayFlipNumberView.frame.size.width;
     
     // update flipview frames

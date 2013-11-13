@@ -124,7 +124,7 @@
         return [super sizeThatFits:size];
     }
     
-    CGFloat margin = (size.width/[self digitCount]*2)*self.relativeDigitMargin;
+    CGFloat margin = (size.width/[self digitCount])*self.relativeDigitMargin;
     CGFloat marginCount = self.showsSeconds ? 2 : 1;
     CGFloat digitWidth = (size.width-margin*marginCount)/([self digitCount]);
     CGFloat currentX   = 0;
@@ -159,14 +159,14 @@
         return;
     }
     
-    CGSize size = self.bounds.size;
-    CGFloat margin = (size.width/[self digitCount]*2)*self.relativeDigitMargin;
+    CGSize size = [self sizeThatFits:self.bounds.size];
+    CGFloat margin = (size.width/[self digitCount])*self.relativeDigitMargin;
     CGFloat marginCount = self.showsSeconds ? 2 : 1;
     CGFloat digitWidth = (size.width-margin*marginCount)/[self digitCount];
-    CGFloat currentX = 0;
+    CGFloat currentX = round((self.bounds.size.width - size.width)/2.0);
     
     // resize first flipview
-    self.hourFlipNumberView.frame = CGRectMake(0, 0, digitWidth * 2, size.height);
+    self.hourFlipNumberView.frame = CGRectMake(currentX, 0, digitWidth * 2, size.height);
     currentX += self.hourFlipNumberView.frame.size.width;
     
     // update flipview frames
