@@ -30,6 +30,8 @@
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
             self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         }
+        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"reverseFlippingDisabled":@YES}];
     }
     return self;
 }

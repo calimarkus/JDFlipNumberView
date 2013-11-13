@@ -81,6 +81,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     // setup properties
     self.digitCount = digitCount;
     self.animationType = JDFlipAnimationTypeTopDown;
+    self.reverseFlippingDisabled = YES;
     self.targetMode = NO;
     self.delegateEnabled = YES;
     
