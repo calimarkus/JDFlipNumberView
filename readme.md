@@ -23,13 +23,19 @@ The FlipNumberView is simulating an analog flip display (like those for the depa
 
 ## Contents
 
-The two main classes are:
+The main class is
 
 - `JDFlipNumberView`  
   The **Standard FlipNumberView**. It shows an integer value as FlipView.
-  It has a choosable amount of digits.
+  It has a choosable amount of digits. Can be animated in any way described in this document.
+  
+For specific usecases you may use on of these:
+  
 - `JDDateCountdownFlipView`  
   __A date countdown.__ Just init with a target date and it will show the remaining days, hours, minutes and seconds until that date.
+  
+- `JDFlipClockView`  
+  __A digital clock.__ Displays the hour and minutes of the current time as flipViews. Seconds can also be enabled. Always shows the current time.
 
 ## Usage
 
@@ -46,7 +52,8 @@ __Example:__ A 4 digit FlipNumberView animating down every second.
     [self.view addSubview: flipNumberView];
     flipNumberView.frame = CGRectMake(20,100,300,100);
 
-That's it. This will display a working, flipping, animating countdown view!
+That's it. This will display a working, flipping, animating countdown view!  
+See the example project for other examples.
 
 ## Possible animations
 
