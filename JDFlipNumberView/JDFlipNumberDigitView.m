@@ -174,6 +174,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (void)setZDistance:(NSUInteger)zDistance;
 {
+    _zDistance = zDistance;
+    
 	// setup 3d transform
 	CATransform3D aTransform = CATransform3DIdentity;
 	aTransform.m34 = -1.0 / zDistance;	

@@ -87,9 +87,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     
     // hide flipview
     self.flipImageView.hidden = YES;
-	
-	// setup default 3d transform
-	[self setZDistance:(self.bounds.size.height*2)*3];
 }
 
 #pragma mark -
@@ -146,6 +143,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (void)setZDistance:(NSUInteger)zDistance;
 {
+    _zDistance = zDistance;
+    
 	// setup 3d transform
 	CATransform3D aTransform = CATransform3DIdentity;
 	aTransform.m34 = -1.0 / zDistance;

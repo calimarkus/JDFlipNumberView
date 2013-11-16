@@ -91,6 +91,11 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 #pragma mark setter
 
+- (NSUInteger)zDistance;
+{
+    return self.dayFlipNumberView.zDistance;
+}
+
 - (void)setZDistance:(NSUInteger)zDistance;
 {
     for (JDFlipNumberView* view in @[self.dayFlipNumberView, self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {

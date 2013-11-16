@@ -14,6 +14,7 @@ typedef void(^JDFlipImageViewCompletionBlock)(BOOL finished);
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) BOOL animateBottomUp;
+@property (nonatomic, assign) NSUInteger zDistance;
 
 - (id)initWithImage:(UIImage*)image;
 

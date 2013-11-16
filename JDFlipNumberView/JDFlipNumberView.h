@@ -19,14 +19,12 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) NSUInteger maximumValue;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL reverseFlippingDisabled;
-
+@property (nonatomic, assign) NSUInteger zDistance;
 @property (nonatomic, assign) NSUInteger digitCount;
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 - (id)initWithDigitCount:(NSUInteger)digitCount
          imageBundleName:(NSString*)imageBundleName;
-
-- (void)setZDistance:(NSUInteger)zDistance;
 
 // direct value manipulation (jump to value)
 - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;

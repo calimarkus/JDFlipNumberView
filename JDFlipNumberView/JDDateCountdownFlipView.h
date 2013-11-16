@@ -9,12 +9,11 @@
 @interface JDDateCountdownFlipView : UIView
 
 @property (nonatomic, strong) NSDate *targetDate;
+@property (nonatomic, assign) NSUInteger zDistance;
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
 - (id)initWithDayDigitCount:(NSInteger)dayDigits
             imageBundleName:(NSString*)imageBundleName;
-
-- (void)setZDistance:(NSUInteger)zDistance;
 
 - (void)start;
 - (void)stop;

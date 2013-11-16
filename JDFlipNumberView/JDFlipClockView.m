@@ -109,6 +109,11 @@
     [self setNeedsLayout];
 }
 
+- (NSUInteger)zDistance;
+{
+    return self.hourFlipNumberView.zDistance;
+}
+
 - (void)setZDistance:(NSUInteger)zDistance;
 {
     for (JDFlipNumberView* view in @[self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {

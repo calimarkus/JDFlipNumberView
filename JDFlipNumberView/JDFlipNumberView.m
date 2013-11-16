@@ -183,6 +183,11 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	return value%(self.maximumValue+1);
 }
 
+- (NSUInteger)zDistance;
+{
+    return [self.digitViews[0] zDistance];
+}
+
 - (void)setZDistance:(NSUInteger)zDistance;
 {
 	for (JDFlipNumberDigitView* view in self.digitViews) {
