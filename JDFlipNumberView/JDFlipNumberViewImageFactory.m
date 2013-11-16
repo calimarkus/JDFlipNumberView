@@ -90,7 +90,7 @@
     for (NSInteger digit=0; digit<10; digit++)
     {
         // create path & image
-        NSString *imageName = [NSString stringWithFormat: @"%d.png", digit];
+        NSString *imageName = [NSString stringWithFormat: @"%ld.png", (long)digit];
         NSString *bundleImageName = [NSString stringWithFormat: @"%@/%@", filename, imageName];
         NSString *path = [[NSBundle mainBundle] pathForResource:bundleImageName ofType:nil];
         UIImage *sourceImage = [[UIImage alloc] initWithContentsOfFile:path];
