@@ -344,11 +344,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
             (self.animationType == JDFlipAnimationTypeTopDown && newValue > self.targetValue) ||
             (self.animationType == JDFlipAnimationTypeBottomUp && newValue < self.targetValue)) {
             [self setValue:self.targetValue animatedInCurrentDirection:YES];
-            if (self.completionBlock != nil) {
-                self.completionBlock(YES);
-                self.completionBlock = nil;
-            }
             [self stopAnimation];
+            if (self.completionBlock != nil) {
+                JDFlipAnimationCompletionBlock completion = self.completionBlock;
+                self.completionBlock = nil;
+                completion(YES);
+            }
             return;
         }
     }
@@ -417,22 +418,24 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)stopAnimation;
 {
-    if (self.targetMode) {
-        // call completion block
-        if (self.completionBlock != nil) {
-            self.completionBlock(NO);
-        }
-        // inform delegate
-        if ([self.delegate respondsToSelector:@selector(flipNumberView:didChangeValueAnimated:)]) {
-            [self.delegate flipNumberView:self didChangeValueAnimated:NO];
-        }
-    }
-    
 	self.targetMode = NO;
     [self.animationTimer invalidate];
     self.animationTimer = nil;
     self.intervalRest = 0;
     self.completionBlock = nil;
+    
+    if (self.targetMode) {
+        // inform delegate
+        if ([self.delegate respondsToSelector:@selector(flipNumberView:didChangeValueAnimated:)]) {
+            [self.delegate flipNumberView:self didChangeValueAnimated:NO];
+        }
+        // call completion block
+        if (self.completionBlock != nil) {
+            JDFlipAnimationCompletionBlock completion = self.completionBlock;
+            self.completionBlock = nil;
+            completion(NO);
+        }
+    }
 }
 
 #pragma mark -
