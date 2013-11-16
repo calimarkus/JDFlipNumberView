@@ -71,9 +71,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     
     // setup frames
     CGSize size = self.bounds.size;
-	self.topImageView.frame = (CGRect){CGPointZero, size};
-	self.bottomImageView.frame = (CGRect){{0, size.height}, size};
-	self.bottomImageView.frame = (CGRect){CGPointZero, size};
+	self.topImageView.frame = (CGRect){CGPointZero, {size.width, size.height/2.0}};
+	self.bottomImageView.frame = (CGRect){{0, size.height/2.0}, {size.width, size.height/2.0}};
+	self.flipImageView.frame = (CGRect){CGPointZero, {size.width, size.height/2.0}};
     
     // set z positions
     self.topImageView.layer.zPosition = -1;
@@ -94,6 +94,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (CGSize)sizeThatFits:(CGSize)aSize;
 {
+    if (!self.topImageView.image) return aSize;
+    
     CGSize imageSize = self.topImageView.image.size;
     
     CGFloat ratioW     = aSize.width/aSize.height;
@@ -115,6 +117,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (CGSize)sizeWithMaximumSize:(CGSize)size;
 {
+    if (!self.topImageView.image) return size;
+    
     CGSize imageSize = self.topImageView.image.size;
     
     size.width  = MIN(size.width, imageSize.width);
