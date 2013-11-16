@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # META
   s.name         = 'JDFlipNumberView'
-  s.version      = '2.1.2'  
+  s.version      = '2.1.3'  
   s.author       = { 'Markus Emrich' => 'markus@nxtbgthng.com' }  
   s.homepage     = 'https://github.com/jaydee3/JDFlipNumberView'
   s.license      = 'MIT'
@@ -23,9 +23,13 @@ Pod::Spec.new do |s|
     core.source_files = 'JDFlipNumberView/**/*.{h,m}'
   end
 
-  s.subspec 'DefaultImageBundle' do |ss1|
-    ss1.resource     = "JDFlipNumberView/JDFlipNumberView.bundle"
-    ss1.dependency 'JDFlipNumberView/Core'
+  s.subspec 'FlipImageView' do |fiv|
+    fiv.source_files = 'JDFlipNumberView/JDFlipImageView.{h,m}','JDFlipNumberView/JDFlipNumberViewImageFactory.{h,m}'
+  end
+
+  s.subspec 'DefaultImageBundle' do |dib|
+    dib.resource     = "JDFlipNumberView/JDFlipNumberView.bundle"
+    dib.dependency 'JDFlipNumberView/Core'
   end
   
 end
