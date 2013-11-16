@@ -37,6 +37,9 @@ For specific usecases you may use on of these:
 - `JDFlipClockView`  
   __A digital clock.__ Displays the hour and minutes of the current time as flipViews. Seconds can also be enabled. Always shows the current time.
 
+- `JDFlipImageView`  
+  An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`.
+
 ## Usage
 
 In any case, after installing, you only need to follow some simple steps to get started. Here is a full example usage:
