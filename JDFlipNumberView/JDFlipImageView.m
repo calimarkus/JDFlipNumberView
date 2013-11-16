@@ -188,7 +188,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     self.completionBlock = completion;
     self.animationState = JDFlipAnimationStateFirstHalf;
     self.nextImages = [[JDFlipNumberViewImageFactory sharedInstance]
-                   generateImagesFromImage:image];
+                       generateImagesFromImage:image];
     
     // animate
     [self runAnimation];
@@ -247,8 +247,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 {
 	if (!finished) {
         if (self.completionBlock) {
-            self.completionBlock(NO);
+            JDFlipImageViewCompletionBlock block = self.completionBlock;
             self.completionBlock = nil;
+            block(NO);
         }
 		return;
 	}
@@ -267,14 +268,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 		// remove old animation
 		[self.flipImageView.layer removeAnimationForKey:JDFlipImageAnimationKey];
         
-        // call completion block
-        if (self.completionBlock) {
-            self.completionBlock(YES);
-            self.completionBlock = nil;
-        }
-        
         // hide animated view
         self.flipImageView.hidden = YES;
+        
+        // call completion block
+        if (self.completionBlock) {
+            JDFlipImageViewCompletionBlock block = self.completionBlock;
+            self.completionBlock = nil;
+            block(YES);
+        }
 	}
 }
 
