@@ -344,10 +344,10 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
             (self.animationType == JDFlipAnimationTypeTopDown && newValue > self.targetValue) ||
             (self.animationType == JDFlipAnimationTypeBottomUp && newValue < self.targetValue)) {
             [self setValue:self.targetValue animatedInCurrentDirection:YES];
+            JDFlipAnimationCompletionBlock completion = self.completionBlock;
+            self.completionBlock = nil;
             [self stopAnimation];
-            if (self.completionBlock != nil) {
-                JDFlipAnimationCompletionBlock completion = self.completionBlock;
-                self.completionBlock = nil;
+            if (completion) {
                 completion(YES);
             }
             return;
