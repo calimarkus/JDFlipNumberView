@@ -20,6 +20,7 @@
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
 @property (nonatomic) NSString *imageBundleName;
+@property (nonatomic) UISlider *distanceSlider;
 @end
 
 @implementation FVEDetailViewController
@@ -174,9 +175,15 @@
 
 - (void)showFlipImage;
 {
-    JDFlipImageView *flipView  = [[JDFlipImageView alloc] initWithImage:[UIImage imageNamed:@"example01.jpg"]];
-    [self.view addSubview: flipView];
-    self.flipView = flipView;
+    self.distanceSlider = [[UISlider alloc] init];
+    self.distanceSlider.minimumValue = 100;
+    self.distanceSlider.maximumValue = 1500;
+    [self.distanceSlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.distanceSlider];
+    
+    JDFlipImageView *flipImageView  = [[JDFlipImageView alloc] initWithImage:[UIImage imageNamed:@"example01.jpg"]];
+    [self.view addSubview: flipImageView];
+    self.flipView = flipImageView;
 }
 
 #pragma mark helper
@@ -187,6 +194,11 @@
 }
 
 #pragma mark interaction
+
+- (void)sliderValueChanged:(UISlider*)slider;
+{
+    [(JDFlipNumberView*)self.flipView setZDistance:slider.value];
+}
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
@@ -249,11 +261,21 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         multiplier = 1.0;
     }
+    
+    CGRect frame = self.view.bounds;
+    if (self.distanceSlider) {
+        frame.size.height -= 160;
+        self.distanceSlider.frame = CGRectMake(10, frame.size.height+80,
+                                               frame.size.width-20, 44);
+    }
 
-    self.flipView.frame = CGRectInset(self.view.bounds, 20, 20);
+    self.flipView.frame = CGRectInset(frame, 20, 20);
     [self.flipView sizeToFit];
     self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2.0),
                                        floor((self.view.frame.size.height/2.0)*multiplier));
+    
+    // update zDistnace
+    self.distanceSlider.value = [(JDFlipNumberView*)self.flipView zDistance];
 }
 
 #pragma mark rotation
