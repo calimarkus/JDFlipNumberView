@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 markusemrich. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "JDFlipNumberViewImageFactory.h"
 
 #import "JDFlipImageView.h"

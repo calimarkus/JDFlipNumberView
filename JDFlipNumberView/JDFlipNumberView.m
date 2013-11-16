@@ -5,6 +5,7 @@
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "JDFlipNumberDigitView.h"
 
 #import "JDFlipNumberView.h"
