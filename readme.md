@@ -10,16 +10,16 @@ The FlipNumberView is simulating an analog flip display (like those for the depa
 
 **A) Use CocoaPods** (preferred way, see [cocoapods website])
 
-1. add `pod 'JDFlipNumberView'` to your Podfile (or `pod 'JDFlipNumberViewNoImages'`)
-2. run `pod install`
+- `pod 'JDFlipNumberView'` including the default images or just  
+- `pod 'JDFlipNumberView/Core'` without default images (to use your own images)
 
->`JDFlipNumberViewNoImages` won't contain the default bundle. You need to provide your own image bundle. See Customization below for more infos.
+> See Customization below for infos, on how to use your own images.
 
 **B) Manual way** (not needed, if you use cocoapods):
 
-1. Add all files from `JDFlipNumberView/JDFlipNumberView/*` to your 
-   project, including the `JDFlipNumberView.bundle`
-2. Link with the `QuartzCore.framework`
+1. Add all files from `JDFlipNumberView/JDFlipNumberView/*.{h,m}` to your project
+2. Add the `JDFlipNumberView.bundle`, if you want to use the default images
+3. Link against the `QuartzCore.framework`
 
 ## Contents
 
@@ -57,17 +57,17 @@ See the example project for other examples.
 
 ## Possible animations
 
-Basic animations:
+Basic animations (Single Flip):
 
     - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
     - (void)animateToNextNumber;
     - (void)animateToPreviousNumber;
 
-Targeted animation over time:
+Targeted animation over time (Flipping through all numbers, until target is reached):
 
     - (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
     
-Timed animation without target value:
+Timed animation without target value (Flipping once per `timeInterval`):
 
     - (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
     - (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
@@ -79,10 +79,12 @@ Timed animation without target value:
 ![Digit images](gfx/digits.png)
 
 **A) Replace original images**  
-Replace the images within the JDFlipNumberView.bundle. (In the Finder just `Rightclick > Show Contents` to see the images.) But the next pod install will revert any changes.
+Replace the images within the `JDFlipNumberView.bundle`. (In the Finder just `Rightclick > Show Contents` to see the images.)
 
-**B) Use your own bundle**  
-Add your own graphics bundle to your project. A bundle is nothing else, than a regular folder, but named with `.bundle` as extension. You need one image per digit. `0.png, 1.png, 2.png, etc.`  
+> When using Pods, make sure to use `pod 'JDFlipNumberView/Core'`, so the default bundle won't be copied. Just create a bundle named `JDFlipNumberView.bundle` in your project yourself.
+
+**B) Use multiple bundles**  
+Add another graphics bundle to your project. A bundle is nothing else, than a regular folder, but named with `.bundle` as extension. You need one image per digit. `0.png, 1.png, 2.png, etc.` See the next section on how to use multiple bundles.
 
 #### Implementing a custom bundle
 
