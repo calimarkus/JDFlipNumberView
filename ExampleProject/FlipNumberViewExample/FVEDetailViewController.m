@@ -21,6 +21,7 @@
 @property (nonatomic) UILabel *infoLabel;
 @property (nonatomic) NSString *imageBundleName;
 @property (nonatomic) UISlider *distanceSlider;
+@property (nonatomic) NSInteger imageIndex;
 @end
 
 @implementation FVEDetailViewController
@@ -85,7 +86,6 @@
         self.infoLabel.text = @"Counting the days…";
     }  else if (row == 5) {
         [self showFlipImage];
-        self.infoLabel.text = @"Tap to flip to next image!";
     }
     
     // add gesture recognizer
@@ -198,6 +198,7 @@
 - (void)sliderValueChanged:(UISlider*)slider;
 {
     [(JDFlipNumberView*)self.flipView setZDistance:slider.value];
+    self.infoLabel.text = [NSString stringWithFormat: @"zDistance: %.0f", slider.value];
 }
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
@@ -206,9 +207,8 @@
     {
         JDFlipImageView *flipImageView = (JDFlipImageView*)self.flipView;
         
-        static int pos = 0;
-        pos = (pos+1)%3;
-        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", pos+1]]
+        self.imageIndex = (self.imageIndex+1)%3;
+        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", self.imageIndex+1]]
                                duration:0.66
                              completion:nil];
     }
@@ -274,8 +274,11 @@
     self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2.0),
                                        floor((self.view.frame.size.height/2.0)*multiplier));
     
-    // update zDistnace
-    self.distanceSlider.value = [(JDFlipNumberView*)self.flipView zDistance];
+    // update zDistance
+    if (self.distanceSlider) {
+        self.distanceSlider.value = [(JDFlipNumberView*)self.flipView zDistance];
+        self.infoLabel.text = @"Tap to flip to next image!";
+    }
 }
 
 #pragma mark rotation
