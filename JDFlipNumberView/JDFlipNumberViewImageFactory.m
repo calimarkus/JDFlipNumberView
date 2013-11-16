@@ -85,6 +85,7 @@
     if (![filename hasSuffix:@".bundle"]) filename = [NSString stringWithFormat: @"%@.bundle", filename];
     NSString *bundlePath = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
     NSAssert(bundlePath != nil, @"Bundle named '%@' not found!", filename);
+    if (!bundlePath) return;
     
 	// create bottom and top images
     for (NSInteger digit=0; digit<10; digit++)
