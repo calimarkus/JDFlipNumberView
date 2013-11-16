@@ -16,4 +16,7 @@
 - (NSArray*)topImagesForBundleNamed:(NSString*)bundleName;
 - (NSArray*)bottomImagesForBundleNamed:(NSString*)bundleName;
 
+- (void)generateImagesFromBundleNamed:(NSString*)bundleName;
+- (NSArray*)generateImagesFromImage:(UIImage*)image;
+
 @end

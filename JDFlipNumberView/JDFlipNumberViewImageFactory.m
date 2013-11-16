@@ -83,40 +83,49 @@
     // append .bundle to name
     NSString *filename = bundleName;
     if (![filename hasSuffix:@".bundle"]) filename = [NSString stringWithFormat: @"%@.bundle", filename];
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
+    NSAssert(bundlePath != nil, @"Bundle named '%@' not found!", filename);
     
 	// create bottom and top images
-    for (NSInteger j=0; j<10; j++) {
-        for (int i=0; i<2; i++) {
-            NSString *imageName = [NSString stringWithFormat: @"%d.png", j];
-            NSString *bundleImageName = [NSString stringWithFormat: @"%@/%@", filename, imageName];
-            NSString *path = [[NSBundle mainBundle] pathForResource:bundleImageName ofType:nil];
-            
-            NSAssert(path != nil, @"Bundle named '%@' not found!", filename);
-            
-			UIImage *sourceImage = [[UIImage alloc] initWithContentsOfFile:path];
-			CGSize size		= CGSizeMake(sourceImage.size.width, sourceImage.size.height/2);
-			CGFloat yPoint	= (i==0) ? 0 : -size.height;
-			
-            NSAssert(sourceImage != nil, @"Did not find image '%@.png' in bundle named '%@'", imageName, filename);
-            
-            // draw half of image and create new image
-			UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
-			[sourceImage drawAtPoint:CGPointMake(0,yPoint)];
-			UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-            
-            // save image
-            if (i==0) {
-                [topImages addObject:image];
-            } else {
-                [bottomImages addObject:image];
-            }
-		}
+    for (NSInteger digit=0; digit<10; digit++)
+    {
+        // create path & image
+        NSString *imageName = [NSString stringWithFormat: @"%d.png", digit];
+        NSString *bundleImageName = [NSString stringWithFormat: @"%@/%@", filename, imageName];
+        NSString *path = [[NSBundle mainBundle] pathForResource:bundleImageName ofType:nil];
+        UIImage *sourceImage = [[UIImage alloc] initWithContentsOfFile:path];
+        NSAssert(sourceImage != nil, @"Did not find image '%@' in bundle named '%@'", imageName, filename);
+        
+        // generate & save images
+        NSArray *images = [self generateImagesFromImage:sourceImage];
+        [topImages addObject:images[0]];
+        [bottomImages addObject:images[1]];
 	}
 	
     // save images
 	self.topImages[bundleName]    = [NSArray arrayWithArray:topImages];
 	self.bottomImages[bundleName] = [NSArray arrayWithArray:bottomImages];
+}
+
+- (NSArray*)generateImagesFromImage:(UIImage*)image;
+{
+    NSMutableArray *images = [NSMutableArray array];
+    
+    for (int i=0; i<2; i++) {
+        CGSize size = CGSizeMake(image.size.width, image.size.height/2);
+        CGFloat yPoint = (i==0) ? 0 : -size.height;
+        
+        // draw half of the image in a new image
+        UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+        [image drawAtPoint:CGPointMake(0,yPoint)];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        // save image
+        [images addObject:image];
+    }
+    
+    return images;
 }
 
 #pragma mark -
