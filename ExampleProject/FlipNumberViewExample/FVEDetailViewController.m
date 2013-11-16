@@ -8,6 +8,7 @@
 
 #import "JDFlipNumberView.h"
 #import "JDFlipClockView.h"
+#import "JDFlipImageView.h"
 #import "JDDateCountdownFlipView.h"
 #import "JDFlipNumberViewImageFactory.h"
 #import "UIFont+FlipNumberViewExample.h"
@@ -54,6 +55,7 @@
     self.infoLabel.shadowOffset = CGSizeMake(0, 1);
     self.infoLabel.backgroundColor = [UIColor clearColor];
     self.infoLabel.textAlignment = UITextAlignmentCenter;
+    self.infoLabel.text = @"Tap anywhere to change the value!";
     [self.view addSubview: self.infoLabel];
     
     // setup flip number view style
@@ -80,11 +82,13 @@
         [self showDateCountdown];
         addGestureRecognizer = NO;
         self.infoLabel.text = @"Counting the days…";
+    }  else if (row == 5) {
+        [self showFlipImage];
+        self.infoLabel.text = @"Tap to flip to next image!";
     }
     
     // add gesture recognizer
     if (addGestureRecognizer) {
-        self.infoLabel.text = @"Tap anywhere to change the value!";
         [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                          initWithTarget:self action:@selector(viewTapped:)]];
     }
@@ -168,6 +172,13 @@
     self.flipView = flipView;
 }
 
+- (void)showFlipImage;
+{
+    JDFlipImageView *flipView  = [[JDFlipImageView alloc] initWithImage:[UIImage imageNamed:@"example01.jpg"]];
+    [self.view addSubview: flipView];
+    self.flipView = flipView;
+}
+
 #pragma mark helper
 
 - (BOOL)isReverseFlippingDisabled;
@@ -179,21 +190,34 @@
 
 - (void)viewTapped:(UITapGestureRecognizer*)recognizer
 {
-    JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
-    
-    // set delegate after first touch
-    if (self.indexPath.row == 1) {
-        flipView.delegate = self;
+    if ([self.flipView isKindOfClass:[JDFlipImageView class]])
+    {
+        JDFlipImageView *flipImageView = (JDFlipImageView*)self.flipView;
+        
+        static int pos = 0;
+        pos = (pos+1)%3;
+        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", pos+1]]
+                               duration:0.66
+                             completion:nil];
     }
+    else
+    {
+        JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
+        
+        // set delegate after first touch
+        if (self.indexPath.row == 1) {
+            flipView.delegate = self;
+        }
 
-    NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
-    if (randomNumber == 0) randomNumber = 1;
-    NSInteger newValue = ABS(flipView.value+randomNumber);
-    
-    if (self.indexPath.row < 2) {
-        [flipView setValue:newValue animated:YES];
-    } else {
-        [self animateToTargetValue:newValue];
+        NSInteger randomNumber = arc4random()%(int)floor(flipView.maximumValue/3.0) - floor(flipView.maximumValue/6.0);
+        if (randomNumber == 0) randomNumber = 1;
+        NSInteger newValue = ABS(flipView.value+randomNumber);
+        
+        if (self.indexPath.row < 2) {
+            [flipView setValue:newValue animated:YES];
+        } else {
+            [self animateToTargetValue:newValue];
+        }
     }
 }
 

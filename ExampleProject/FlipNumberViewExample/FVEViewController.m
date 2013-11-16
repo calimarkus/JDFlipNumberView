@@ -95,7 +95,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (section==0) ? 5 : 2;
+    return (section==0) ? 6 : 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -127,6 +127,9 @@
         } else if (indexPath.row == 4) {
             cell.textLabel.text = @"Silvester Date Countdown";
             cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
+        } else if (indexPath.row == 5) {
+            cell.textLabel.text = @"Flip Image View";
+            cell.detailTextLabel.text = @"A JDFlipImageView instance.";
         }
     } else {
         if (indexPath.row == 0) {
