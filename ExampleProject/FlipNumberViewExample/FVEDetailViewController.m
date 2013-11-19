@@ -89,7 +89,7 @@
         [self showFlipImage];
     }  else if (row == 6) {
         [self showWebView];
-        self.infoLabel.text = @"Click to flip this webview!";
+        self.infoLabel.text = @"Click outside of webview to flip it!";
     }
     
     // add gesture recognizer
@@ -194,15 +194,11 @@
 {
     UIWebView *webview1 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
     webview1.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    webview1.backgroundColor = [UIColor magentaColor];
-    webview1.userInteractionEnabled = NO;
     [webview1 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.duckduckgo.com/"]]];
     [self.view addSubview:webview1];
     
     UIWebView *webview2 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
     webview2.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    webview2.backgroundColor = [UIColor cyanColor];
-    webview2.userInteractionEnabled = NO;
     [webview2 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com/"]]];
     
     self.webviews = @[webview1, webview2];

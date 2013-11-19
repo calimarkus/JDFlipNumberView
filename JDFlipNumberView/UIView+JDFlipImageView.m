@@ -49,19 +49,25 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
     if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)]) {
         CGSize size = self.bounds.size;
-        UIGraphicsBeginImageContext(size);
+        
+        // old screenshot
+        UIGraphicsBeginImageContextWithOptions(size, YES, 0);
         [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:NO];
         UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
-        [view drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:NO];
+        [view drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:YES];
         UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
+        // add new view
+        [self.superview addSubview:view];
+        
+        // create & add flipview
         JDFlipImageView *flipImageView = [[JDFlipImageView alloc] initWithImage:oldImage];
         flipImageView.frame = self.frame;
         view.frame = self.frame;
-        [self.superview addSubview:view];
         [self.superview addSubview:flipImageView];
-        
+
+        // animate
         __weak typeof(flipImageView) blockFlipImageView = flipImageView;
         [flipImageView setImageAnimated:newImage duration:duration completion:^(BOOL finished) {
             [blockFlipImageView removeFromSuperview];
@@ -70,6 +76,7 @@
             }
         }];
         
+        // remove old view
         if (removeFromSuperView) {
             [self removeFromSuperview];
         }
