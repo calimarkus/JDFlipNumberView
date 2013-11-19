@@ -70,26 +70,31 @@
     
     // show flipNumberView
     BOOL addGestureRecognizer = YES;
+    NSInteger section = self.indexPath.section;
     NSInteger row = self.indexPath.row;
-    if (row == 0) {
-        [self showSingleDigit];
-    } else if (row == 1) {
-        [self showMultipleDigits];
-    }  else if (row == 2) {
-        [self showTargetedAnimation];
-    }  else if (row == 3) {
-        [self showTime];
-        addGestureRecognizer = NO;
-        self.infoLabel.text = @"The current time.";
-    }  else if (row == 4) {
-        [self showDateCountdown];
-        addGestureRecognizer = NO;
-        self.infoLabel.text = @"Counting the days…";
-    }  else if (row == 5) {
-        [self showFlipImage];
-    }  else if (row == 6) {
-        [self showWebView];
-        self.infoLabel.text = @"Click outside of webview to flip it!";
+    if (section == 0) {
+        if (row == 0) {
+            [self showSingleDigit];
+        } else if (row == 1) {
+            [self showMultipleDigits];
+        }  else if (row == 2) {
+            [self showTargetedAnimation];
+        }  else if (row == 3) {
+            [self showTime];
+            addGestureRecognizer = NO;
+            self.infoLabel.text = @"The current time.";
+        }  else if (row == 4) {
+            [self showDateCountdown];
+            addGestureRecognizer = NO;
+            self.infoLabel.text = @"Counting the days…";
+        }
+    } else {
+        if (row == 0) {
+            [self showFlipImage];
+        }  else if (row == 1) {
+            [self showWebView];
+            self.infoLabel.text = @"Click outside of webview to flip it!";
+        }
     }
     
     // add gesture recognizer

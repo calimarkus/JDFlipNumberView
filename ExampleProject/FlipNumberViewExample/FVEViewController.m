@@ -67,8 +67,9 @@
     }
     
     // set text
-    NSString* text = @"Examples";
-    if (section==1) text = @"Settings";
+    NSString* text = @"Number Examples";
+    if (section==1) text = @"Other Examples";
+    if (section==2) text = @"Settings";
     label.text = [text uppercaseString];
     
     // position label
@@ -90,15 +91,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==1) return 2;
-    
     BOOL isIOS7 = ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0);
-    return isIOS7 ? 7 : 6;
+    
+    if (section==1) return isIOS7 ? 2 : 1;
+    if (section==2) return 2;
+    
+    return 4;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -130,10 +133,12 @@
         } else if (indexPath.row == 4) {
             cell.textLabel.text = @"Silvester Date Countdown";
             cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
-        } else if (indexPath.row == 5) {
+        }
+    } else if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Flip Image View";
             cell.detailTextLabel.text = @"A JDFlipImageView instance.";
-        } else if (indexPath.row == 6) {
+        } else if (indexPath.row == 1) {
             cell.textLabel.text = @"Flip any UIView!";
             cell.detailTextLabel.text = @"The UIView+JDFlipImageView category.";
         }
@@ -162,7 +167,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 2) {
         UISwitch *aSwitch = (UISwitch *)[[tableView cellForRowAtIndexPath:indexPath] accessoryView];
         [aSwitch setOn:!aSwitch.on animated:YES];
         
