@@ -10,13 +10,14 @@
 #import "JDFlipClockView.h"
 #import "JDFlipImageView.h"
 #import "JDDateCountdownFlipView.h"
-#import "JDFlipNumberViewImageFactory.h"
+#import "UIView+JDFlipImageView.h"
 #import "UIFont+FlipNumberViewExample.h"
 
 #import "FVEDetailViewController.h"
 
 @interface FVEDetailViewController () <JDFlipNumberViewDelegate>
 @property (nonatomic) UIView *flipView;
+@property (nonatomic) NSArray *webviews;
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
 @property (nonatomic) NSString *imageBundleName;
@@ -86,6 +87,9 @@
         self.infoLabel.text = @"Counting the days…";
     }  else if (row == 5) {
         [self showFlipImage];
+    }  else if (row == 6) {
+        [self showWebView];
+        self.infoLabel.text = @"Click to flip this webview!";
     }
     
     // add gesture recognizer
@@ -186,6 +190,24 @@
     self.flipView = flipImageView;
 }
 
+- (void)showWebView;
+{
+    UIWebView *webview1 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
+    webview1.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    webview1.backgroundColor = [UIColor magentaColor];
+    webview1.userInteractionEnabled = NO;
+    [webview1 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.duckduckgo.com/"]]];
+    [self.view addSubview:webview1];
+    
+    UIWebView *webview2 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
+    webview2.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    webview2.backgroundColor = [UIColor cyanColor];
+    webview2.userInteractionEnabled = NO;
+    [webview2 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com/"]]];
+    
+    self.webviews = @[webview1, webview2];
+}
+
 #pragma mark helper
 
 - (BOOL)isReverseFlippingDisabled;
@@ -210,7 +232,14 @@
         self.imageIndex = (self.imageIndex+1)%3;
         [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", self.imageIndex+1]]];
     }
-    else
+    else if (self.webviews != nil) {
+        if ([self.webviews[0] superview] != nil) {
+            [self.webviews[0] flipToView:self.webviews[1]];
+        } else {
+            [self.webviews[1] flipToView:self.webviews[0]];
+        }
+    }
+    else if (self.flipView != nil)
     {
         JDFlipNumberView *flipView = (JDFlipNumberView*)self.flipView;
         

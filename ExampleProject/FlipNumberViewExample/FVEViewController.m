@@ -95,7 +95,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (section==0) ? 6 : 2;
+    if (section==1) return 2;
+    
+    BOOL isIOS7 = ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0);
+    return isIOS7 ? 7 : 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -130,6 +133,9 @@
         } else if (indexPath.row == 5) {
             cell.textLabel.text = @"Flip Image View";
             cell.detailTextLabel.text = @"A JDFlipImageView instance.";
+        } else if (indexPath.row == 6) {
+            cell.textLabel.text = @"Flip any UIView!";
+            cell.detailTextLabel.text = @"The UIView+JDFlipImageView category.";
         }
     } else {
         if (indexPath.row == 0) {
