@@ -11,6 +11,7 @@
 
 #import "JDFlipImageView.h"
 
+const NSTimeInterval JDFlipImageViewDefaultFlipDuration = 0.66;
 static NSString *const JDFlipImageAnimationKey = @"JDFlipImageAnimationKey";
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
@@ -170,6 +171,21 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     self.bottomImageView.image = self.nextImages[1];
 }
 
+- (void)setImageAnimated:(UIImage*)image;
+{
+    [self setImageAnimated:image
+                  duration:JDFlipImageViewFlipDirectionDown
+                completion:nil];
+}
+
+- (void)setImageAnimated:(UIImage*)image
+              completion:(JDFlipImageViewCompletionBlock)completion;
+{
+    [self setImageAnimated:image
+                  duration:JDFlipImageViewFlipDirectionDown
+                completion:completion];
+}
+
 - (void)setImageAnimated:(UIImage*)image
                 duration:(CGFloat)duration
               completion:(JDFlipImageViewCompletionBlock)completion;
@@ -202,7 +218,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 {
 	[self updateFlipViewFrame];
     
-    BOOL isTopDown = !self.animateBottomUp;
+    BOOL isTopDown = (self.flipDirection == JDFlipImageViewFlipDirectionDown);
 	
 	// setup animation
 	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -226,11 +242,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 		animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
 	} else {
 		// setup second animation half
-        if (isTopDown) {
-            self.flipImageView.image = self.nextImages[1];
-        } else {
-            self.flipImageView.image = self.nextImages[0];
-        }
+        self.flipImageView.image = isTopDown ? self.nextImages[1] : self.nextImages[0];
         
 		animation.fromValue	= [NSValue valueWithCATransform3D:CATransform3DMakeRotation(isTopDown ? M_PI_2 : -M_PI_2, 1, 0, 0)];
 		animation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0.0, 1, 0, 0)];
@@ -264,7 +276,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 		self.animationState = JDFlipAnimationStateFirstHalf;
 		
 		// update images
-        self.bottomImageView.image = self.flipImageView.image;
+        BOOL isTopDown = (self.flipDirection == JDFlipImageViewFlipDirectionDown);
+        if (isTopDown) {
+            self.bottomImageView.image = self.flipImageView.image;
+        } else {
+            self.topImageView.image = self.flipImageView.image;
+        }
 		
 		// remove old animation
 		[self.flipImageView.layer removeAnimationForKey:JDFlipImageAnimationKey];
@@ -283,7 +300,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 - (void)updateFlipViewFrame;
 {
-    BOOL isTopDown = !self.animateBottomUp;
+    BOOL isTopDown = (self.flipDirection == JDFlipImageViewFlipDirectionDown);
     if ((isTopDown && self.animationState == JDFlipAnimationStateFirstHalf) ||
         (!isTopDown && self.animationState == JDFlipAnimationStateSecondHalf)) {
 		self.flipImageView.layer.anchorPoint = CGPointMake(0.5, 1.0);

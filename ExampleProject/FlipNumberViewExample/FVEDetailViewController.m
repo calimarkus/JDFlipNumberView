@@ -208,9 +208,7 @@
         JDFlipImageView *flipImageView = (JDFlipImageView*)self.flipView;
         
         self.imageIndex = (self.imageIndex+1)%3;
-        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", self.imageIndex+1]]
-                               duration:0.66
-                             completion:nil];
+        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", self.imageIndex+1]]];
     }
     else
     {
