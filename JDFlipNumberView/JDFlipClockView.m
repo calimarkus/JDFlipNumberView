@@ -57,6 +57,7 @@
         // initial settings
         [self setZDistance:60];
         self.showsSeconds = NO;
+        self.animationsEnabled = YES;
         self.relativeDigitMargin = 0.1;
         
         // set inital frame
@@ -200,6 +201,8 @@
 
 - (void)updateValuesAnimated:(BOOL)animated;
 {
+    animated &= self.animationsEnabled;
+    
     NSUInteger flags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
     NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:flags fromDate:[NSDate date]];
 

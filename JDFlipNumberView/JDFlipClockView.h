@@ -12,6 +12,7 @@
 
 /// The margin between hours/minutes/seconds relative to the width of the hours, range 0-1
 @property (nonatomic, assign) CGFloat relativeDigitMargin;
+@property (nonatomic, assign) BOOL animationsEnabled;
 @property (nonatomic, assign) BOOL showsSeconds;
 @property (nonatomic, assign) NSUInteger zDistance;
 
