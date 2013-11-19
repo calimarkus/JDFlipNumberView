@@ -1,5 +1,5 @@
-JDFlipNumberView
-----------------
+JDFlipNumberView & JDFlipImageView
+----------------------------------
 
 The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
 
@@ -23,11 +23,14 @@ The FlipNumberView is simulating an analog flip display (like those for the depa
 
 ## Contents
 
-The main class is
+The main classes are
 
 - `JDFlipNumberView`  
   The **Standard FlipNumberView**. It shows an integer value as FlipView.
   It has a choosable amount of digits. Can be animated in any way described in this document.
+
+- `JDFlipImageView`  
+  An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`.
   
 For specific usecases you may use on of these:
   
@@ -36,9 +39,9 @@ For specific usecases you may use on of these:
   
 - `JDFlipClockView`  
   __A digital clock.__ Displays the hour and minutes of the current time as flipViews. Seconds can also be enabled. Always shows the current time.
-
-- `JDFlipImageView`  
-  An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`.
+  
+- `UIView+JDFlipImageView`  
+  A **UIView category** that makes it possible to transition between any two views using a flip animation.
 
 ## Usage
 
