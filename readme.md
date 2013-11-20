@@ -8,14 +8,17 @@ The FlipNumberView is simulating an analog flip display (like those for the depa
 
 ## Installation
 
-**A) Use CocoaPods** (preferred way, see [cocoapods website])
+#### CocoaPods
 
-- `pod 'JDFlipNumberView'` including the default images or just  
+- `pod 'JDFlipNumberView'` including the default images
 - `pod 'JDFlipNumberView/Core'` without default images (to use your own images)
+- `pod 'JDFlipNumberView/FlipImageView'`, only the `JDFlipImageView` (for flipping images)
 
 > See Customization below for infos, on how to use your own images.
 
-**B) Manual way** (not needed, if you use cocoapods):
+(For infos on cocoapods, have a look the [cocoapods website])
+
+#### Manually
 
 1. Add all files from `JDFlipNumberView/JDFlipNumberView/*.{h,m}` to your project
 2. Add the `JDFlipNumberView.bundle`, if you want to use the default images
