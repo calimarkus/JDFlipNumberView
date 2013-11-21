@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "JDFlipImageView.h"
 
+typedef void(^JDFlipImageViewViewUpdateBlock)(void);
+
 @interface UIView (JDFlipImageView)
+
+// Flip transition to another view
 
 - (void)flipToView:(UIView*)view;
 
@@ -30,5 +34,21 @@
         removeView:(BOOL)removeFromSuperView
          direction:(JDFlipImageViewFlipDirection)direction
         completion:(JDFlipImageViewCompletionBlock)completion;
+
+// Update a view using a flip animation
+
+- (void)updateWithFlipAnimationUpdates:(JDFlipImageViewViewUpdateBlock)updates;
+
+- (void)updateWithFlipAnimationUpdates:(JDFlipImageViewViewUpdateBlock)updates
+                             completion:(JDFlipImageViewCompletionBlock)completion;
+
+- (void)updateWithFlipAnimationDuration:(CGFloat)duration
+                                updates:(JDFlipImageViewViewUpdateBlock)updates
+                             completion:(JDFlipImageViewCompletionBlock)completion;
+
+- (void)updateWithFlipAnimationDuration:(CGFloat)duration
+                              direction:(JDFlipImageViewFlipDirection)direction
+                                updates:(JDFlipImageViewViewUpdateBlock)updates
+                             completion:(JDFlipImageViewCompletionBlock)completion;
 
 @end

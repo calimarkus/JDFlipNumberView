@@ -8,7 +8,17 @@
 
 #import "UIView+JDFlipImageView.h"
 
+@interface UIView (JDFlipImageViewHidden)
+- (UIImage*)imageSnapshotAfterScreenUpdates:(BOOL)afterScreenUpdates;
+- (JDFlipImageView*)addFlipViewWithAnimationFromImage:(UIImage*)fromImage
+                                              toImage:(UIImage*)toImage
+                                             duration:(NSTimeInterval)duration
+                                           completion:(JDFlipImageViewCompletionBlock)completion;
+@end
+
 @implementation UIView (JDFlipImageView)
+
+#pragma mark Flip transition to another view
 
 - (void)flipToView:(UIView*)view;
 {
@@ -46,42 +56,111 @@
          direction:(JDFlipImageViewFlipDirection)direction
         completion:(JDFlipImageViewCompletionBlock)completion;
 {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
-    if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)]) {
-        CGSize size = self.bounds.size;
-        
-        // old screenshot
-        UIGraphicsBeginImageContextWithOptions(size, YES, 0);
-        [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:NO];
-        UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
-        [view drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:YES];
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        // add new view
-        [self.superview addSubview:view];
-        
-        // create & add flipview
-        JDFlipImageView *flipImageView = [[JDFlipImageView alloc] initWithImage:oldImage];
-        flipImageView.frame = self.frame;
-        view.frame = self.frame;
-        [self.superview addSubview:flipImageView];
-
-        // animate
-        __weak typeof(flipImageView) blockFlipImageView = flipImageView;
-        [flipImageView setImageAnimated:newImage duration:duration completion:^(BOOL finished) {
-            [blockFlipImageView removeFromSuperview];
-            if (completion) {
-                completion(finished);
-            }
-        }];
-        
-        // remove old view
-        if (removeFromSuperView) {
-            [self removeFromSuperview];
-        }
+    // screenshots
+    UIImage *oldImage = [self imageSnapshotAfterScreenUpdates:NO];
+    UIImage *newImage = [view imageSnapshotAfterScreenUpdates:YES];
+    
+    // add new view
+    [self.superview insertSubview:view belowSubview:self];
+    view.frame = self.frame;
+    
+    // create & add flipview
+    [self addFlipViewWithAnimationFromImage:oldImage toImage:newImage
+                                   duration:duration completion:completion];
+    
+    // remove old view
+    if (removeFromSuperView) {
+        [self removeFromSuperview];
     }
-#endif
+}
+
+#pragma mark View updates using a flip animation
+
+- (void)updateWithFlipAnimationUpdates:(JDFlipImageViewViewUpdateBlock)updates;
+{
+    [self updateWithFlipAnimationDuration:JDFlipImageViewDefaultFlipDuration
+                                direction:JDFlipImageViewFlipDirectionDown
+                                  updates:updates completion:nil];
+}
+
+- (void)updateWithFlipAnimationUpdates:(JDFlipImageViewViewUpdateBlock)updates
+                            completion:(JDFlipImageViewCompletionBlock)completion;
+{
+    [self updateWithFlipAnimationDuration:JDFlipImageViewDefaultFlipDuration
+                                direction:JDFlipImageViewFlipDirectionDown
+                                  updates:updates completion:completion];
+}
+
+- (void)updateWithFlipAnimationDuration:(CGFloat)duration
+                                updates:(JDFlipImageViewViewUpdateBlock)updates
+                             completion:(JDFlipImageViewCompletionBlock)completion;
+{
+    [self updateWithFlipAnimationDuration:duration
+                                direction:JDFlipImageViewFlipDirectionDown
+                                  updates:updates completion:completion];
+}
+
+- (void)updateWithFlipAnimationDuration:(CGFloat)duration
+                              direction:(JDFlipImageViewFlipDirection)direction
+                                updates:(JDFlipImageViewViewUpdateBlock)updates
+                             completion:(JDFlipImageViewCompletionBlock)completion;
+{
+    // screenshots & updates
+    UIImage *oldImage = [self imageSnapshotAfterScreenUpdates:NO];
+    if (updates) updates();
+    UIImage *newImage = [self imageSnapshotAfterScreenUpdates:YES];
+    
+    // create & add flipview
+    [self addFlipViewWithAnimationFromImage:oldImage toImage:newImage
+                                   duration:duration completion:completion];
+}
+
+#pragma mark Reused Code
+
+- (UIImage*)imageSnapshotAfterScreenUpdates:(BOOL)afterScreenUpdates;
+{
+    CGSize size = self.bounds.size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
+        if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+            [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
+        } else {
+            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+        }
+    #elif
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    #endif
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+- (JDFlipImageView*)addFlipViewWithAnimationFromImage:(UIImage*)fromImage
+                                              toImage:(UIImage*)toImage
+                                             duration:(NSTimeInterval)duration
+                                           completion:(JDFlipImageViewCompletionBlock)completion;
+{
+    NSParameterAssert(fromImage);
+    NSParameterAssert(toImage);
+    if (!fromImage || !toImage) return nil;
+    
+    // create & add flipview
+    JDFlipImageView *flipImageView = [[JDFlipImageView alloc] initWithImage:fromImage];
+    flipImageView.frame = self.frame;
+    [self.superview insertSubview:flipImageView aboveSubview:self];
+    
+    // animate
+    __weak typeof(flipImageView) blockFlipImageView = flipImageView;
+    [flipImageView setImageAnimated:toImage duration:duration completion:^(BOOL finished) {
+        [blockFlipImageView removeFromSuperview];
+        if (completion) {
+            completion(finished);
+        }
+    }];
+    
+    return flipImageView;
 }
 
 @end
