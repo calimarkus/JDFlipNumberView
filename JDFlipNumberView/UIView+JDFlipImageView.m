@@ -151,10 +151,18 @@
     flipImageView.frame = self.frame;
     [self.superview insertSubview:flipImageView aboveSubview:self];
     
+    // hide actual view while animating (for transculent views)
+    self.hidden = YES;
+    
     // animate
+    __weak typeof(self) blockSelf = self;
     __weak typeof(flipImageView) blockFlipImageView = flipImageView;
     [flipImageView setImageAnimated:toImage duration:duration completion:^(BOOL finished) {
         [blockFlipImageView removeFromSuperview];
+        // show view again
+        blockSelf.hidden = NO;
+        
+        // call completion
         if (completion) {
             completion(finished);
         }
