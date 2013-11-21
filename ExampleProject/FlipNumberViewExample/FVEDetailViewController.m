@@ -17,6 +17,7 @@
 
 @interface FVEDetailViewController () <JDFlipNumberViewDelegate>
 @property (nonatomic) UIView *flipView;
+@property (nonatomic) UIView *colorView;
 @property (nonatomic) NSArray *webviews;
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
@@ -92,6 +93,9 @@
         if (row == 0) {
             [self showFlipImage];
         }  else if (row == 1) {
+            [self showColouredView];
+            self.infoLabel.text = @"Click to flip to a new color!";
+        }  else if (row == 2) {
             [self showWebView];
             self.infoLabel.text = @"Click outside of webview to flip it!";
         }
@@ -195,6 +199,14 @@
     self.flipView = flipImageView;
 }
 
+- (void)showColouredView;
+{
+    self.colorView = [[UIView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
+    self.colorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.colorView.backgroundColor = [UIColor colorWithHue:0.6 saturation:0.85 brightness:0.9 alpha:1.0];
+    [self.view addSubview:self.colorView];
+}
+
 - (void)showWebView;
 {
     UIWebView *webview1 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
@@ -232,6 +244,13 @@
         
         self.imageIndex = (self.imageIndex+1)%3;
         [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", self.imageIndex+1]]];
+    }
+    else if (self.colorView != nil)
+    {
+        __weak typeof(self) blockSelf = self;
+        [self.colorView updateWithFlipAnimationUpdates:^{
+            blockSelf.colorView.backgroundColor = [UIColor colorWithHue:arc4random()%256/256.0 saturation:0.85 brightness:0.9 alpha:1.0];
+        }];
     }
     else if (self.webviews != nil) {
         if ([self.webviews[0] superview] != nil) {

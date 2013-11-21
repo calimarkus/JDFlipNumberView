@@ -96,7 +96,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==1) return 2;
+    if (section==1) return 3;
     if (section==2) return 2;
     
     return 5;
@@ -137,8 +137,11 @@
             cell.textLabel.text = @"Flip Image View";
             cell.detailTextLabel.text = @"A JDFlipImageView instance.";
         } else if (indexPath.row == 1) {
-            cell.textLabel.text = @"Flip any UIView!";
-            cell.detailTextLabel.text = @"The UIView+JDFlipImageView category.";
+            cell.textLabel.text = @"Update a view with a Flip animation";
+            cell.detailTextLabel.text = @"using flipToView:";
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"Flip view transition!";
+            cell.detailTextLabel.text = @"using updateWithFlipAnimationUpdates:";
         }
     } else {
         if (indexPath.row == 0) {
