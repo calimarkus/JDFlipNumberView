@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # META
   s.name         = 'JDFlipNumberView'
-  s.version      = '2.2'
+  s.version      = '2.2.1'
   s.author       = { 'Markus Emrich' => 'markus@nxtbgthng.com' }
   s.homepage     = 'https://github.com/jaydee3/JDFlipNumberView'
   s.license      = 'MIT'
