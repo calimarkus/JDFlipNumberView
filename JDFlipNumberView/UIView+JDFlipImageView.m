@@ -7,6 +7,7 @@
 //
 
 #import "UIView+JDFlipImageView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface UIView (JDFlipImageViewHidden)
 - (UIImage*)imageSnapshotAfterScreenUpdates:(BOOL)afterScreenUpdates;
@@ -128,7 +129,7 @@
         } else {
             [self.layer renderInContext:UIGraphicsGetCurrentContext()];
         }
-    #elif
+    #else
         [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     #endif
     
