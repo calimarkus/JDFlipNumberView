@@ -98,8 +98,14 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 - (NSInteger)value;
 {
 	NSMutableString* stringValue = [NSMutableString stringWithCapacity:self.digitViews.count];
-	for (JDFlipNumberDigitView* view in self.digitViews) {
-		[stringValue appendFormat: @"%lu", (unsigned long)view.value];
+	for (JDFlipNumberDigitView* view in self.digitViews)
+    {
+        NSUInteger theValue = view.value;
+        if ( theValue == 10 )
+        {
+            theValue = 0;
+        }
+		[stringValue appendFormat: @"%lu", (unsigned long)theValue];
 	}
 	
 	return [stringValue intValue];
@@ -139,12 +145,20 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     
     // convert to string
 	NSString* stringValue = [NSString stringWithFormat: @"%50ld", (long)newValue];
+    NSLog( @"overall value: %@", stringValue );
 	
     // udpate all flipviews, that have changed
     __block NSUInteger completedDigits = 0;
 	for (int i=0; i<stringValue.length && i<self.digitViews.count; i++) {
 		JDFlipNumberDigitView* view = (JDFlipNumberDigitView*)self.digitViews[self.digitViews.count-(1+i)];
-		NSInteger newValue = [[stringValue substringWithRange:NSMakeRange(stringValue.length-(1+i), 1)] intValue];
+        NSString* theCharacterString = [stringValue substringWithRange:NSMakeRange(stringValue.length-(1+i), 1)];
+
+        NSInteger newValue = [ theCharacterString intValue];
+        if ( [theCharacterString isEqualToString: @" "  ] )
+        {
+            NSLog( @"empty field at digit %i", i );
+            newValue = 10;
+        }
         if (newValue != view.value) {
             if(animated) {
                 JDFlipAnimationType type = self.animationType;

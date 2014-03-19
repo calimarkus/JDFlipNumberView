@@ -197,7 +197,13 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     
 	// save previous value
     self.previousValue = self.value;
+    
 	NSInteger newValue = value % 10;
+    if( value == 10 )
+    {
+        newValue = 10;
+    }
+    NSLog( @"new value digit: %i", newValue );
 
     // update animation type
     self.animationType = animationType;
