@@ -14,6 +14,7 @@
 - (JDFlipImageView*)addFlipViewWithAnimationFromImage:(UIImage*)fromImage
                                               toImage:(UIImage*)toImage
                                              duration:(NSTimeInterval)duration
+                                            direction:(JDFlipImageViewFlipDirection)direction
                                            completion:(JDFlipImageViewCompletionBlock)completion;
 @end
 
@@ -60,15 +61,18 @@
     // screenshots
     UIImage *oldImage = [self imageSnapshotAfterScreenUpdates:NO];
     UIImage *newImage = [view imageSnapshotAfterScreenUpdates:YES];
-    
+
     // add new view
     [self.superview insertSubview:view belowSubview:self];
     view.frame = self.frame;
-    
+
     // create & add flipview
-    [self addFlipViewWithAnimationFromImage:oldImage toImage:newImage
-                                   duration:duration completion:completion];
-    
+    [self addFlipViewWithAnimationFromImage:oldImage
+                                    toImage:newImage
+                                   duration:duration
+                                  direction:direction
+                                 completion:completion];
+
     // remove old view
     if (removeFromSuperView) {
         [self removeFromSuperview];
@@ -110,10 +114,13 @@
     UIImage *oldImage = [self imageSnapshotAfterScreenUpdates:NO];
     if (updates) updates();
     UIImage *newImage = [self imageSnapshotAfterScreenUpdates:YES];
-    
+
     // create & add flipview
-    [self addFlipViewWithAnimationFromImage:oldImage toImage:newImage
-                                   duration:duration completion:completion];
+    [self addFlipViewWithAnimationFromImage:oldImage
+                                    toImage:newImage
+                                   duration:duration
+                                  direction:direction
+                                 completion:completion];
 }
 
 #pragma mark Reused Code
@@ -122,17 +129,17 @@
 {
     CGSize size = self.bounds.size;
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    
-    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
-        if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-            [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
-        } else {
-            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-        }
-    #else
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
+    if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+        [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
+    } else {
         [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    #endif
-    
+    }
+#else
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+#endif
+
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
@@ -141,20 +148,22 @@
 - (JDFlipImageView*)addFlipViewWithAnimationFromImage:(UIImage*)fromImage
                                               toImage:(UIImage*)toImage
                                              duration:(NSTimeInterval)duration
-                                           completion:(JDFlipImageViewCompletionBlock)completion;
+                                            direction:(JDFlipImageViewFlipDirection)direction
+                                           completion:(JDFlipImageViewCompletionBlock)completion
 {
     NSParameterAssert(fromImage);
     NSParameterAssert(toImage);
     if (!fromImage || !toImage) return nil;
-    
+
     // create & add flipview
     JDFlipImageView *flipImageView = [[JDFlipImageView alloc] initWithImage:fromImage];
     flipImageView.frame = self.frame;
+    flipImageView.flipDirection = direction;
     [self.superview insertSubview:flipImageView aboveSubview:self];
-    
+
     // hide actual view while animating (for transculent views)
     self.hidden = YES;
-    
+
     // animate
     __weak typeof(self) blockSelf = self;
     __weak typeof(flipImageView) blockFlipImageView = flipImageView;
@@ -162,13 +171,13 @@
         [blockFlipImageView removeFromSuperview];
         // show view again
         blockSelf.hidden = NO;
-        
+
         // call completion
         if (completion) {
             completion(finished);
         }
     }];
-    
+
     return flipImageView;
 }
 
