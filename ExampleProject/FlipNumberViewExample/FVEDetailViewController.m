@@ -160,7 +160,7 @@
     NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"dd.MM.yy HH:mm"];
-    flipView.targetDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"01.01.%d 00:00", currentComps.year+1]];
+    flipView.targetDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"01.01.%ld 00:00", (long)currentComps.year+1]];
     
     // add info labels
     NSInteger posx = 20;
@@ -243,7 +243,7 @@
         JDFlipImageView *flipImageView = (JDFlipImageView*)self.flipView;
         
         self.imageIndex = (self.imageIndex+1)%3;
-        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02d.jpg", self.imageIndex+1]]];
+        [flipImageView setImageAnimated:[UIImage imageNamed:[NSString stringWithFormat: @"example%02ld.jpg", (long)self.imageIndex+1]]];
     }
     else if (self.colorView != nil)
     {
@@ -349,12 +349,12 @@
 
 - (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
 {
-    self.infoLabel.text = [NSString stringWithFormat: @"Will animate to %d", newValue];
+    self.infoLabel.text = [NSString stringWithFormat: @"Will animate to %lu", (unsigned long)newValue];
 }
 
 - (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
 {
-    self.infoLabel.text = [NSString stringWithFormat: @"Finished animation to %d.", flipNumberView.value];
+    self.infoLabel.text = [NSString stringWithFormat: @"Finished animation to %ld.", (long)flipNumberView.value];
 }
 
 @end

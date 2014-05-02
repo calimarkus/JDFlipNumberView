@@ -14,6 +14,7 @@
 - (JDFlipImageView*)addFlipViewWithAnimationFromImage:(UIImage*)fromImage
                                               toImage:(UIImage*)toImage
                                              duration:(NSTimeInterval)duration
+                                            direction:(JDFlipImageViewFlipDirection)direction
                                            completion:(JDFlipImageViewCompletionBlock)completion;
 @end
 
@@ -67,8 +68,9 @@
     
     // create & add flipview
     [self addFlipViewWithAnimationFromImage:oldImage toImage:newImage
-                                   duration:duration completion:completion];
-    
+                                   duration:duration direction:direction
+                                 completion:completion];
+
     // remove old view
     if (removeFromSuperView) {
         [self removeFromSuperview];
@@ -113,7 +115,8 @@
     
     // create & add flipview
     [self addFlipViewWithAnimationFromImage:oldImage toImage:newImage
-                                   duration:duration completion:completion];
+                                   duration:duration direction:direction
+                                 completion:completion];
 }
 
 #pragma mark Reused Code
@@ -141,6 +144,7 @@
 - (JDFlipImageView*)addFlipViewWithAnimationFromImage:(UIImage*)fromImage
                                               toImage:(UIImage*)toImage
                                              duration:(NSTimeInterval)duration
+                                            direction:(JDFlipImageViewFlipDirection)direction
                                            completion:(JDFlipImageViewCompletionBlock)completion;
 {
     NSParameterAssert(fromImage);
@@ -150,6 +154,7 @@
     // create & add flipview
     JDFlipImageView *flipImageView = [[JDFlipImageView alloc] initWithImage:fromImage];
     flipImageView.frame = self.frame;
+    flipImageView.flipDirection = direction;
     [self.superview insertSubview:flipImageView aboveSubview:self];
     
     // hide actual view while animating (for transculent views)
