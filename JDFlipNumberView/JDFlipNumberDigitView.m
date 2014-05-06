@@ -203,7 +203,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     {
         newValue = 10;
     }
-    NSLog( @"new value digit: %i", newValue );
 
     // update animation type
     self.animationType = animationType;
