@@ -145,7 +145,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     
     // convert to string
 	NSString* stringValue = [NSString stringWithFormat: @"%50ld", (long)newValue];
-    NSLog( @"overall value: %@", stringValue );
 	
     // udpate all flipviews, that have changed
     __block NSUInteger completedDigits = 0;
@@ -156,7 +155,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         NSInteger newValue = [ theCharacterString intValue];
         if ( [theCharacterString isEqualToString: @" "  ] )
         {
-            NSLog( @"empty field at digit %i", i );
             newValue = 10;
         }
         if (newValue != view.value) {
