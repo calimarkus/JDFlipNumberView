@@ -152,6 +152,17 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         aSize = [self sizeWithMaximumSize:aSize];
     }
     
+    
+    if( isnan( aSize.width ) )
+    {
+        aSize.width = 0;
+    }
+
+    if( isnan( aSize.height ) )
+    {
+        aSize.height = 0;
+    }
+    
     return aSize;
 }
 
