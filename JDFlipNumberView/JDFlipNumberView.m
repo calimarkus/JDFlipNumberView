@@ -12,7 +12,6 @@
 
 
 static CGFloat JDFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
-static CGFloat JDFlipViewRelativeMargin = 0.05; // use 5% of width as margin
 
 
 typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
@@ -85,6 +84,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     self.reverseFlippingDisabled = YES;
     self.targetMode = NO;
     self.delegateEnabled = YES;
+    self.relativeDigitMargin = 0.05;
     
     // update frame
     CGSize digitSize = [self.digitViews.lastObject bounds].size;
@@ -445,7 +445,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 - (NSUInteger)marginForWidth:(CGFloat)width;
 {
     if (self.digitViews.count <= 1) return 0;
-    return ((width*JDFlipViewRelativeMargin)/(self.digitViews.count-1));
+    return MAX(((width*self.relativeDigitMargin)/(self.digitViews.count-1)), self.absoluteDigitMargin);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size;
