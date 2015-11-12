@@ -64,9 +64,11 @@
 
 - (CGSize)imageSizeForBundleNamed:(NSString *)bundleName;
 {
-    NSArray *images = self.topImages[bundleName];
-    if (images.count > 0) {
-        return [images[0] size];
+    if (bundleName) {
+        NSArray *images = [self topImagesForBundleNamed:bundleName];
+        if (images.count > 0) {
+            return [images[0] size];
+        }
     }
     return CGSizeZero;
 }
