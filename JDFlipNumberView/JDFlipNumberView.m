@@ -85,6 +85,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     self.reverseFlippingDisabled = YES;
     self.targetMode = NO;
     self.delegateEnabled = YES;
+    self.relativeDigitMargin = JDFlipViewRelativeMargin;
     
     // update frame
     CGSize digitSize = [self.digitViews.lastObject bounds].size;
@@ -445,7 +446,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 - (NSUInteger)marginForWidth:(CGFloat)width;
 {
     if (self.digitViews.count <= 1) return 0;
-    return ((width*JDFlipViewRelativeMargin)/(self.digitViews.count-1));
+    CGFloat relativeDigitMargin = ((width*self.relativeDigitMargin)/(self.digitViews.count-1));
+    return MAX(relativeDigitMargin, self.absoluteDigitMargin);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size;
