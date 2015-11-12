@@ -64,6 +64,13 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     return self;
 }
 
+-(void) setFilterForSmallScaling
+{
+    [self.topImageView.layer setMinificationFilter:kCAFilterTrilinear];
+    [self.flipImageView.layer setMinificationFilter:kCAFilterTrilinear];
+    [self.bottomImageView.layer setMinificationFilter:kCAFilterTrilinear];
+}
+
 - (void)initImagesAndFrames;
 {
 	// setup image views
@@ -71,6 +78,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	self.flipImageView	 = [[UIImageView alloc] initWithImage:self.topImages[0]];
 	self.bottomImageView = [[UIImageView alloc] initWithImage:self.bottomImages[0]];
     self.flipImageView.hidden = YES;
+    
+    [ self setFilterForSmallScaling ];
     
     // set z positions
     self.topImageView.layer.zPosition = -1;
@@ -143,6 +152,17 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         aSize = [self sizeWithMaximumSize:aSize];
     }
     
+    
+    if( isnan( aSize.width ) )
+    {
+        aSize.width = 0;
+    }
+
+    if( isnan( aSize.height ) )
+    {
+        aSize.height = 0;
+    }
+    
     return aSize;
 }
 
@@ -164,7 +184,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     self.topImageView.frame = rect;
     rect.origin.y += rect.size.height;
     self.bottomImageView.frame = rect;
-
+    
     // update flip imageView frame
     [self updateFlipViewFrame];
 	
@@ -178,7 +198,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     
 	// setup 3d transform
 	CATransform3D aTransform = CATransform3DIdentity;
-	aTransform.m34 = -1.0 / zDistance;	
+	aTransform.m34 = -1.0 / zDistance;
 	self.layer.sublayerTransform = aTransform;
 }
 
@@ -197,8 +217,13 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     
 	// save previous value
     self.previousValue = self.value;
+    
 	NSInteger newValue = value % 10;
-
+    if( value == 10 )
+    {
+        newValue = 10;
+    }
+    
     // update animation type
     self.animationType = animationType;
 	BOOL animated = (animationType != JDFlipAnimationTypeNone);

@@ -8,6 +8,8 @@
 
 #import "JDFlipNumberViewImageFactory.h"
 
+static int NUMBER_OF_CHARACTERS = 11;
+
 @interface JDFlipNumberViewImageFactory ()
 @property (nonatomic, strong) NSMutableDictionary *topImages;
 @property (nonatomic, strong) NSMutableDictionary *bottomImages;
@@ -79,8 +81,8 @@
 - (void)generateImagesFromBundleNamed:(NSString*)bundleName;
 {
     // create image array
-	NSMutableArray* topImages = [NSMutableArray arrayWithCapacity:10];
-	NSMutableArray* bottomImages = [NSMutableArray arrayWithCapacity:10];
+	NSMutableArray* topImages = [NSMutableArray arrayWithCapacity: NUMBER_OF_CHARACTERS ];
+	NSMutableArray* bottomImages = [NSMutableArray arrayWithCapacity: NUMBER_OF_CHARACTERS ];
 	
     // append .bundle to name
     NSString *filename = bundleName;
@@ -90,7 +92,7 @@
     if (!bundlePath) return;
     
 	// create bottom and top images
-    for (NSInteger digit=0; digit<10; digit++)
+    for (NSInteger digit=0; digit< NUMBER_OF_CHARACTERS; digit++)
     {
         // create path & image
         NSString *imageName = [NSString stringWithFormat: @"%ld.png", (long)digit];
@@ -119,7 +121,12 @@
         CGFloat yPoint = (i==0) ? 0 : -size.height;
         
         // draw half of the image in a new image
-        UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+        UIGraphicsBeginImageContextWithOptions(size, YES, [UIScreen mainScreen].scale);
+        
+        CGContextRef theContext = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(theContext, [ [UIColor whiteColor] CGColor]);
+        CGContextFillRect(theContext, CGRectMake( 0, 0, size.width, size.height ));
+        
         [image drawAtPoint:CGPointMake(0,yPoint)];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
