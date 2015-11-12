@@ -203,7 +203,7 @@
 {
     animated &= self.animationsEnabled;
     
-    NSUInteger flags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSUInteger flags = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:flags fromDate:[NSDate date]];
 
     [self.hourFlipNumberView setValue:[dateComponents hour] animated:animated];
