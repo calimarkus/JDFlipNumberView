@@ -73,7 +73,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
         [self setZDistance: 60];
         
-        // set inital frame
+        // set initial frame
         CGRect frame = self.hourFlipNumberView.frame;
         self.frame = CGRectMake(0, 0, frame.size.width*(dayDigits+7), frame.size.height);
         
@@ -82,7 +82,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
             [self addSubview:view];
         }
         
-        // set inital dates
+        // set initial dates
         self.targetDate = [NSDate date];
         [self setupUpdateTimer];
     }

@@ -60,7 +60,7 @@
         self.animationsEnabled = YES;
         self.relativeDigitMargin = 0.1;
         
-        // set inital frame
+        // set initial frame
         CGRect frame = self.hourFlipNumberView.frame;
         CGFloat digitMargin = self.hourFlipNumberView.frame.size.width * self.relativeDigitMargin;
         self.frame = CGRectMake(0, 0, frame.size.width*([self digitCount]/2.0)+digitMargin, frame.size.height);
@@ -70,7 +70,7 @@
             [self addSubview:view];
         }
         
-        // set inital value
+        // set initial value
         [self updateValuesAnimated:NO];
     }
     return self;
