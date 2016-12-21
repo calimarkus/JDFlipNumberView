@@ -3,8 +3,8 @@ JDFlipNumberView & JDFlipImageView
 
 The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
 
-[![Screenshots](gfx/screenshots.png "Screenshots")](http://jaydee3.github.io/JDFlipNumberView/images/Example.mov)
-[Watch the awesome example video](http://jaydee3.github.io/JDFlipNumberView/images/Example.mov)
+[![Screenshots](gfx/screenshots.png "Screenshots")](http://calimarkus.github.io/JDFlipNumberView/images/Example.mov)
+[Watch the awesome example video](http://calimarkus.github.io/JDFlipNumberView/images/Example.mov)
 
 ## Installation
 
@@ -109,10 +109,10 @@ or for a DateCountDown like this:
 
 ## Twitter
 
-I'm [@jaydee3](http://twitter.com/jaydee3) on Twitter. Feel free to [post a tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3), if you like the FlipNumberView.  
+I'm [@calimarkus](http://twitter.com/calimarkus) on Twitter. Feel free to [post a tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus), if you like the FlipNumberView.  
 
-[![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/jaydee3/JDFlipNumberView&via=jaydee3)
+[![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus)
 
 
-[Github issue]: https://github.com/jaydee3/JDFlipNumberView/issues
+[Github issue]: https://github.com/calimarkus/JDFlipNumberView/issues
 [cocoapods website]: http://cocoapods.org
