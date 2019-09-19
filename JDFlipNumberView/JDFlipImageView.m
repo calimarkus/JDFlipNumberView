@@ -19,7 +19,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	JDFlipAnimationStateSecondHalf
 };
 
-@interface JDFlipImageView ()
+@interface JDFlipImageView () <CAAnimationDelegate>
 
 @property (nonatomic, assign) BOOL upscalingAllowed;
 @property (nonatomic, assign) CGFloat animationDuration;

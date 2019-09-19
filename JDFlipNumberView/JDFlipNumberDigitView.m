@@ -25,7 +25,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 };
 
 
-@interface JDFlipNumberDigitView ()
+@interface JDFlipNumberDigitView () <CAAnimationDelegate>
 
 @property (nonatomic, strong) UIImageView *topImageView;
 @property (nonatomic, strong) UIImageView *flipImageView;
