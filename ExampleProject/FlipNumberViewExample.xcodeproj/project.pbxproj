@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E03ACE627F67FAE003984CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E03ACE527F67FAE003984CE /* WebKit.framework */; };
+		7E03ACE827F682E2003984CE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E03ACE727F682E2003984CE /* Launch Screen.storyboard */; };
 		D203F82E18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D203F82D18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle */; };
 		D22C60DE1817EE4F00E647F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22C60DD1817EE4F00E647F6 /* Images.xcassets */; };
 		D25D53CB15D1B3D200B791F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CA15D1B3D200B791F3 /* UIKit.framework */; };
@@ -27,11 +29,12 @@
 		D2F69E711837D18A00AF7E54 /* example01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D2F69E6B1837D18A00AF7E54 /* example01.jpg */; };
 		D2F69E721837D18A00AF7E54 /* example02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D2F69E6C1837D18A00AF7E54 /* example02.jpg */; };
 		D2F69E731837D18A00AF7E54 /* example03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D2F69E6D1837D18A00AF7E54 /* example03.jpg */; };
-		D2FDCA16167E3B30008FC0A6 /* UIFont+FlipNumberViewExample.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FDCA15167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.m */; };
 		D2FDCA30167E4E1C008FC0A6 /* JDFlipNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7E03ACE527F67FAE003984CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		7E03ACE727F682E2003984CE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D203F82D18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewIOS6.bundle; sourceTree = "<group>"; };
 		D22C60DD1817EE4F00E647F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D25D53C615D1B3D200B791F3 /* FlipNumberViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipNumberViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,8 +67,6 @@
 		D2F69E6B1837D18A00AF7E54 /* example01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = example01.jpg; sourceTree = "<group>"; };
 		D2F69E6C1837D18A00AF7E54 /* example02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = example02.jpg; sourceTree = "<group>"; };
 		D2F69E6D1837D18A00AF7E54 /* example03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = example03.jpg; sourceTree = "<group>"; };
-		D2FDCA14167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+FlipNumberViewExample.h"; sourceTree = "<group>"; };
-		D2FDCA15167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FlipNumberViewExample.m"; sourceTree = "<group>"; };
 		D2FDCA2A167E4CD5008FC0A6 /* JDFlipNumberView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberView.h; sourceTree = "<group>"; };
 		D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E03ACE627F67FAE003984CE /* WebKit.framework in Frameworks */,
 				D25D53CB15D1B3D200B791F3 /* UIKit.framework in Frameworks */,
 				D25D53CD15D1B3D200B791F3 /* Foundation.framework in Frameworks */,
 				D25D53CF15D1B3D200B791F3 /* CoreGraphics.framework in Frameworks */,
@@ -106,6 +108,7 @@
 		D25D53C915D1B3D200B791F3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7E03ACE527F67FAE003984CE /* WebKit.framework */,
 				D25D540115D1BA0300B791F3 /* QuartzCore.framework */,
 				D25D53CA15D1B3D200B791F3 /* UIKit.framework */,
 				D25D53CC15D1B3D200B791F3 /* Foundation.framework */,
@@ -121,6 +124,7 @@
 				D25D540615D1BA4400B791F3 /* Classes */,
 				D25D540D15D1CAAE00B791F3 /* Images */,
 				D22C60DD1817EE4F00E647F6 /* Images.xcassets */,
+				7E03ACE727F682E2003984CE /* Launch Screen.storyboard */,
 				D2F69E6A1837D18A00AF7E54 /* ExampleImages */,
 			);
 			path = FlipNumberViewExample;
@@ -165,8 +169,6 @@
 				D25D53DD15D1B3D200B791F3 /* FVEViewController.m */,
 				D25D540315D1BA3B00B791F3 /* FVEDetailViewController.h */,
 				D25D540415D1BA3B00B791F3 /* FVEDetailViewController.m */,
-				D2FDCA14167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.h */,
-				D2FDCA15167E3A85008FC0A6 /* UIFont+FlipNumberViewExample.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -227,15 +229,16 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FVE;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = markusemrich;
 			};
 			buildConfigurationList = D25D53C015D1B3D200B791F3 /* Build configuration list for PBXProject "FlipNumberViewExample" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D25D53BB15D1B3D200B791F3;
 			productRefGroup = D25D53C715D1B3D200B791F3 /* Products */;
@@ -258,6 +261,7 @@
 				D2F69E731837D18A00AF7E54 /* example03.jpg in Resources */,
 				D203F82E18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle in Resources */,
 				D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */,
+				7E03ACE827F682E2003984CE /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +281,6 @@
 				D25D540515D1BA3B00B791F3 /* FVEDetailViewController.m in Sources */,
 				D274C512182EEE4700F45683 /* JDFlipClockView.m in Sources */,
 				D2D0560A1670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m in Sources */,
-				D2FDCA16167E3B30008FC0A6 /* UIFont+FlipNumberViewExample.m in Sources */,
 				D293711C183B973B00A06413 /* UIView+JDFlipImageView.m in Sources */,
 				D2FDCA30167E4E1C008FC0A6 /* JDFlipNumberView.m in Sources */,
 			);
@@ -289,20 +292,45 @@
 		D25D53E215D1B3D200B791F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -311,14 +339,38 @@
 		D25D53E315D1B3D200B791F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -329,11 +381,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markusemrich.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -344,11 +396,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markusemrich.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

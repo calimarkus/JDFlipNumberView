@@ -7,7 +7,6 @@
 //
 
 #import "FVEDetailViewController.h"
-#import "UIFont+FlipNumberViewExample.h"
 
 #import "FVEViewController.h"
 
@@ -22,14 +21,7 @@
     self = [super initWithStyle: UITableViewStyleGrouped];
     if (self) {
         self.title = @"JDFlipNumberView Examples";
-        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Examples" style:UIBarButtonItemStyleBordered target:nil action:nil];
-        self.tableView.backgroundView = nil;
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        self.tableView.rowHeight = 52.0;
-
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-            self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
-        }
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"reverseFlippingDisabled":@YES}];
     }
@@ -38,11 +30,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
 {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        return 60.0;
-    } else {
-        return 40.0;
-    }
+    return 40.0;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -55,16 +43,9 @@
     UILabel* label = [[UILabel alloc] init];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont customFontOfSize: 16];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+    label.textColor = [UIColor colorWithWhite:0.66 alpha:1.0];
     [view addSubview: label];
-
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        label.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-        label.shadowOffset = CGSizeMake(0,-1);
-        label.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-    } else {
-        label.textColor = [UIColor colorWithWhite:0.66 alpha:1.0];
-    }
     
     // set text
     NSString* text = @"Number Examples";
@@ -75,16 +56,6 @@
     // position label
     [label sizeToFit];
     label.center = CGPointMake(CGRectGetMidX(label.frame)+20, view.center.y);
-    
-    // add line
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        CGRect frame = label.frame;
-        frame.size.height = 3;
-        frame.origin.y = label.frame.origin.y + label.frame.size.height;
-        UIView *lineView = [[UIView alloc] initWithFrame:frame];
-        lineView.backgroundColor = label.textColor;
-        [view addSubview:lineView];
-    }
     
     return view;
 }
@@ -129,7 +100,7 @@
             cell.textLabel.text = @"Flip Clock";
             cell.detailTextLabel.text = @"A JDFlipClockView instance.";
         } else if (indexPath.row == 4) {
-            cell.textLabel.text = @"Silvester Date Countdown";
+            cell.textLabel.text = @"New Years Countdown (Date)";
             cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
         }
     } else if (indexPath.section == 1) {
@@ -197,11 +168,6 @@
 - (void)styleSwitchTouched:(UISwitch*)sender;
 {
     self.useAlternativeImages = sender.on;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 @end

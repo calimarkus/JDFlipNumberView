@@ -6,12 +6,13 @@
 //  Copyright (c) 2012 markusemrich. All rights reserved.
 //
 
+#import <WebKit/WebKit.h>
+
 #import "JDFlipNumberView.h"
 #import "JDFlipClockView.h"
 #import "JDFlipImageView.h"
 #import "JDDateCountdownFlipView.h"
 #import "UIView+JDFlipImageView.h"
-#import "UIFont+FlipNumberViewExample.h"
 
 #import "FVEDetailViewController.h"
 
@@ -41,33 +42,25 @@
 {
     [super viewDidLoad];
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
-    } else {
-        self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }
+    self.view.backgroundColor = UIColor.groupTableViewBackgroundColor;
 
     // add info label
     CGRect frame = CGRectInset(self.view.bounds, 10, 10);
     frame.size.height = 20;
-    frame.origin.y = self.view.frame.size.height - frame.size.height - 10;
+    frame.origin.y = self.view.frame.size.height - frame.size.height - 40;
     self.infoLabel = [[UILabel alloc] initWithFrame: frame];
     self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    self.infoLabel.font = [UIFont customFontOfSize:15];
+    self.infoLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.infoLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
     self.infoLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
     self.infoLabel.shadowOffset = CGSizeMake(0, 1);
     self.infoLabel.backgroundColor = [UIColor clearColor];
-    self.infoLabel.textAlignment = UITextAlignmentCenter;
+    self.infoLabel.textAlignment = NSTextAlignmentCenter;
     self.infoLabel.text = @"Tap anywhere to change the value!";
     [self.view addSubview: self.infoLabel];
     
     // setup flip number view style
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        self.imageBundleName = self.useAlternativeImages ? nil : @"JDFlipNumberViewIOS6";
-    } else {
-        self.imageBundleName = self.useAlternativeImages ? @"JDFlipNumberViewIOS6" : nil;
-    }
+    self.imageBundleName = self.useAlternativeImages ? @"JDFlipNumberViewIOS6" : nil;
     
     // show flipNumberView
     BOOL addGestureRecognizer = YES;
@@ -87,7 +80,7 @@
         }  else if (row == 4) {
             [self showDateCountdown];
             addGestureRecognizer = NO;
-            self.infoLabel.text = @"Counting the days…";
+            self.infoLabel.text = @"Counting the days/hours/min/sec";
         }
     } else {
         if (row == 0) {
@@ -156,32 +149,11 @@
     JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3 imageBundleName:self.imageBundleName];
     [self.view addSubview: flipView];
     
-    // countdown to silvester
-    NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+    // countdown to new years
+    NSDateComponents *currentComps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"dd.MM.yy HH:mm"];
     flipView.targetDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"01.01.%ld 00:00", (long)currentComps.year+1]];
-    
-    // add info labels
-    NSInteger posx = 20;
-    for (NSInteger i=0; i<4; i++) {
-        CGFloat yPosition = 20;
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-            yPosition = 74.0;
-        }
-        CGRect frame = CGRectMake(posx, yPosition, 200, 200);
-        UILabel *label = [[UILabel alloc] initWithFrame: frame];
-        label.font = [UIFont customFontOfSize:12];
-        label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor darkGrayColor];
-        label.text = (i==0) ? @"days" : (i==1) ? @"hours" : (i==2) ? @"minutes" : @"seconds";
-        [label sizeToFit];
-        label.frame = CGRectInset(label.frame, -4, -4);
-        label.textAlignment = UITextAlignmentCenter;
-        [self.view addSubview: label];
-        
-        posx += label.frame.size.width + 10;
-    }
     
     self.flipView = flipView;
 }
@@ -209,14 +181,14 @@
 
 - (void)showWebView;
 {
-    UIWebView *webview1 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
+    WKWebView *webview1 = [[WKWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0) configuration:[WKWebViewConfiguration new]];
     webview1.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [webview1 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.duckduckgo.com/"]]];
+    [webview1 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://duckduckgo.com/"]]];
     [self.view addSubview:webview1];
     
-    UIWebView *webview2 = [[UIWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
+    WKWebView *webview2 = [[WKWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0) configuration:[WKWebViewConfiguration new]];
     webview2.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [webview2 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com/"]]];
+    [webview2 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/"]]];
     
     self.webviews = @[webview1, webview2];
 }
@@ -304,19 +276,18 @@
         return;
     }
     
-    CGFloat multiplier = 0.9;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        multiplier = 1.0;
-    }
-    
+    CGFloat multiplier = 1.0;
     CGRect frame = self.view.bounds;
     if (self.distanceSlider) {
-        frame.size.height -= 160;
-        self.distanceSlider.frame = CGRectMake(10, frame.size.height+80,
-                                               frame.size.width-20, 44);
+        self.distanceSlider.frame = CGRectMake(10,
+                                               self.infoLabel.frame.origin.y - 44 - 10,
+                                               frame.size.width-20,
+                                               44);
     }
-
-    self.flipView.frame = CGRectInset(frame, 20, 20);
+    
+    self.flipView.frame = CGRectInset(frame,
+                                      MAX(MAX(self.view.safeAreaInsets.left, self.view.safeAreaInsets.right), 20),
+                                      MAX(MAX(self.view.safeAreaInsets.top, self.view.safeAreaInsets.bottom), 20));
     [self.flipView sizeToFit];
     self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2.0),
                                        floor((self.view.frame.size.height/2.0)*multiplier));
@@ -335,12 +306,7 @@
     return YES;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationPortrait;
 }
