@@ -3,7 +3,7 @@ JDFlipNumberView & JDFlipImageView
 
 The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
 
-![Screenshots](gfx/screenshots.png "Screenshots")
+<img width="1000" alt="screenshot" src="https://user-images.githubusercontent.com/807039/169296923-66f8906e-6b78-49c7-8e25-4c44ed047d30.png">
 
 ## Installation
 
@@ -34,7 +34,7 @@ The main classes are
 - `JDFlipImageView`  
   An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`.
   
-For specific usecases you may use on of these:
+For specific usecases you may use one of these:
   
 - `JDDateCountdownFlipView`  
   __A date countdown.__ Just init with a target date and it will show the remaining days, hours, minutes and seconds until that date.
