@@ -82,7 +82,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     // setup properties
     self.digitCount = digitCount;
     self.animationType = JDFlipAnimationTypeTopDown;
-    self.reverseFlippingDisabled = YES;
+    self.reverseFlippingAllowed = NO;
     self.targetMode = NO;
     self.delegateEnabled = YES;
     self.relativeDigitMargin = JDFlipViewRelativeMargin;
@@ -149,7 +149,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         if (newValue != view.value) {
             if(animated) {
                 JDFlipAnimationType type = self.animationType;
-                if (type == JDFlipAnimationTypeBottomUp && self.reverseFlippingDisabled) {
+                if (type == JDFlipAnimationTypeBottomUp && !self.reverseFlippingAllowed) {
                     type = JDFlipAnimationTypeTopDown;
                 }
                 [view setValue:newValue withAnimationType:type completion:^(BOOL completed){

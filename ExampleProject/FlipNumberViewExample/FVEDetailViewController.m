@@ -106,7 +106,7 @@
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1 imageBundleName:self.imageBundleName];
     flipView.value = arc4random() % 10;
     flipView.delegate = self;
-    flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
+    flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
     [self.view addSubview: flipView];
     self.flipView = flipView;
 }
@@ -116,7 +116,7 @@
     JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 imageBundleName:self.imageBundleName];
     flipView.value = 32;
     flipView.maximumValue = 128;
-    flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
+    flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
     [self.view addSubview: flipView];
     self.flipView = flipView;
     
@@ -128,7 +128,7 @@
     JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:self.imageBundleName];
     flipView.value = 2300;
     flipView.delegate = self;
-    flipView.reverseFlippingDisabled = [self isReverseFlippingDisabled];
+    flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
     [self.view addSubview: flipView];
     self.flipView = flipView;
     
@@ -195,9 +195,9 @@
 
 #pragma mark helper
 
-- (BOOL)isReverseFlippingDisabled;
+- (BOOL)isReverseFlippingAllowed;
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingAllowed"];
 }
 
 #pragma mark interaction

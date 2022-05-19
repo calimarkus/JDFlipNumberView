@@ -23,8 +23,6 @@
         self.title = @"JDFlipNumberView Examples";
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
         self.tableView.backgroundColor = [UIColor systemGray6Color];
-        
-        [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"reverseFlippingDisabled":@YES}];
     }
     return self;
 }
@@ -117,12 +115,11 @@
         }
     } else {
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"Reverse Flipping Disabled";
-            cell.detailTextLabel.text = @"Stop flipping bottom-up";
+            cell.textLabel.text = @"Allow flipping bottom-up";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *aSwitch = [[UISwitch alloc] init];
-            [aSwitch addTarget:self action:@selector(switchTouched:) forControlEvents:UIControlEventValueChanged];
-            aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
+            [aSwitch addTarget:self action:@selector(bottomUpSwitchTouched:) forControlEvents:UIControlEventValueChanged];
+            aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingAllowed"];
             cell.accessoryView = aSwitch;
         } else {
             cell.textLabel.text = @"Use modern assets";
@@ -144,7 +141,7 @@
         [aSwitch setOn:!aSwitch.on animated:YES];
         
         if (indexPath.row == 0) {
-            [self switchTouched:aSwitch];
+            [self bottomUpSwitchTouched:aSwitch];
         } else {
             [self styleSwitchTouched:aSwitch];
         }
@@ -159,9 +156,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)switchTouched:(UISwitch*)sender;
+- (void)bottomUpSwitchTouched:(UISwitch*)sender;
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"reverseFlippingDisabled"];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"reverseFlippingAllowed"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

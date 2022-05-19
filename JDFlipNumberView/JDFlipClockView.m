@@ -49,11 +49,6 @@
         self.minuteFlipNumberView.maximumValue = 59;
         self.secondFlipNumberView.maximumValue = 59;
         
-        // disable reverse flipping
-        self.hourFlipNumberView.reverseFlippingDisabled = YES;
-        self.minuteFlipNumberView.reverseFlippingDisabled = YES;
-        self.secondFlipNumberView.reverseFlippingDisabled = YES;
-        
         // initial settings
         [self setZDistance:60];
         self.showsSeconds = NO;
