@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   # BUILD SETTINGS
   s.source       = { :git => 'https://github.com/calimarkus/JDFlipNumberView.git', :tag => "pod-#{s.version}" }
-  s.platform     = :ios, '5.0'
+  s.platform     = :ios, '13.0'
   s.frameworks   = 'QuartzCore'
   s.requires_arc = true
 

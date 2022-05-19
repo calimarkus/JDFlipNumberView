@@ -18,10 +18,11 @@
 
 - (id)init
 {
-    self = [super initWithStyle: UITableViewStyleGrouped];
+    self = [super initWithStyle: UITableViewStyleInsetGrouped];
     if (self) {
         self.title = @"JDFlipNumberView Examples";
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+        self.tableView.backgroundColor = [UIColor systemGray6Color];
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"reverseFlippingDisabled":@YES}];
     }

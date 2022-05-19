@@ -42,7 +42,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = UIColor.groupTableViewBackgroundColor;
+    self.view.backgroundColor = UIColor.systemGray6Color;
 
     // add info label
     CGRect frame = CGRectInset(self.view.bounds, 10, 10);
