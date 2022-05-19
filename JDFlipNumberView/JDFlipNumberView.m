@@ -420,11 +420,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (void)stopAnimation;
 {
-	self.targetMode = NO;
     [self.animationTimer invalidate];
     self.animationTimer = nil;
     self.intervalRest = 0;
-    self.completionBlock = nil;
     
     if (self.targetMode) {
         // inform delegate
@@ -434,9 +432,13 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         // call completion block
         if (self.completionBlock != nil) {
             JDFlipAnimationCompletionBlock completion = self.completionBlock;
+            self.targetMode = NO;
             self.completionBlock = nil;
             completion(NO);
         }
+    } else {
+        self.targetMode = NO;
+        self.completionBlock = nil;
     }
 }
 
