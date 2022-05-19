@@ -32,31 +32,18 @@
     return 40.0;
 }
 
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    CGFloat height = [self tableView:tableView heightForHeaderInSection:section];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
-    view.backgroundColor = [UIColor clearColor];
-    
-    // add label
-    UILabel* label = [[UILabel alloc] init];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
-    label.textColor = [UIColor colorWithWhite:0.66 alpha:1.0];
-    [view addSubview: label];
-    
-    // set text
-    NSString* text = @"Number Examples";
-    if (section==1) text = @"Other Examples";
-    if (section==2) text = @"Settings";
-    label.text = [text uppercaseString];
-    
-    // position label
-    [label sizeToFit];
-    label.center = CGPointMake(CGRectGetMidX(label.frame)+20, view.center.y);
-    
-    return view;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    switch (section) {
+        case 1:
+            return @"Other Examples";
+            break;
+        case 2:
+            return @"Settings";
+            break;
+        default:
+            return @"Number Examples";
+            break;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
