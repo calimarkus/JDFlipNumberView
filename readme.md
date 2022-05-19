@@ -1,9 +1,13 @@
 JDFlipNumberView & JDFlipImageView
 ----------------------------------
 
-The FlipNumberView is simulating an analog flip display (like those for the departure time on the airport). It's well abstracted and damn easy to use. Please open a [Github issue], if you think anything is missing or wrong.
+| Target Value Animation | Animated Time Display |
+| ------------- | ------------- |
+| <img height="120" src="https://user-images.githubusercontent.com/807039/169300618-861a4d81-26cc-46c2-882b-1e4b6f0ffc4a.gif"> | <img height="100" src="https://user-images.githubusercontent.com/807039/169300625-9421b845-14c7-42c0-a00a-f4b8d97cce03.gif"> |
 
-<img width="1000" alt="screenshot" src="https://user-images.githubusercontent.com/807039/169296923-66f8906e-6b78-49c7-8e25-4c44ed047d30.png">
+The `FlipNumberView` is simulating an analog flip display (e.g. like those at the airport / train station). It's well abstracted and easy to use. The `FlipImageView` let's you run a similar animation on any view, e.g. images. See the example project for working examples (You can run `pod try JDFlipNumberView` to open the example project quickly.). Please open a [Github issue], if you think anything is missing or wrong.
+
+<img width="1000" alt="screenshot" src="https://user-images.githubusercontent.com/807039/169299475-7dd36912-7eeb-4f30-a7c7-459b11e7099e.png">
 
 ## Installation
 
