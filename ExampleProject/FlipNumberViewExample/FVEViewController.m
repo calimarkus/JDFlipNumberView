@@ -10,10 +10,6 @@
 
 #import "FVEViewController.h"
 
-@interface FVEViewController ()
-@property (nonatomic, assign) BOOL useModernAssets;
-@end
-
 @implementation FVEViewController
 
 - (id)init
@@ -34,15 +30,14 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch (section) {
+        case 0:
+            return @"FlipNumberView Examples";
         case 1:
-            return @"Other Examples";
-            break;
+            return @"Other FlipView Examples";
         case 2:
             return @"Settings";
-            break;
         default:
-            return @"Number Examples";
-            break;
+            return nil;
     }
 }
 
@@ -53,10 +48,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==1) return 3;
-    if (section==2) return 2;
-    
-    return 6;
+    switch (section) {
+        case 0:
+            return 5;
+        case 1:
+            return 5;
+        case 2:
+            return 1;
+        default:
+            return 0;
+    }
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -75,33 +76,36 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Single Digit";
-            cell.detailTextLabel.text = @"A FlipView with one digit.";
+            cell.detailTextLabel.text = @"A FlipNumberView with one digit.";
         } else if (indexPath.row == 1) {
             cell.textLabel.text = @"Multiple Digits";
-            cell.detailTextLabel.text = @"A FlipView with multiple digits.";
+            cell.detailTextLabel.text = @"A FlipNumberView with multiple digits.";
         } else if (indexPath.row == 2) {
             cell.textLabel.text = @"Animate to a target value";
-            cell.detailTextLabel.text = @"A FlipView using animateToValue:duration:";
+            cell.detailTextLabel.text = @"A FlipNumberView using animateToValue:duration:";
         } else if (indexPath.row == 3) {
-            cell.textLabel.text = @"Flip Clock";
-            cell.detailTextLabel.text = @"A JDFlipClockView instance.";
+            cell.textLabel.text = @"Alternative assets";
+            cell.detailTextLabel.text = @"A FlipNumberView using different images.";
         } else if (indexPath.row == 4) {
-            cell.textLabel.text = @"New Years Countdown (Date)";
-            cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
-        } else if (indexPath.row == 5) {
             cell.textLabel.text = @"SwiftUI Example";
-            cell.detailTextLabel.text = @"A FlipView used through SwiftUI.";
+            cell.detailTextLabel.text = @"A FlipNumberView used through SwiftUI.";
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"Flip Image View";
-            cell.detailTextLabel.text = @"A JDFlipImageView instance.";
+            cell.textLabel.text = @"JDFlipImageView";
+            cell.detailTextLabel.text = @"Flipping images!";
         } else if (indexPath.row == 1) {
-            cell.textLabel.text = @"Update a view with a Flip animation";
+            cell.textLabel.text = @"UIView+JDFlipImageView #1";
             cell.detailTextLabel.text = @"using flipToView:";
         } else if (indexPath.row == 2) {
-            cell.textLabel.text = @"Flip view transition!";
+            cell.textLabel.text = @"UIView+JDFlipImageView #2";
             cell.detailTextLabel.text = @"using updateWithFlipAnimationUpdates:";
+        } else if (indexPath.row == 3) {
+            cell.textLabel.text = @"JDFlipClock";
+            cell.detailTextLabel.text = @"Displaying the time animated.";
+        } else if (indexPath.row == 4) {
+            cell.textLabel.text = @"JDDateCountdownFlipView";
+            cell.detailTextLabel.text = @"An animated New Years Countdown.";
         }
     } else {
         if (indexPath.row == 0) {
@@ -110,13 +114,6 @@
             UISwitch *aSwitch = [[UISwitch alloc] init];
             [aSwitch addTarget:self action:@selector(bottomUpSwitchTouched:) forControlEvents:UIControlEventValueChanged];
             aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingAllowed"];
-            cell.accessoryView = aSwitch;
-        } else {
-            cell.textLabel.text = @"Use modern assets";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UISwitch *aSwitch = [[UISwitch alloc] init];
-            [aSwitch addTarget:self action:@selector(styleSwitchTouched:) forControlEvents:UIControlEventValueChanged];
-            aSwitch.on = self.useModernAssets;
             cell.accessoryView = aSwitch;
         }
     }
@@ -132,14 +129,11 @@
         
         if (indexPath.row == 0) {
             [self bottomUpSwitchTouched:aSwitch];
-        } else {
-            [self styleSwitchTouched:aSwitch];
         }
         return;
     }
     
     FVEDetailViewController* viewController = [[FVEDetailViewController alloc] initWithIndexPath:indexPath];
-    viewController.useModernAssets = self.useModernAssets;
     viewController.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
     [self.navigationController pushViewController: viewController animated: YES];
     
@@ -150,11 +144,6 @@
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"reverseFlippingAllowed"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)styleSwitchTouched:(UISwitch*)sender;
-{
-    self.useModernAssets = sender.on;
 }
 
 @end

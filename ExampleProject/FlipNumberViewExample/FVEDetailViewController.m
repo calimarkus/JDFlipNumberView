@@ -24,7 +24,6 @@
 @property (nonatomic) NSArray *webviews;
 @property (nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) UILabel *infoLabel;
-@property (nonatomic) NSString *imageBundleName;
 @property (nonatomic) UISlider *distanceSlider;
 @property (nonatomic) NSInteger imageIndex;
 @property (nonatomic) UIViewController *hostingController;
@@ -49,7 +48,7 @@
     NSInteger row = self.indexPath.row;
 
     // handle swift example, if needed
-    if (section == 0 && row == 5) {
+    if (section == 0 && row == 4) {
         self.hostingController = SwiftExampleViewFactory.swiftExampleViewController;
         self.hostingController.view.frame = self.view.frame;
         self.hostingController.view.backgroundColor = [UIColor systemGray6Color];
@@ -76,9 +75,6 @@
     self.infoLabel.text = @"Tap anywhere to change the value!";
     [self.view addSubview: self.infoLabel];
     
-    // setup flip number view style
-    self.imageBundleName = self.useModernAssets ? @"JDFlipNumberViewModernAssets" : nil;
-    
     // show flipNumberView
     BOOL addGestureRecognizer = YES;
     if (section == 0) {
@@ -86,26 +82,28 @@
             [self showSingleDigit];
         } else if (row == 1) {
             [self showMultipleDigits];
-        }  else if (row == 2) {
-            [self showTargetedAnimation];
-        }  else if (row == 3) {
-            [self showTime];
-            addGestureRecognizer = NO;
-            self.infoLabel.text = @"The current time.";
-        }  else if (row == 4) {
-            [self showDateCountdown];
-            addGestureRecognizer = NO;
-            self.infoLabel.text = @"Counting the days/hours/min/sec";
+        } else if (row == 2) {
+            [self showTargetedAnimation:false];
+        } else if (row == 3) {
+            [self showTargetedAnimation:true];
         }
     } else {
         if (row == 0) {
             [self showFlipImage];
-        }  else if (row == 1) {
+        } else if (row == 1) {
             [self showColouredView];
             self.infoLabel.text = @"Click to flip to a new color!";
-        }  else if (row == 2) {
+        } else if (row == 2) {
             [self showWebView];
             self.infoLabel.text = @"Click outside of webview to flip it!";
+        } else if (row == 3) {
+            [self showTime];
+            addGestureRecognizer = NO;
+            self.infoLabel.text = @"The current time.";
+        } else if (row == 4) {
+            [self showDateCountdown];
+            addGestureRecognizer = NO;
+            self.infoLabel.text = @"Counting the days/hours/min/sec";
         }
     }
     
@@ -118,7 +116,7 @@
 
 - (void)showSingleDigit;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1 imageBundleName:self.imageBundleName];
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1];
     flipView.value = arc4random() % 10;
     flipView.delegate = self;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
@@ -128,7 +126,7 @@
 
 - (void)showMultipleDigits;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:3 imageBundleName:self.imageBundleName];
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
     flipView.value = 32;
     flipView.maximumValue = 128;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
@@ -138,9 +136,9 @@
     [flipView animateDownWithTimeInterval:0.3];
 }
 
-- (void)showTargetedAnimation;
+- (void)showTargetedAnimation:(BOOL)alternativeAssets;
 {
-    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:self.imageBundleName];
+    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:alternativeAssets ? @"JDFlipNumberViewModernAssets" : nil];
     flipView.value = 2300;
     flipView.delegate = self;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
@@ -152,7 +150,7 @@
 
 - (void)showTime;
 {
-    JDFlipClockView *flipView  = [[JDFlipClockView alloc] initWithImageBundleName:self.imageBundleName];
+    JDFlipClockView *flipView  = [JDFlipClockView new];
     flipView.showsSeconds = YES;
     [self.view addSubview: flipView];
     self.flipView = flipView;
@@ -161,7 +159,7 @@
 - (void)showDateCountdown;
 {
     // setup flipview
-    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3 imageBundleName:self.imageBundleName];
+    JDDateCountdownFlipView *flipView = [[JDDateCountdownFlipView alloc] initWithDayDigitCount:3];
     [self.view addSubview: flipView];
     
     // countdown to new years

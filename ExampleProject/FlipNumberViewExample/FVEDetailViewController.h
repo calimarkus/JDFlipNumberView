@@ -6,9 +6,8 @@
 //  Copyright (c) 2012 markusemrich. All rights reserved.
 //
 
-
-
 @interface FVEDetailViewController : UIViewController
-@property (nonatomic, assign) BOOL useModernAssets;
+
 - (id)initWithIndexPath:(NSIndexPath*)indexPath;
+
 @end
