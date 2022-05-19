@@ -275,27 +275,34 @@
     if (!self.flipView) {
         return;
     }
-    
-    CGFloat multiplier = 1.0;
-    CGRect frame = self.view.bounds;
-    if (self.distanceSlider) {
-        self.distanceSlider.frame = CGRectMake(10,
-                                               self.infoLabel.frame.origin.y - 44 - 10,
-                                               frame.size.width-20,
-                                               44);
-    }
-    
-    self.flipView.frame = CGRectInset(frame,
+
+    // position flip view
+    self.flipView.frame = CGRectInset(self.view.bounds,
                                       MAX(MAX(self.view.safeAreaInsets.left, self.view.safeAreaInsets.right), 20),
                                       MAX(MAX(self.view.safeAreaInsets.top, self.view.safeAreaInsets.bottom), 20));
     [self.flipView sizeToFit];
     self.flipView.center = CGPointMake(floor(self.view.frame.size.width/2.0),
-                                       floor((self.view.frame.size.height/2.0)*multiplier));
+                                       floor((self.view.frame.size.height/2.0)));
     
-    // update zDistance
+    // update distance slider
     if (self.distanceSlider) {
+        self.distanceSlider.frame = CGRectMake(10,
+                                               self.infoLabel.frame.origin.y - 44 - 10,
+                                               self.view.bounds.size.width-20,
+                                               44);
+
         self.distanceSlider.value = [(JDFlipNumberView*)self.flipView zDistance];
-        self.infoLabel.text = @"Tap to flip to next image!";
+        self.infoLabel.text = @"Tap to flip to next image! Adjust slider for z-distance.";
+
+        // avoid overlap with flip view
+        CGRect flipFrame = self.flipView.frame;
+        CGRect overlap = CGRectIntersection(self.distanceSlider.frame, self.flipView.frame);
+        if (!CGRectIsNull(overlap)) {
+            flipFrame.size.height -= overlap.size.height + 10.0;
+            flipFrame.size.width -= overlap.size.height + 10.0;
+            self.flipView.frame = flipFrame;
+            self.flipView.center = CGPointMake(round(self.view.bounds.size.width / 2.0), self.flipView.center.y);
+        }
     }
 }
 
