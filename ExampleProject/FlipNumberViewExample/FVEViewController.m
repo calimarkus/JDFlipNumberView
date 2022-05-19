@@ -56,7 +56,7 @@
     if (section==1) return 3;
     if (section==2) return 2;
     
-    return 5;
+    return 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -88,6 +88,9 @@
         } else if (indexPath.row == 4) {
             cell.textLabel.text = @"New Years Countdown (Date)";
             cell.detailTextLabel.text = @"A JDDateCountdownFlipView instance.";
+        } else if (indexPath.row == 5) {
+            cell.textLabel.text = @"SwiftUI Example";
+            cell.detailTextLabel.text = @"A FlipView used through SwiftUI.";
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {

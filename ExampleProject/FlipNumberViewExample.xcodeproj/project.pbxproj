@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7E03ACE627F67FAE003984CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E03ACE527F67FAE003984CE /* WebKit.framework */; };
 		7E03ACE827F682E2003984CE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E03ACE727F682E2003984CE /* Launch Screen.storyboard */; };
+		7E37A19328363AE000D46DE9 /* FlipNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E37A19228363AE000D46DE9 /* FlipNumberView.swift */; };
+		7E37A19528363B6C00D46DE9 /* SwiftExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E37A19428363B6C00D46DE9 /* SwiftExample.swift */; };
 		7E84C5432836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */; };
 		D22C60DE1817EE4F00E647F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22C60DD1817EE4F00E647F6 /* Images.xcassets */; };
 		D25D53CB15D1B3D200B791F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CA15D1B3D200B791F3 /* UIKit.framework */; };
@@ -35,6 +37,9 @@
 /* Begin PBXFileReference section */
 		7E03ACE527F67FAE003984CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		7E03ACE727F682E2003984CE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		7E37A19128363A4C00D46DE9 /* JDFlipNumberView-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JDFlipNumberView-Bridging-Header.h"; sourceTree = "<group>"; };
+		7E37A19228363AE000D46DE9 /* FlipNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipNumberView.swift; sourceTree = "<group>"; };
+		7E37A19428363B6C00D46DE9 /* SwiftExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExample.swift; sourceTree = "<group>"; };
 		7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewModernAssets.bundle; sourceTree = "<group>"; };
 		D22C60DD1817EE4F00E647F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D25D53C615D1B3D200B791F3 /* FlipNumberViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipNumberViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,9 +148,11 @@
 		D25D53F515D1B97F00B791F3 /* JDFlipNumberView */ = {
 			isa = PBXGroup;
 			children = (
+				7E37A19128363A4C00D46DE9 /* JDFlipNumberView-Bridging-Header.h */,
 				D2FDCA24167E4A45008FC0A6 /* Internals */,
 				D2FDCA2A167E4CD5008FC0A6 /* JDFlipNumberView.h */,
 				D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */,
+				7E37A19228363AE000D46DE9 /* FlipNumberView.swift */,
 				D2F69E671837C82200AF7E54 /* JDFlipImageView.h */,
 				D2F69E681837C82200AF7E54 /* JDFlipImageView.m */,
 				D293711A183B973B00A06413 /* UIView+JDFlipImageView.h */,
@@ -169,6 +176,7 @@
 				D25D53DD15D1B3D200B791F3 /* FVEViewController.m */,
 				D25D540315D1BA3B00B791F3 /* FVEDetailViewController.h */,
 				D25D540415D1BA3B00B791F3 /* FVEDetailViewController.m */,
+				7E37A19428363B6C00D46DE9 /* SwiftExample.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -231,6 +239,11 @@
 				CLASSPREFIX = FVE;
 				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = markusemrich;
+				TargetAttributes = {
+					D25D53C515D1B3D200B791F3 = {
+						LastSwiftMigration = 1340;
+					};
+				};
 			};
 			buildConfigurationList = D25D53C015D1B3D200B791F3 /* Build configuration list for PBXProject "FlipNumberViewExample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -274,7 +287,9 @@
 			files = (
 				D25D53D715D1B3D200B791F3 /* main.m in Sources */,
 				D2F69E691837C82200AF7E54 /* JDFlipImageView.m in Sources */,
+				7E37A19328363AE000D46DE9 /* FlipNumberView.swift in Sources */,
 				D25D53DB15D1B3D200B791F3 /* FVEAppDelegate.m in Sources */,
+				7E37A19528363B6C00D46DE9 /* SwiftExample.swift in Sources */,
 				D25D53DE15D1B3D200B791F3 /* FVEViewController.m in Sources */,
 				D25D53FD15D1B97F00B791F3 /* JDDateCountdownFlipView.m in Sources */,
 				D25D53FF15D1B97F00B791F3 /* JDFlipNumberDigitView.m in Sources */,
@@ -381,12 +396,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.markusemrich.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "../JDFlipNumberView/JDFlipNumberView-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -396,12 +416,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.markusemrich.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "../JDFlipNumberView/JDFlipNumberView-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

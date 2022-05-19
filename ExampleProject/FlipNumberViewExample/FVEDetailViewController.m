@@ -14,6 +14,8 @@
 #import "JDDateCountdownFlipView.h"
 #import "UIView+JDFlipImageView.h"
 
+#import "FlipNumberViewExample-Swift.h"
+
 #import "FVEDetailViewController.h"
 
 @interface FVEDetailViewController () <JDFlipNumberViewDelegate>
@@ -25,6 +27,7 @@
 @property (nonatomic) NSString *imageBundleName;
 @property (nonatomic) UISlider *distanceSlider;
 @property (nonatomic) NSInteger imageIndex;
+@property (nonatomic) UIViewController *hostingController;
 @end
 
 @implementation FVEDetailViewController
@@ -41,6 +44,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSInteger section = self.indexPath.section;
+    NSInteger row = self.indexPath.row;
+
+    // handle swift example, if needed
+    if (section == 0 && row == 5) {
+        self.hostingController = SwiftExampleViewFactory.swiftExampleViewController;
+        self.hostingController.view.frame = self.view.frame;
+        self.hostingController.view.backgroundColor = [UIColor systemGray6Color];
+        self.hostingController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:self.hostingController.view];
+        [self addChildViewController:self.hostingController];
+        return;
+    }
     
     self.view.backgroundColor = UIColor.systemGray6Color;
 
@@ -64,8 +81,6 @@
     
     // show flipNumberView
     BOOL addGestureRecognizer = YES;
-    NSInteger section = self.indexPath.section;
-    NSInteger row = self.indexPath.row;
     if (section == 0) {
         if (row == 0) {
             [self showSingleDigit];

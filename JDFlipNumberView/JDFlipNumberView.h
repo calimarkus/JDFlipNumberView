@@ -55,6 +55,7 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 
 @protocol JDFlipNumberViewDelegate <NSObject>
 @optional
+
 - (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
 - (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
 @end;
