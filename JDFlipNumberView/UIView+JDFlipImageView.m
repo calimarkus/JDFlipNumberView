@@ -125,16 +125,12 @@
 {
     CGSize size = self.bounds.size;
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    
-    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
-        if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-            [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
-        } else {
-            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-        }
-    #else
+
+    if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+        [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
+    } else {
         [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    #endif
+    }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
