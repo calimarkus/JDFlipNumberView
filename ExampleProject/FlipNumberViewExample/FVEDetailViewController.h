@@ -9,6 +9,6 @@
 
 
 @interface FVEDetailViewController : UIViewController
-@property (nonatomic, assign) BOOL useAlternativeImages;
+@property (nonatomic, assign) BOOL useModernAssets;
 - (id)initWithIndexPath:(NSIndexPath*)indexPath;
 @end

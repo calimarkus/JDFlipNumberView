@@ -60,7 +60,7 @@
     [self.view addSubview: self.infoLabel];
     
     // setup flip number view style
-    self.imageBundleName = self.useAlternativeImages ? @"JDFlipNumberViewIOS6" : nil;
+    self.imageBundleName = self.useModernAssets ? @"JDFlipNumberViewModernAssets" : nil;
     
     // show flipNumberView
     BOOL addGestureRecognizer = YES;

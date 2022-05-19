@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7E03ACE627F67FAE003984CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E03ACE527F67FAE003984CE /* WebKit.framework */; };
 		7E03ACE827F682E2003984CE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E03ACE727F682E2003984CE /* Launch Screen.storyboard */; };
-		D203F82E18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D203F82D18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle */; };
+		7E84C5432836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */; };
 		D22C60DE1817EE4F00E647F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22C60DD1817EE4F00E647F6 /* Images.xcassets */; };
 		D25D53CB15D1B3D200B791F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CA15D1B3D200B791F3 /* UIKit.framework */; };
 		D25D53CD15D1B3D200B791F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25D53CC15D1B3D200B791F3 /* Foundation.framework */; };
@@ -35,7 +35,7 @@
 /* Begin PBXFileReference section */
 		7E03ACE527F67FAE003984CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		7E03ACE727F682E2003984CE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		D203F82D18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewIOS6.bundle; sourceTree = "<group>"; };
+		7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewModernAssets.bundle; sourceTree = "<group>"; };
 		D22C60DD1817EE4F00E647F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D25D53C615D1B3D200B791F3 /* FlipNumberViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipNumberViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25D53CA15D1B3D200B791F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -176,7 +176,7 @@
 		D25D540D15D1CAAE00B791F3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D203F82D18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle */,
+				7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -258,8 +258,8 @@
 				D22C60DE1817EE4F00E647F6 /* Images.xcassets in Resources */,
 				D2F69E721837D18A00AF7E54 /* example02.jpg in Resources */,
 				D2F69E711837D18A00AF7E54 /* example01.jpg in Resources */,
+				7E84C5432836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle in Resources */,
 				D2F69E731837D18A00AF7E54 /* example03.jpg in Resources */,
-				D203F82E18253B0B009B40A2 /* JDFlipNumberViewIOS6.bundle in Resources */,
 				D25D540815D1BD5C00B791F3 /* JDFlipNumberView.bundle in Resources */,
 				7E03ACE827F682E2003984CE /* Launch Screen.storyboard in Resources */,
 			);

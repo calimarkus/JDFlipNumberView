@@ -11,7 +11,7 @@
 #import "FVEViewController.h"
 
 @interface FVEViewController ()
-@property (nonatomic, assign) BOOL useAlternativeImages;
+@property (nonatomic, assign) BOOL useModernAssets;
 @end
 
 @implementation FVEViewController
@@ -125,12 +125,11 @@
             aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"reverseFlippingDisabled"];
             cell.accessoryView = aSwitch;
         } else {
-            cell.textLabel.text = @"Use alternative Images";
-            cell.detailTextLabel.text = @"Switch between iOS6 & iOS7 style";
+            cell.textLabel.text = @"Use modern assets";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *aSwitch = [[UISwitch alloc] init];
             [aSwitch addTarget:self action:@selector(styleSwitchTouched:) forControlEvents:UIControlEventValueChanged];
-            aSwitch.on = self.useAlternativeImages;
+            aSwitch.on = self.useModernAssets;
             cell.accessoryView = aSwitch;
         }
     }
@@ -153,7 +152,7 @@
     }
     
     FVEDetailViewController* viewController = [[FVEDetailViewController alloc] initWithIndexPath:indexPath];
-    viewController.useAlternativeImages = self.useAlternativeImages;
+    viewController.useModernAssets = self.useModernAssets;
     viewController.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
     [self.navigationController pushViewController: viewController animated: YES];
     
@@ -168,7 +167,7 @@
 
 - (void)styleSwitchTouched:(UISwitch*)sender;
 {
-    self.useAlternativeImages = sender.on;
+    self.useModernAssets = sender.on;
 }
 
 @end
