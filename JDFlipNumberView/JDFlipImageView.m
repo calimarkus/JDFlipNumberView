@@ -174,7 +174,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 - (void)setImageAnimated:(UIImage*)image;
 {
     [self setImageAnimated:image
-                  duration:JDFlipImageViewFlipDirectionDown
+                  duration:JDFlipImageViewDefaultFlipDuration
                 completion:nil];
 }
 
@@ -182,7 +182,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
               completion:(JDFlipImageViewCompletionBlock)completion;
 {
     [self setImageAnimated:image
-                  duration:JDFlipImageViewFlipDirectionDown
+                  duration:JDFlipImageViewDefaultFlipDuration
                 completion:completion];
 }
 

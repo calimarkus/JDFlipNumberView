@@ -51,6 +51,12 @@ struct SwiftExample: View {
     @State var val3 = 640
     @State var digitCount = 6
     @State var isIntervalAnimating = true
+    @State var activeImageIndex = 0
+
+    let imageNames = ["example01.jpg", "example02.jpg", "example03.jpg"]
+    var activeImage: UIImage {
+        UIImage(imageLiteralResourceName: imageNames[activeImageIndex % imageNames.count])
+    }
 
     var body: some View {
         ScrollView {
@@ -96,6 +102,17 @@ struct SwiftExample: View {
                 .onTapGesture {
                     isIntervalAnimating.toggle()
                 }
+            }
+
+            Group {
+                SectionTitle(title: "FlipImageView",
+                             subtitle: "Tap to change")
+
+                FlipImageView(image: activeImage)
+                    .frame(width: 240/activeImage.size.height * activeImage.size.width, height: 240)
+                    .onTapGesture {
+                        activeImageIndex += 1
+                    }
             }
 
             Spacer().frame(height: 30.0)
