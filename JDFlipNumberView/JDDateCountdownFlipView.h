@@ -10,14 +10,10 @@
 
 @property (nonatomic, strong) NSDate *targetDate;
 @property (nonatomic, assign) NSUInteger zDistance;
+@property (nonatomic, assign) BOOL animationsEnabled;
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
 - (id)initWithDayDigitCount:(NSInteger)dayDigits
             imageBundleName:(NSString*)imageBundleName;
-
-- (void)start;
-- (void)stop;
-
-- (void)updateValuesAnimated:(BOOL)animated;
 
 @end

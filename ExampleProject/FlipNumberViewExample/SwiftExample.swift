@@ -3,6 +3,7 @@
 //  Created by Markus Emrich on 19.05.22
 //
 
+import Foundation
 import SwiftUI
 
 class SwiftExampleViewFactory: NSObject {
@@ -49,13 +50,27 @@ struct SwiftExample: View {
     @State var val1 = 33333
     @State var val2 = 843210
     @State var val3 = 640
+
     @State var digitCount = 6
     @State var isIntervalAnimating = true
     @State var activeImageIndex = 0
 
+    @State var isClockAnimating = true
+    @State var isCountdownAnimating = true
+
     let imageNames = ["example01.jpg", "example02.jpg", "example03.jpg"]
     var activeImage: UIImage {
         UIImage(imageLiteralResourceName: imageNames[activeImageIndex % imageNames.count])
+    }
+
+    var nyeDate: Date {
+        let allUnits: Set<Calendar.Component> = [Calendar.Component.calendar, Calendar.Component.timeZone, Calendar.Component.year]
+        var comps = NSCalendar.current.dateComponents(allUnits, from: Date())
+        comps.day = 31
+        comps.month = 12
+        comps.hour = 23
+        comps.second = 59
+        return comps.date!
     }
 
     var body: some View {
@@ -116,11 +131,25 @@ struct SwiftExample: View {
             }
 
             Group {
-                SectionTitle(title: "FlipClockView",
-                             subtitle: "The current time")
+                SectionTitle(title: "Clock / Current Time",
+                             subtitle: "Tap to toggle animation")
 
-                FlipClockView()
+                FlipClockView(animationsEnabled: isClockAnimating)
                     .frame(height: 70)
+                    .onTapGesture {
+                        isClockAnimating.toggle()
+                    }
+            }
+
+            Group {
+                SectionTitle(title: "Countdown to NYE",
+                             subtitle: "days/h/min/sec, tap to toggle animation")
+
+                DateCountdownFlipView(targetDate: nyeDate, animationsEnabled: isCountdownAnimating)
+                    .frame(height: 70)
+                    .onTapGesture {
+                        isCountdownAnimating.toggle()
+                    }
             }
 
             Spacer().frame(height: 30.0)

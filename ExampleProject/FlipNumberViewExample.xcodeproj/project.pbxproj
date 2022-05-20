@@ -11,6 +11,7 @@
 		7E03ACE827F682E2003984CE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E03ACE727F682E2003984CE /* Launch Screen.storyboard */; };
 		7E0849C12837660D00F48ADF /* FlipImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0849C02837660D00F48ADF /* FlipImageView.swift */; };
 		7E0849C328376D4A00F48ADF /* FlipClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0849C228376D4A00F48ADF /* FlipClockView.swift */; };
+		7E0849C528376FBA00F48ADF /* DateCountdownFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0849C428376FBA00F48ADF /* DateCountdownFlipView.swift */; };
 		7E37A19328363AE000D46DE9 /* FlipNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E37A19228363AE000D46DE9 /* FlipNumberView.swift */; };
 		7E37A19528363B6C00D46DE9 /* SwiftExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E37A19428363B6C00D46DE9 /* SwiftExample.swift */; };
 		7E84C5432836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */; };
@@ -41,6 +42,7 @@
 		7E03ACE727F682E2003984CE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7E0849C02837660D00F48ADF /* FlipImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipImageView.swift; sourceTree = "<group>"; };
 		7E0849C228376D4A00F48ADF /* FlipClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipClockView.swift; sourceTree = "<group>"; };
+		7E0849C428376FBA00F48ADF /* DateCountdownFlipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCountdownFlipView.swift; sourceTree = "<group>"; };
 		7E37A19128363A4C00D46DE9 /* JDFlipNumberView-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JDFlipNumberView-Bridging-Header.h"; sourceTree = "<group>"; };
 		7E37A19228363AE000D46DE9 /* FlipNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipNumberView.swift; sourceTree = "<group>"; };
 		7E37A19428363B6C00D46DE9 /* SwiftExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExample.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				7E0849C228376D4A00F48ADF /* FlipClockView.swift */,
 				D25D53F615D1B97F00B791F3 /* JDDateCountdownFlipView.h */,
 				D25D53F715D1B97F00B791F3 /* JDDateCountdownFlipView.m */,
+				7E0849C428376FBA00F48ADF /* DateCountdownFlipView.swift */,
 				D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */,
 			);
 			name = JDFlipNumberView;
@@ -302,6 +305,7 @@
 				D25D53FF15D1B97F00B791F3 /* JDFlipNumberDigitView.m in Sources */,
 				D25D540515D1BA3B00B791F3 /* FVEDetailViewController.m in Sources */,
 				D274C512182EEE4700F45683 /* JDFlipClockView.m in Sources */,
+				7E0849C528376FBA00F48ADF /* DateCountdownFlipView.swift in Sources */,
 				D2D0560A1670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m in Sources */,
 				D293711C183B973B00A06413 /* UIView+JDFlipImageView.m in Sources */,
 				D2FDCA30167E4E1C008FC0A6 /* JDFlipNumberView.m in Sources */,

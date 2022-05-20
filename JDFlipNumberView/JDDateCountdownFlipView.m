@@ -49,6 +49,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
     self = [super initWithFrame:CGRectZero];
     if (self) {
         _dayDigitCount = dayDigits;
+
         // view setup
         self.backgroundColor = [UIColor clearColor];
         self.autoresizesSubviews = NO;
@@ -77,8 +78,8 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         }
         
         // set initial dates
-        self.targetDate = [NSDate date];
-        [self setupUpdateTimer];
+        _targetDate = [NSDate date];
+        self.animationsEnabled = true;
     }
     return self;
 }
@@ -101,6 +102,21 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 {
     _targetDate = targetDate;
     [self updateValuesAnimated:NO];
+
+    if (self.animationsEnabled) {
+        [self setupUpdateTimer];
+    }
+}
+
+#pragma mark UIView
+
+- (void)didMoveToSuperview;
+{
+    if (self.superview != nil) {
+        [self setupUpdateTimer];
+    } else {
+        [self cancelUpdateTimer];
+    }
 }
 
 #pragma mark layout
@@ -163,15 +179,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 #pragma mark update timer
 
-
-- (void)start;
-{
-    if (self.animationTimer == nil) {
-        [self setupUpdateTimer];
-    }
-}
-
-- (void)stop;
+- (void)cancelUpdateTimer;
 {
     [self.animationTimer invalidate];
     self.animationTimer = nil;
@@ -179,6 +187,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 - (void)setupUpdateTimer;
 {
+    [self cancelUpdateTimer];
     self.animationTimer = [NSTimer timerWithTimeInterval:kFlipAnimationUpdateInterval
                                                   target:self
                                                 selector:@selector(handleTimer:)
@@ -189,7 +198,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 - (void)handleTimer:(NSTimer*)timer;
 {
-    [self updateValuesAnimated:YES];
+    [self updateValuesAnimated:self.animationsEnabled];
 }
 
 - (void)updateValuesAnimated:(BOOL)animated;
@@ -211,7 +220,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         [self.hourFlipNumberView setValue:0 animated:animated];
         [self.minuteFlipNumberView setValue:0 animated:animated];
         [self.secondFlipNumberView setValue:0 animated:animated];
-        [self stop];
+        [self cancelUpdateTimer];
     }
 }
 
