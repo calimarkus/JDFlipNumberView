@@ -98,6 +98,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E0849E02837BA5F00F48ADF /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				D2D056081670006D00CC7BA3 /* JDFlipNumberViewImageFactory.h */,
+				D2D056091670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		7E0849E12837BA9900F48ADF /* DefaultImageBundle */ = {
+			isa = PBXGroup;
+			children = (
+				D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */,
+			);
+			path = DefaultImageBundle;
+			sourceTree = "<group>";
+		};
+		7E0849E22837BB5300F48ADF /* FlipImageView */ = {
+			isa = PBXGroup;
+			children = (
+				D2F69E671837C82200AF7E54 /* JDFlipImageView.h */,
+				D2F69E681837C82200AF7E54 /* JDFlipImageView.m */,
+				7E0849C02837660D00F48ADF /* FlipImageView.swift */,
+				D293711A183B973B00A06413 /* UIView+JDFlipImageView.h */,
+				D293711B183B973B00A06413 /* UIView+JDFlipImageView.m */,
+			);
+			path = FlipImageView;
+			sourceTree = "<group>";
+		};
+		7E0849E32837BB5E00F48ADF /* FlipNumberView */ = {
+			isa = PBXGroup;
+			children = (
+				D25D53F915D1B97F00B791F3 /* JDFlipNumberDigitView.h */,
+				D25D53FA15D1B97F00B791F3 /* JDFlipNumberDigitView.m */,
+				D2FDCA2A167E4CD5008FC0A6 /* JDFlipNumberView.h */,
+				D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */,
+				7E37A19228363AE000D46DE9 /* FlipNumberView.swift */,
+			);
+			path = FlipNumberView;
+			sourceTree = "<group>";
+		};
+		7E0849E42837BB6E00F48ADF /* FlipClockView */ = {
+			isa = PBXGroup;
+			children = (
+				D274C510182EEE4700F45683 /* JDFlipClockView.h */,
+				D274C511182EEE4700F45683 /* JDFlipClockView.m */,
+				7E0849C228376D4A00F48ADF /* FlipClockView.swift */,
+			);
+			path = FlipClockView;
+			sourceTree = "<group>";
+		};
+		7E0849E52837BB7600F48ADF /* DateCountdownFlipView */ = {
+			isa = PBXGroup;
+			children = (
+				D25D53F615D1B97F00B791F3 /* JDDateCountdownFlipView.h */,
+				D25D53F715D1B97F00B791F3 /* JDDateCountdownFlipView.m */,
+				7E0849C428376FBA00F48ADF /* DateCountdownFlipView.swift */,
+			);
+			path = DateCountdownFlipView;
+			sourceTree = "<group>";
+		};
 		D25D53BB15D1B3D200B791F3 = {
 			isa = PBXGroup;
 			children = (
@@ -155,22 +216,12 @@
 			isa = PBXGroup;
 			children = (
 				7E37A19128363A4C00D46DE9 /* JDFlipNumberView-Bridging-Header.h */,
-				D2FDCA24167E4A45008FC0A6 /* Internals */,
-				D2FDCA2A167E4CD5008FC0A6 /* JDFlipNumberView.h */,
-				D2FDCA2B167E4CD5008FC0A6 /* JDFlipNumberView.m */,
-				7E37A19228363AE000D46DE9 /* FlipNumberView.swift */,
-				D2F69E671837C82200AF7E54 /* JDFlipImageView.h */,
-				D2F69E681837C82200AF7E54 /* JDFlipImageView.m */,
-				7E0849C02837660D00F48ADF /* FlipImageView.swift */,
-				D293711A183B973B00A06413 /* UIView+JDFlipImageView.h */,
-				D293711B183B973B00A06413 /* UIView+JDFlipImageView.m */,
-				D274C510182EEE4700F45683 /* JDFlipClockView.h */,
-				D274C511182EEE4700F45683 /* JDFlipClockView.m */,
-				7E0849C228376D4A00F48ADF /* FlipClockView.swift */,
-				D25D53F615D1B97F00B791F3 /* JDDateCountdownFlipView.h */,
-				D25D53F715D1B97F00B791F3 /* JDDateCountdownFlipView.m */,
-				7E0849C428376FBA00F48ADF /* DateCountdownFlipView.swift */,
-				D25D540715D1BD5C00B791F3 /* JDFlipNumberView.bundle */,
+				7E0849E12837BA9900F48ADF /* DefaultImageBundle */,
+				7E0849E02837BA5F00F48ADF /* Private */,
+				7E0849E32837BB5E00F48ADF /* FlipNumberView */,
+				7E0849E22837BB5300F48ADF /* FlipImageView */,
+				7E0849E42837BB6E00F48ADF /* FlipClockView */,
+				7E0849E52837BB7600F48ADF /* DateCountdownFlipView */,
 			);
 			name = JDFlipNumberView;
 			path = ../JDFlipNumberView;
@@ -206,17 +257,6 @@
 				D2F69E6D1837D18A00AF7E54 /* example03.jpg */,
 			);
 			path = ExampleImages;
-			sourceTree = "<group>";
-		};
-		D2FDCA24167E4A45008FC0A6 /* Internals */ = {
-			isa = PBXGroup;
-			children = (
-				D2D056081670006D00CC7BA3 /* JDFlipNumberViewImageFactory.h */,
-				D2D056091670006D00CC7BA3 /* JDFlipNumberViewImageFactory.m */,
-				D25D53F915D1B97F00B791F3 /* JDFlipNumberDigitView.h */,
-				D25D53FA15D1B97F00B791F3 /* JDFlipNumberDigitView.m */,
-			);
-			name = Internals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
