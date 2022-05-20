@@ -8,15 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class JDFlipNumberViewImageBundle;
+@class JDFlipNumberViewImageSet;
+@class JDFlipNumberViewImageTuple;
+
 @interface JDFlipNumberViewImageFactory : NSObject
 
-+ (JDFlipNumberViewImageFactory*)sharedInstance;
++ (JDFlipNumberViewImageSet *)generateImagesForImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
-- (CGSize)imageSizeForBundleNamed:(NSString*)bundleName;
-- (NSArray*)topImagesForBundleNamed:(NSString*)bundleName;
-- (NSArray*)bottomImagesForBundleNamed:(NSString*)bundleName;
-
-- (void)generateImagesFromBundleNamed:(NSString*)bundleName;
-- (NSArray*)generateImagesFromImage:(UIImage*)image;
++ (JDFlipNumberViewImageTuple *)generateImagesFromImage:(UIImage*)image;
 
 @end

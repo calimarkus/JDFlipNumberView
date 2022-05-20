@@ -8,8 +8,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "JDFlipNumberDigitView.h"
 
+#import "JDFlipNumberViewImageBundle.h"
 #import "JDFlipNumberView.h"
-
 
 static CGFloat JDFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
 static CGFloat JDFlipViewRelativeMargin = 0.05; // use 5% of width as margin
@@ -239,7 +239,10 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     JDFlipNumberDigitView* view = nil;
     NSMutableArray* digitViews = [[NSMutableArray alloc] initWithCapacity:digitCount];
     for (int i = 0; i < digitCount; i++) {
-        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:self.imageBundleName];
+        JDFlipNumberViewImageBundle *location = (self.imageBundleName == nil
+                                                         ? [JDFlipNumberViewImageBundle defaultImageBundle]
+                                                         : [JDFlipNumberViewImageBundle imageBundleNamed:self.imageBundleName]);
+        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:location];
         [self addSubview:view];
         [digitViews addObject:view];
     }
@@ -253,16 +256,6 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     
     // relayout
     [self setNeedsLayout];
-}
-
-- (void)setImageBundleName:(NSString*)imageBundleName;
-{
-    _imageBundleName = imageBundleName;
-    
-    // update digits
-    for (JDFlipNumberDigitView *digit in self.digitViews) {
-        [digit setImageBundleName:imageBundleName];
-    }
 }
 
 #pragma mark -

@@ -7,9 +7,11 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "JDFlipNumberViewImageFactory.h"
 
 #import "JDFlipImageView.h"
+
+#import "JDFlipNumberViewImageFactory.h"
+#import "JDFlipNumberViewImageTuple.h"
 
 const NSTimeInterval JDFlipImageViewDefaultFlipDuration = 0.66;
 static NSString *const JDFlipImageAnimationKey = @"JDFlipImageAnimationKey";
@@ -24,7 +26,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 @property (nonatomic, assign) BOOL upscalingAllowed;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) JDFlipAnimationState animationState;
-@property (nonatomic, strong) NSArray *nextImages;
+@property (nonatomic, strong) JDFlipNumberViewImageTuple *nextImages;
 
 @property (nonatomic, strong) UIImageView *topImageView;
 @property (nonatomic, strong) UIImageView *flipImageView;
@@ -164,11 +166,10 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     _image = image;
     if (!image) return;
     
-    self.nextImages = [[JDFlipNumberViewImageFactory sharedInstance]
-                       generateImagesFromImage:image];
+    self.nextImages = [JDFlipNumberViewImageFactory generateImagesFromImage:image];
     
-    self.topImageView.image = self.nextImages[0];
-    self.bottomImageView.image = self.nextImages[1];
+    self.topImageView.image = self.nextImages.topImage;
+    self.bottomImageView.image = self.nextImages.bottomImage;
 }
 
 - (void)setImageAnimated:(UIImage*)image;
@@ -194,8 +195,8 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     if (!image) return;
     
     // update current images (in case animation isnt finished)
-    self.topImageView.image = self.nextImages[0];
-    self.bottomImageView.image = self.nextImages[1];
+    self.topImageView.image = self.nextImages.topImage;
+    self.bottomImageView.image = self.nextImages.bottomImage;
     
     // remove any running animation
     [self.flipImageView.layer removeAnimationForKey:JDFlipImageAnimationKey];
@@ -204,8 +205,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     self.animationDuration = duration;
     self.completionBlock = completion;
     self.animationState = JDFlipAnimationStateFirstHalf;
-    self.nextImages = [[JDFlipNumberViewImageFactory sharedInstance]
-                       generateImagesFromImage:image];
+    self.nextImages = [JDFlipNumberViewImageFactory generateImagesFromImage:image];
     
     // animate
     [self runAnimation];
@@ -234,15 +234,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
         
 		// setup first animation half
         self.flipImageView.image   = isTopDown ? self.topImageView.image : self.bottomImageView.image;
-        self.topImageView.image	   = isTopDown ? self.nextImages[0] : self.topImageView.image;
-        self.bottomImageView.image = isTopDown ? self.bottomImageView.image : self.nextImages[1];
+        self.topImageView.image	   = isTopDown ? self.nextImages.topImage : self.topImageView.image;
+        self.bottomImageView.image = isTopDown ? self.bottomImageView.image : self.nextImages.bottomImage;
 		
         animation.fromValue	= [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0.0, 1, 0, 0)];
         animation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(isTopDown ? -M_PI_2 : M_PI_2, 1, 0, 0)];
 		animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
 	} else {
 		// setup second animation half
-        self.flipImageView.image = isTopDown ? self.nextImages[1] : self.nextImages[0];
+        self.flipImageView.image = isTopDown ? self.nextImages.bottomImage : self.nextImages.topImage;
         
 		animation.fromValue	= [NSValue valueWithCATransform3D:CATransform3DMakeRotation(isTopDown ? M_PI_2 : -M_PI_2, 1, 0, 0)];
 		animation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0.0, 1, 0, 0)];
