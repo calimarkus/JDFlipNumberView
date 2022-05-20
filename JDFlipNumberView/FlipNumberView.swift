@@ -6,29 +6,46 @@
 import Foundation
 import SwiftUI
 
-enum FlipNumberViewIntervalAnimationDirection {
+public enum FlipNumberViewIntervalAnimationDirection {
     case up
     case down
 }
 
-enum FlipNumberViewAnimationStyle {
+public enum FlipNumberViewAnimationStyle {
     case none
     case simple
     case continuous(duration: Double)
     case interval(interval: Double, direction: FlipNumberViewIntervalAnimationDirection)
 }
 
-struct FlipNumberView: UIViewRepresentable {
+public struct FlipNumberView: UIViewRepresentable {
     @Binding var value: Int
-    var digitCount: Int? = nil
-    var imageBundleName: String? = nil
-    var animationStyle: FlipNumberViewAnimationStyle = .continuous(duration: 2.5)
+    var digitCount: Int?
+    var imageBundleName: String?
+    var animationStyle: FlipNumberViewAnimationStyle
 
-    var zDistance: Int? = nil
-    var relativeDigitMargin: Double? = nil
-    var absoluteDigitMargin: Double? = nil
+    var zDistance: Int?
+    var relativeDigitMargin: Double?
+    var absoluteDigitMargin: Double?
 
-    var resolvedDigitCount: UInt {
+    public init(value: Binding<Int>,
+                digitCount: Int? = nil,
+                imageBundleName: String? = nil,
+                animationStyle: FlipNumberViewAnimationStyle = .continuous(duration: 2.5),
+                zDistance: Int? = nil,
+                relativeDigitMargin: Double? = nil,
+                absoluteDigitMargin: Double? = nil)
+    {
+        self._value = value
+        self.digitCount = digitCount
+        self.imageBundleName = imageBundleName
+        self.animationStyle = animationStyle
+        self.zDistance = zDistance
+        self.relativeDigitMargin = relativeDigitMargin
+        self.absoluteDigitMargin = absoluteDigitMargin
+    }
+
+    private var resolvedDigitCount: UInt {
         if let count = digitCount {
             return UInt(count)
         } else {
@@ -36,7 +53,7 @@ struct FlipNumberView: UIViewRepresentable {
         }
     }
 
-    func updateStaticState(_ flipView: JDFlipNumberView) {
+    private func updateStaticState(_ flipView: JDFlipNumberView) {
         if let countVal = digitCount, countVal != flipView.digitCount {
             flipView.digitCount = UInt(countVal)
         }
@@ -52,7 +69,7 @@ struct FlipNumberView: UIViewRepresentable {
 
         if case let .interval(interval, direction) = animationStyle {
             flipView.stopAnimation()
-            switch (direction) {
+            switch direction {
                 case .up:
                     flipView.animateUp(withTimeInterval: interval)
                 case .down:
@@ -61,7 +78,7 @@ struct FlipNumberView: UIViewRepresentable {
         }
     }
 
-    func makeUIView(context: Context) -> JDFlipNumberView {
+    public func makeUIView(context: Context) -> JDFlipNumberView {
         let flipView = JDFlipNumberView(digitCount: resolvedDigitCount, imageBundleName: imageBundleName)!
         flipView.value = value
         flipView.digitCount = resolvedDigitCount
@@ -70,7 +87,7 @@ struct FlipNumberView: UIViewRepresentable {
         return flipView
     }
 
-    func updateUIView(_ uiView: JDFlipNumberView, context: Context) {
+    public func updateUIView(_ uiView: JDFlipNumberView, context: Context) {
         let flipView = uiView
 
         updateStaticState(flipView)
@@ -92,22 +109,21 @@ struct FlipNumberView: UIViewRepresentable {
         }
     }
 
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
 
-    class Coordinator: NSObject, JDFlipNumberViewDelegate {
+    public class Coordinator: NSObject, JDFlipNumberViewDelegate {
         var flipView: FlipNumberView
 
         init(_ flipView: FlipNumberView) {
             self.flipView = flipView
         }
 
-        func flipNumberView(_ flipNumberView: JDFlipNumberView!, didChangeValueAnimated animated: Bool) {
+        public func flipNumberView(_ flipNumberView: JDFlipNumberView!, didChangeValueAnimated animated: Bool) {
             if case .interval = flipView.animationStyle {
                 self.flipView.value = flipNumberView.value
             }
         }
     }
-
 }

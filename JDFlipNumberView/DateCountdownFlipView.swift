@@ -6,15 +6,27 @@
 import Foundation
 import SwiftUI
 
-struct DateCountdownFlipView: UIViewRepresentable {
-    var dayDigitCount = 3
-    var imageBundleName: String? = nil
+public struct DateCountdownFlipView: UIViewRepresentable {
+    var dayDigitCount: Int
+    var imageBundleName: String?
 
     var targetDate: Date
-    var animationsEnabled = true
-    var zDistance: Int? = nil
+    var animationsEnabled: Bool
+    var zDistance: Int?
 
-    func updateStaticState(_ flipView: JDDateCountdownFlipView) {
+    public init(dayDigitCount: Int = 3,
+                imageBundleName: String? = nil,
+                targetDate: Date,
+                animationsEnabled: Bool = true,
+                zDistance: Int? = nil) {
+        self.dayDigitCount = dayDigitCount
+        self.imageBundleName = imageBundleName
+        self.targetDate = targetDate
+        self.animationsEnabled = animationsEnabled
+        self.zDistance = zDistance
+    }
+
+    private func updateStaticState(_ flipView: JDDateCountdownFlipView) {
         flipView.targetDate = targetDate
         if animationsEnabled != flipView.animationsEnabled {
             flipView.animationsEnabled = animationsEnabled
@@ -24,14 +36,14 @@ struct DateCountdownFlipView: UIViewRepresentable {
         }
     }
 
-    func makeUIView(context: Context) -> JDDateCountdownFlipView {
+    public func makeUIView(context: Context) -> JDDateCountdownFlipView {
         let flipView = JDDateCountdownFlipView(dayDigitCount: dayDigitCount, imageBundleName: imageBundleName)!
         flipView.animationsEnabled = animationsEnabled
         updateStaticState(flipView)
         return flipView
     }
 
-    func updateUIView(_ uiView: JDDateCountdownFlipView, context: Context) {
+    public func updateUIView(_ uiView: JDDateCountdownFlipView, context: Context) {
         updateStaticState(uiView)
     }
 }

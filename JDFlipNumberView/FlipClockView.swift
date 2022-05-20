@@ -6,14 +6,26 @@
 import Foundation
 import SwiftUI
 
-struct FlipClockView: UIViewRepresentable {
-    var imageBundleName: String? = nil
-    var relativeDigitMargin: Double = 0.1
-    var animationsEnabled = true
-    var showsSeconds = true
-    var zDistance: Int? = nil
+public struct FlipClockView: UIViewRepresentable {
+    var imageBundleName: String?
+    var relativeDigitMargin: Double
+    var animationsEnabled: Bool
+    var showsSeconds: Bool
+    var zDistance: Int?
 
-    func updateStaticState(_ flipView: JDFlipClockView) {
+    internal init(imageBundleName: String? = nil,
+                  relativeDigitMargin: Double = 0.1,
+                  animationsEnabled: Bool = true,
+                  showsSeconds: Bool = true,
+                  zDistance: Int? = nil) {
+        self.imageBundleName = imageBundleName
+        self.relativeDigitMargin = relativeDigitMargin
+        self.animationsEnabled = animationsEnabled
+        self.showsSeconds = showsSeconds
+        self.zDistance = zDistance
+    }
+
+    private func updateStaticState(_ flipView: JDFlipClockView) {
         flipView.relativeDigitMargin = relativeDigitMargin
         flipView.animationsEnabled = animationsEnabled
         flipView.showsSeconds = showsSeconds
@@ -22,13 +34,13 @@ struct FlipClockView: UIViewRepresentable {
         }
     }
 
-    func makeUIView(context: Context) -> JDFlipClockView {
+    public func makeUIView(context: Context) -> JDFlipClockView {
         let flipView = JDFlipClockView(imageBundleName: imageBundleName)!
         updateStaticState(flipView)
         return flipView
     }
 
-    func updateUIView(_ uiView: JDFlipClockView, context: Context) {
+    public func updateUIView(_ uiView: JDFlipClockView, context: Context) {
         updateStaticState(uiView)
     }
 }
