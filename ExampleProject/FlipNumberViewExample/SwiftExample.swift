@@ -115,6 +115,14 @@ struct SwiftExample: View {
                     }
             }
 
+            Group {
+                SectionTitle(title: "FlipClockView",
+                             subtitle: "The current time")
+
+                FlipClockView()
+                    .frame(height: 70)
+            }
+
             Spacer().frame(height: 30.0)
         }
     }
