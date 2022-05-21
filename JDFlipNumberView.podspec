@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # META
   s.name         = 'JDFlipNumberView'
-  s.version      = '2.2.4'
+  s.version      = '3.0'
   s.author       = { 'Markus Emrich' => 'markus.emrich@gmail.com' }
   s.homepage     = 'https://github.com/calimarkus/JDFlipNumberView'
   s.license      = 'MIT'
@@ -26,7 +26,8 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'FlipImageView' do |fiv|
-    fiv.source_files = 'JDFlipNumberView/Private/*.{h,m}', 'JDFlipNumberView/FlipImageView/*.{h,m}'
+    fiv.source_files = 'JDFlipNumberView/Private/*.{h,m}', 'JDFlipNumberView/FlipImageView/*.{h,m}', 'JDFlipNumberView/FlipNumberView/JDFlipNumberViewImageBundle.{h,m}'
+    fiv.exclude_files = 'JDFlipNumberView/Private/JDFlipNumberViewImageCache.{h,m}'
     fiv.private_header_files = 'JDFlipNumberView/Private/*.{h}'
   end
 
