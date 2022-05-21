@@ -9,19 +9,26 @@ The `FlipNumberView` is simulating an analog flip display (e.g. like those at th
 
 <img width="1000" alt="screenshot" src="https://user-images.githubusercontent.com/807039/169299475-7dd36912-7eeb-4f30-a7c7-459b11e7099e.png">
 
-## Installation
+## Installation using CocoaPods
 
-#### CocoaPods
+- `pod 'JDFlipNumberView'` all flip views, SwiftUI views & default imageset
 
-- `pod 'JDFlipNumberView'` including the default images
-- `pod 'JDFlipNumberView/Core'` without default images (to use your own images)
-- `pod 'JDFlipNumberView/FlipImageView'`, only the `JDFlipImageView` (for flipping images)
+To further limit what you depend on, use the following subpods. They don't include the default image bundle, thus they are much more lightweight. See [Customization](#customization) below for infos, on how to use your own images.
 
-> See Customization below for infos, on how to use your own images.
+- `pod 'JDFlipNumberView/NoImageBundle'`, everything except the default image bundle
+- `pod 'JDFlipNumberView/NoImageBundle-NoSwiftUI'`, everything except the default image bundle & the SwiftUI views
+
+Even more targeted:
+
+- `pod 'JDFlipNumberView/Core'`, only the `JDFlipNumberView`
+- `pod 'JDFlipNumberView/FlipImageView'`, only the `JDFlipImageView`
+- `pod 'JDFlipNumberView/FlipClockView'`, `/Core` + `JDFlipClockView`
+- `pod 'JDFlipNumberView/DateCountdownFlipView'`, `/Core` + `JDDateCountdownFlipView`
+- `pod 'JDFlipNumberView/DefaultImageBundle'`, the default image bundle, as it's not included automatically in the other subpods
 
 (For infos on cocoapods, have a look the [cocoapods website])
 
-#### Manually
+## Manual Installation
 
 1. Add all files from `JDFlipNumberView/JDFlipNumberView/*.{h,m}` to your project
 2. Add the `JDFlipNumberView.bundle`, if you want to use the default images
@@ -31,64 +38,90 @@ The `FlipNumberView` is simulating an analog flip display (e.g. like those at th
 
 The main classes are
 
-- `JDFlipNumberView`  
-  The **Standard FlipNumberView**. It shows an integer value as FlipView.
+- `JDFlipNumberView` (SwiftUI: `FlipNumberView`)
+  - The **Standard FlipNumberView**. It shows an integer value as FlipView.
   It has a choosable amount of digits. Can be animated in any way described in this document.
 
-- `JDFlipImageView`  
-  An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`.
+- `JDFlipImageView` (SwiftUI: `FlipImageView`)
+  - An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`
   
-For specific usecases you may use one of these:
+- `JDDateCountdownFlipView` (SwiftUI: `DateCountdownFlipView`)
+  - __A date countdown.__ Create it with a target date and it will display an animated flipping countdown showing the remaining days, hours, minutes and seconds until that date.
   
-- `JDDateCountdownFlipView`  
-  __A date countdown.__ Just init with a target date and it will show the remaining days, hours, minutes and seconds until that date.
-  
-- `JDFlipClockView`  
-  __A digital clock.__ Displays the hour and minutes of the current time as flipViews. Seconds can also be enabled. Always shows the current time.
+- `JDFlipClockView` (SwiftUI: `FlipClockView`)
+  - __A digital clock.__ Displays the current hour and minutes as animated flip views. Seconds can also be enabled. Always shows the current time.
   
 - `UIView+JDFlipImageView`  
-  A **UIView category** that makes it possible to transition between any two views using a flip animation.
+  - A **UIView category** that makes it possible to transition between any two views using a flip animation.
 
-## Usage
+## Usage Example
 
-In any case, after installing, you only need to follow some simple steps to get started. Here is a full example usage:
+After installing you only need to follow some simple steps to get started. Here is a working example: A 4-digit `FlipNumberView` animating down once every second.
 
-__Example:__ A 4 digit FlipNumberView animating down every second.
+Objective-C + UIKit:
 
-    // create a new FlipNumberView, set a value, start an animation
-    JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:4];
-    flipNumberView.value = 1337;
-    [flipNumberView animateDownWithTimeInterval: 1.0];
-    
-    // add to view hierarchy and resize
-    [self.view addSubview: flipNumberView];
-    flipNumberView.frame = CGRectMake(20,100,300,100);
+```objc
+// create a new FlipNumberView, set a value, start an animation
+JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:4];
+flipNumberView.value = 1337;
+[flipNumberView animateDownWithTimeInterval: 1.0];
+
+// add to view hierarchy and resize
+[self.view addSubview: flipNumberView];
+flipNumberView.frame = CGRectMake(20,100,300,100);
+```
+
+In SwiftUI it's even simpler:
+
+```swift
+struct SwiftExample: View {
+    @State var value = 1337
+
+    var body: some View {
+        FlipNumberView(value: $value, animationStyle: .interval(interval: 1.0, direction: .down))
+          .frame(height: 80)
+    }
+}
+```
 
 That's it. This will display a working, flipping, animating countdown view!  
 See the example project for other examples.
 
-## Possible animations
+## Available animations
 
-Basic animations (Single Flip):
+- Simple (a single flip):
 
-    - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
-    - (void)animateToNextNumber;
-    - (void)animateToPreviousNumber;
+```objc
+- (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
+- (void)animateToNextNumber;
+- (void)animateToPreviousNumber;
+```
 
-Targeted animation over time (Flipping through all numbers, until target is reached):
+- Continuous (Flipping through all numbers, until target is reached):
 
-    - (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
+```objc
+- (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
+```
     
-Timed animation without target value (Flipping once per `timeInterval`):
+- Interval (A timed animation without a target value, flipping once per `timeInterval`):
 
-    - (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
-    - (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
+```objc
+- (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
+- (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
+```
+
+In SwiftUI, see these:
+
+```swift
+public enum FlipNumberViewAnimationStyle {
+    case none
+    case simple
+    case continuous(duration: Double)
+    case interval(interval: Double, direction: FlipNumberViewIntervalAnimationDirection)
+}
+```
 
 ## Customization
-
-*You may use the original `.psd` file from the `gfx` folder to create custom numbers.*
-
-![Digit images](gfx/digits.png)
 
 **A) Replace original images**  
 Replace the images within the `JDFlipNumberView.bundle`. (In the Finder just `Rightclick > Show Contents` to see the images.)
@@ -100,19 +133,28 @@ Add another graphics bundle to your project. A bundle is nothing else, than a re
 
 #### Implementing a custom bundle
 
-To use your own bundles, create the FlipViews like this:
-	             
-	[JDFlipNumberView initWithDigitCount:<#count#> 
-                         imageBundleName:<#imageBundleName#>];
+To use your own bundles, use the `imageBundle:` initializers:
 
-or for a DateCountDown like this:
-	             
-	[JDDateCountdownFlipView initWithDayDigitCount:<#count#>
-                                   imageBundleName:<#imageBundleName#>];
+```objc
+[[JDFlipNumberView alloc] initWithDigitCount:<#count#> 
+                                 imageBundle:[JDFlipNumberViewImageBundle imageBundleNamed:@"<#imageBundleName#>"]];
+[[JDDateCountdownFlipView alloc] initWithDayDigitCount:<#count#> 
+                                           imageBundle:[JDFlipNumberViewImageBundle imageBundleNamed:@"<#imageBundleName#>"]];
+```
+
+SwiftUI:
+
+```swift
+FlipNumberView(value: <#valueBinding#>, imageBundle: JDFlipNumberViewImageBundle(named: "<#imageBundleName#>"))
+```
+
+*Feel free to use the original `.psd` file from the `gfx` folder to create custom numbers.*
+
+![digits](https://user-images.githubusercontent.com/807039/169639417-696466bd-28b7-4ed6-a406-863ac9f49a0b.png)
 
 ## Twitter
 
-I'm [@calimarkus](http://twitter.com/calimarkus) on Twitter. Feel free to [post a tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus), if you like the FlipNumberView.  
+I'm [@calimarkus](http://twitter.com/calimarkus) on Twitter. Maybe [tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus), if you like `JDFlipNumberView`!
 
 [![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus)
 
