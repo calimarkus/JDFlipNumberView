@@ -40,7 +40,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 @implementation JDFlipImageView
 
-- (id)initWithFrame:(CGRect)frame;
+- (instancetype)initWithFrame:(CGRect)frame;
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -57,7 +57,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
     return self;
 }
 
-- (id)initWithImage:(UIImage *)image;
+- (instancetype)initWithImage:(UIImage *)image;
 {
     self = [self initWithFrame:(CGRect){CGPointZero, image.size}];
     if (self) {

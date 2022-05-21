@@ -8,6 +8,6 @@
 
 @interface FVEDetailViewController : UIViewController
 
-- (id)initWithIndexPath:(NSIndexPath*)indexPath;
+- (instancetype)initWithIndexPath:(NSIndexPath*)indexPath;
 
 @end

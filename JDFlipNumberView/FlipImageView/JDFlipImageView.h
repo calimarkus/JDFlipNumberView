@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, JDFlipImageViewFlipDirection) {
 @property (nonatomic, assign) JDFlipImageViewFlipDirection flipDirection;
 @property (nonatomic, assign) NSUInteger zDistance;
 
-- (id)initWithImage:(UIImage*)image;
+- (instancetype)initWithImage:(UIImage*)image;
 
 - (void)setImageAnimated:(UIImage*)image;
 

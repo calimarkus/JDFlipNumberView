@@ -12,7 +12,7 @@
 
 @implementation FVEViewController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithStyle: UITableViewStyleInsetGrouped];
     if (self) {

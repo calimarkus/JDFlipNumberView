@@ -46,7 +46,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 @implementation JDFlipNumberDigitView
 
-- (id)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
+- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {

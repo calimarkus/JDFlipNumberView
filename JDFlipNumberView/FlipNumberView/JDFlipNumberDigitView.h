@@ -26,7 +26,7 @@ typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) NSUInteger zDistance;
 @property (nonatomic, readonly) JDFlipNumberViewImageBundle *imageBundle;
 
-- (id)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
+- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 - (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;

@@ -23,12 +23,12 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 @implementation JDDateCountdownFlipView
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithDayDigitCount:3];
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [self initWithDayDigitCount:3];
     if (self) {
@@ -37,12 +37,12 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
     return self;
 }
 
-- (id)initWithDayDigitCount:(NSInteger)dayDigits;
+- (instancetype)initWithDayDigitCount:(NSInteger)dayDigits;
 {
     return [self initWithDayDigitCount:dayDigits imageBundle:nil];
 }
 
-- (id)initWithDayDigitCount:(NSInteger)dayDigits
+- (instancetype)initWithDayDigitCount:(NSInteger)dayDigits
             imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 {
     self = [super initWithFrame:CGRectZero];

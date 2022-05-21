@@ -13,8 +13,8 @@
 @property (nonatomic, assign) NSUInteger zDistance;
 @property (nonatomic, assign) BOOL animationsEnabled;
 
-- (id)initWithDayDigitCount:(NSInteger)dayDigits;
-- (id)initWithDayDigitCount:(NSInteger)dayDigits
+- (instancetype)initWithDayDigitCount:(NSInteger)dayDigits;
+- (instancetype)initWithDayDigitCount:(NSInteger)dayDigits
             imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 @end

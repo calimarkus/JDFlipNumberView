@@ -40,7 +40,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 @implementation JDFlipNumberView
 
-- (id)initWithFrame:(CGRect)frame;
+- (instancetype)initWithFrame:(CGRect)frame;
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -49,7 +49,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -58,12 +58,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     return self;
 }
 
-- (id)initWithDigitCount:(NSUInteger)digitCount;
+- (instancetype)initWithDigitCount:(NSUInteger)digitCount;
 {
     return [self initWithDigitCount:digitCount imageBundle:nil];
 }
 
-- (id)initWithDigitCount:(NSUInteger)digitCount
+- (instancetype)initWithDigitCount:(NSUInteger)digitCount
              imageBundle:(JDFlipNumberViewImageBundle *)imageBundle
 {
     self = [super initWithFrame:CGRectZero];

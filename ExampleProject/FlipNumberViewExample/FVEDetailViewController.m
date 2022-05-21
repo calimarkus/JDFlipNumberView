@@ -32,7 +32,7 @@
 
 @implementation FVEDetailViewController
 
-- (id)initWithIndexPath:(NSIndexPath*)indexPath
+- (instancetype)initWithIndexPath:(NSIndexPath*)indexPath
 {
     self = [super init];
     if (self) {

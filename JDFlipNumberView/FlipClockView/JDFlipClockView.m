@@ -20,7 +20,7 @@
 
 @implementation JDFlipClockView
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [self initWithImageBundle:nil];
     if (self) {

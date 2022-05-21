@@ -25,8 +25,8 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) CGFloat relativeDigitMargin;
 @property (nonatomic, assign) CGFloat absoluteDigitMargin;
 
-- (id)initWithDigitCount:(NSUInteger)digitCount;
-- (id)initWithDigitCount:(NSUInteger)digitCount
+- (instancetype)initWithDigitCount:(NSUInteger)digitCount;
+- (instancetype)initWithDigitCount:(NSUInteger)digitCount
              imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 // direct value manipulation (jump to value)
