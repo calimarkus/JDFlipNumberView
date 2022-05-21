@@ -5,9 +5,6 @@
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 //
-//  based on
-//  www.voyce.com/index.php/2010/04/10/creating-an-ipad-flip-clock-with-core-animation/
-//
 
 #import <QuartzCore/QuartzCore.h>
 
