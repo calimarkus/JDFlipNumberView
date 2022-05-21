@@ -18,17 +18,21 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationType) {
 typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDFlipNumberDigitView : UIView
 
 @property (nonatomic, assign) NSInteger value;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL upscalingAllowed;
 @property (nonatomic, assign) NSInteger zDistance;
-@property (nonatomic, readonly) JDFlipNumberViewImageBundle *imageBundle;
 
-- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
+- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle * _Nullable)imageBundle;
 
-- (void)setValue:(NSInteger)value withAnimationType:(JDFlipAnimationType)animationType
-      completion:(JDDigitAnimationCompletionBlock)completionBlock;
+- (void)setValueAnimated:(NSInteger)value
+           animationType:(JDFlipAnimationType)animationType
+              completion:(JDDigitAnimationCompletionBlock _Nullable)completionBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

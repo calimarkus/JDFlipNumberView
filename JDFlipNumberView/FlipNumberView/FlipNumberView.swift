@@ -75,7 +75,7 @@ public struct FlipNumberView: UIViewRepresentable {
         if let dc = digitCount {
             count = dc
         }
-        let flipView = JDFlipNumberView(initialValue: value, digitCount: count, imageBundle: imageBundle)!
+        let flipView = JDFlipNumberView(initialValue: value, digitCount: count, imageBundle: imageBundle)
         flipView.delegate = context.coordinator
         updateStaticState(flipView)
         return flipView
@@ -114,7 +114,7 @@ public struct FlipNumberView: UIViewRepresentable {
             self.flipView = flipView
         }
 
-        public func flipNumberView(_ flipNumberView: JDFlipNumberView!, didChangeValueAnimated animated: Bool) {
+        public func flipNumberView(_ flipNumberView: JDFlipNumberView, didChangeValueAnimated animated: Bool) {
             if case .interval = flipView.animationStyle {
                 self.flipView.value = flipNumberView.value
             }

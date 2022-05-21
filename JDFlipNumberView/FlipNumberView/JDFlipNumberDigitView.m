@@ -36,6 +36,7 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationState) {
 @property (nonatomic, assign) JDFlipAnimationType animationType;
 @property (nonatomic, assign) NSInteger previousValue;
 @property (nonatomic, copy) JDDigitAnimationCompletionBlock completionBlock;
+@property (nonatomic, strong) JDFlipNumberViewImageBundle *imageBundle;
 
 @property (nonatomic, readonly) NSArray *topImages;
 @property (nonatomic, readonly) NSArray *bottomImages;
@@ -193,14 +194,13 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationState) {
 
 #pragma mark value setter
 
-- (void)setValue:(NSInteger)value
-{
-    [self setValue:value withAnimationType:JDFlipAnimationTypeNone completion:nil];
+- (void)setValue:(NSInteger)value {
+    [self setValueAnimated:value animationType:JDFlipAnimationTypeNone completion:nil];
 }
 
-- (void)setValue:(NSInteger)value withAnimationType:(JDFlipAnimationType)animationType
-      completion:(JDDigitAnimationCompletionBlock)completionBlock;
-{
+- (void)setValueAnimated:(NSInteger)value
+           animationType:(JDFlipAnimationType)animationType
+              completion:(JDDigitAnimationCompletionBlock _Nullable)completionBlock {
     // copy completion block
     self.completionBlock = completionBlock;
     

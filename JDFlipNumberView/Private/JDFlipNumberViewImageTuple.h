@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDFlipNumberViewImageTuple : NSObject
 
 @property (nonatomic, readonly) UIImage *topImage;
@@ -16,3 +18,5 @@
                      bottomImage:(UIImage *)bottomImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

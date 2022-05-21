@@ -32,7 +32,7 @@ public struct FlipImageView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDFlipImageView {
-        let flipView = JDFlipImageView(image: image)!
+        let flipView = JDFlipImageView(image: image)
         updateStaticState(flipView)
         return flipView
     }

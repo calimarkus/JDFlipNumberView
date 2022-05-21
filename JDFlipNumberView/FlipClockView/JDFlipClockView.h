@@ -10,6 +10,8 @@
 
 @class JDFlipNumberViewImageBundle;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDFlipClockView : UIView
 
 /// The margin between hours/minutes/seconds relative to the width of the hours, range 0-1
@@ -18,6 +20,9 @@
 @property (nonatomic, assign) BOOL showsSeconds;
 @property (nonatomic, assign) NSInteger zDistance;
 
-- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
+- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle * _Nullable)imageBundle;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

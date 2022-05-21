@@ -7,7 +7,10 @@
 //
 
 #import "UIView+JDFlipImageView.h"
+
 #import <QuartzCore/QuartzCore.h>
+
+#import "JDFlipImageView.h"
 
 @interface UIView (JDFlipImageViewHidden)
 - (UIImage*)imageSnapshotAfterScreenUpdates:(BOOL)afterScreenUpdates;
@@ -15,7 +18,7 @@
                                               toImage:(UIImage*)toImage
                                              duration:(NSTimeInterval)duration
                                             direction:(JDFlipImageViewFlipDirection)direction
-                                           completion:(JDFlipImageViewCompletionBlock)completion;
+                                           completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 @end
 
 @implementation UIView (JDFlipImageView)
@@ -29,7 +32,7 @@
 }
 
 - (void)flipToView:(UIView*)view
-        completion:(JDFlipImageViewCompletionBlock)completion;
+        completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     [self flipToView:view duration:JDFlipImageViewDefaultFlipDuration removeView:YES
            direction:JDFlipImageViewFlipDirectionDown completion:completion];
@@ -37,7 +40,7 @@
 
 - (void)flipToView:(UIView*)view
           duration:(CGFloat)duration
-        completion:(JDFlipImageViewCompletionBlock)completion;
+        completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     [self flipToView:view duration:duration removeView:YES
            direction:JDFlipImageViewFlipDirectionDown completion:completion];
@@ -46,7 +49,7 @@
 - (void)flipToView:(UIView*)view
           duration:(CGFloat)duration
          direction:(JDFlipImageViewFlipDirection)direction
-        completion:(JDFlipImageViewCompletionBlock)completion;
+        completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     [self flipToView:view duration:duration removeView:YES
            direction:direction completion:completion];
@@ -56,7 +59,7 @@
           duration:(CGFloat)duration
         removeView:(BOOL)removeFromSuperView
          direction:(JDFlipImageViewFlipDirection)direction
-        completion:(JDFlipImageViewCompletionBlock)completion;
+        completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     // screenshots
     UIImage *oldImage = [self imageSnapshotAfterScreenUpdates:NO];
@@ -87,7 +90,7 @@
 }
 
 - (void)updateWithFlipAnimationUpdates:(JDFlipImageViewViewUpdateBlock)updates
-                            completion:(JDFlipImageViewCompletionBlock)completion;
+                            completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     [self updateWithFlipAnimationDuration:JDFlipImageViewDefaultFlipDuration
                                 direction:JDFlipImageViewFlipDirectionDown
@@ -96,7 +99,7 @@
 
 - (void)updateWithFlipAnimationDuration:(CGFloat)duration
                                 updates:(JDFlipImageViewViewUpdateBlock)updates
-                             completion:(JDFlipImageViewCompletionBlock)completion;
+                             completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     [self updateWithFlipAnimationDuration:duration
                                 direction:JDFlipImageViewFlipDirectionDown
@@ -106,7 +109,7 @@
 - (void)updateWithFlipAnimationDuration:(CGFloat)duration
                               direction:(JDFlipImageViewFlipDirection)direction
                                 updates:(JDFlipImageViewViewUpdateBlock)updates
-                             completion:(JDFlipImageViewCompletionBlock)completion;
+                             completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     // screenshots & updates
     UIImage *oldImage = [self imageSnapshotAfterScreenUpdates:NO];
@@ -141,7 +144,7 @@
                                               toImage:(UIImage*)toImage
                                              duration:(NSTimeInterval)duration
                                             direction:(JDFlipImageViewFlipDirection)direction
-                                           completion:(JDFlipImageViewCompletionBlock)completion;
+                                           completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     NSParameterAssert(fromImage);
     NSParameterAssert(toImage);

@@ -59,6 +59,7 @@
 		7E71C6242837E33C007ED577 /* JDFlipNumberViewImageBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberViewImageBundle.m; sourceTree = "<group>"; };
 		7E71C6252837E33C007ED577 /* JDFlipNumberViewImageBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberViewImageBundle.h; sourceTree = "<group>"; };
 		7E84C5422836112F005BD0D2 /* JDFlipNumberViewModernAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberViewModernAssets.bundle; sourceTree = "<group>"; };
+		7EC593A02838E83000CC7D26 /* JDFlipImageViewFlipDirection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JDFlipImageViewFlipDirection.h; sourceTree = "<group>"; };
 		D22C60DD1817EE4F00E647F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D25D53C615D1B3D200B791F3 /* FlipNumberViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipNumberViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25D53CA15D1B3D200B791F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -136,6 +137,7 @@
 		7E0849E22837BB5300F48ADF /* FlipImageView */ = {
 			isa = PBXGroup;
 			children = (
+				7EC593A02838E83000CC7D26 /* JDFlipImageViewFlipDirection.h */,
 				D2F69E671837C82200AF7E54 /* JDFlipImageView.h */,
 				D2F69E681837C82200AF7E54 /* JDFlipImageView.m */,
 				7E0849C02837660D00F48ADF /* FlipImageView.swift */,

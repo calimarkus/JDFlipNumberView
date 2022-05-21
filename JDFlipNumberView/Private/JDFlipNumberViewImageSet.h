@@ -9,6 +9,8 @@
 
 @class JDFlipNumberViewImageTuple;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDFlipNumberViewImageSet : NSObject
 
 @property (nonatomic, readonly) NSArray<UIImage *> *topImages;
@@ -17,3 +19,5 @@
 - (instancetype)initWithImageTuples:(NSArray<JDFlipNumberViewImageTuple *> *)imageTuples;
 
 @end
+
+NS_ASSUME_NONNULL_END

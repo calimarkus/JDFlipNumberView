@@ -35,7 +35,7 @@ public struct FlipClockView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDFlipClockView {
-        let flipView = JDFlipClockView(imageBundle: imageBundle)!
+        let flipView = JDFlipClockView(imageBundle: imageBundle)
         updateStaticState(flipView)
         return flipView
     }

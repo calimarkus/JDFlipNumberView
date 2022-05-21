@@ -37,7 +37,7 @@ public struct DateCountdownFlipView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDDateCountdownFlipView {
-        let flipView = JDDateCountdownFlipView(dayDigitCount: dayDigitCount, imageBundle: imageBundle)!
+        let flipView = JDDateCountdownFlipView(dayDigitCount: dayDigitCount, imageBundle: imageBundle)
         flipView.animationsEnabled = animationsEnabled
         updateStaticState(flipView)
         return flipView

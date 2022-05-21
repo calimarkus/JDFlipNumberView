@@ -12,6 +12,8 @@
 @class JDFlipNumberViewImageSet;
 @class JDFlipNumberViewImageTuple;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDFlipNumberViewImageFactory : NSObject
 
 + (JDFlipNumberViewImageSet *)generateImagesForImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
@@ -19,3 +21,5 @@
 + (JDFlipNumberViewImageTuple *)generateImagesFromImage:(UIImage*)image;
 
 @end
+
+NS_ASSUME_NONNULL_END

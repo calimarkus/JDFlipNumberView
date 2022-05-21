@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "JDFlipImageViewFlipDirection.h"
+
 extern const NSTimeInterval JDFlipImageViewDefaultFlipDuration;
 
 typedef void(^JDFlipImageViewCompletionBlock)(BOOL finished);
 
-typedef NS_ENUM(NSInteger, JDFlipImageViewFlipDirection) {
-    JDFlipImageViewFlipDirectionDown,
-    JDFlipImageViewFlipDirectionUp
-};
+NS_ASSUME_NONNULL_BEGIN
 
 @interface JDFlipImageView : UIView
 
@@ -28,10 +27,12 @@ typedef NS_ENUM(NSInteger, JDFlipImageViewFlipDirection) {
 - (void)setImageAnimated:(UIImage*)image;
 
 - (void)setImageAnimated:(UIImage*)image
-              completion:(JDFlipImageViewCompletionBlock)completion;
+              completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 
 - (void)setImageAnimated:(UIImage*)image
                 duration:(CGFloat)duration
-              completion:(JDFlipImageViewCompletionBlock)completion;
+              completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 
 @end
+
+NS_ASSUME_NONNULL_END

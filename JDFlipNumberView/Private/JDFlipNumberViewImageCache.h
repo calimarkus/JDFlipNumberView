@@ -10,6 +10,8 @@
 @class JDFlipNumberViewImageSet;
 @class JDFlipNumberViewImageBundle;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDFlipNumberViewImageCache : NSObject
 
 + (JDFlipNumberViewImageCache *)sharedInstance;
@@ -17,3 +19,5 @@
 - (JDFlipNumberViewImageSet *)imageSetForImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 @end
+
+NS_ASSUME_NONNULL_END

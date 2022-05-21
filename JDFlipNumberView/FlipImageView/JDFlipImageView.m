@@ -180,7 +180,7 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationState) {
 }
 
 - (void)setImageAnimated:(UIImage*)image
-              completion:(JDFlipImageViewCompletionBlock)completion;
+              completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     [self setImageAnimated:image
                   duration:JDFlipImageViewDefaultFlipDuration
@@ -189,7 +189,7 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationState) {
 
 - (void)setImageAnimated:(UIImage*)image
                 duration:(CGFloat)duration
-              completion:(JDFlipImageViewCompletionBlock)completion;
+              completion:(JDFlipImageViewCompletionBlock _Nullable)completion;
 {
     _image = image;
     if (!image) return;

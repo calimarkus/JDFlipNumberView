@@ -7,6 +7,8 @@
 
 @class JDFlipNumberViewImageBundle;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface JDDateCountdownFlipView : UIView
 
 @property (nonatomic, strong) NSDate *targetDate;
@@ -15,6 +17,8 @@
 
 - (instancetype)initWithDayDigitCount:(NSInteger)dayDigits;
 - (instancetype)initWithDayDigitCount:(NSInteger)dayDigits
-            imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
+                          imageBundle:(JDFlipNumberViewImageBundle * _Nullable)imageBundle;
 
 @end
+
+NS_ASSUME_NONNULL_END

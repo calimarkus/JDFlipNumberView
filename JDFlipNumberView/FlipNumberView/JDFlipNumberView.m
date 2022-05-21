@@ -172,7 +172,7 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationDirection) {
                 if (type == JDFlipAnimationTypeBottomUp && !self.reverseFlippingAllowed) {
                     type = JDFlipAnimationTypeTopDown;
                 }
-                [view setValue:newValue withAnimationType:type completion:^(BOOL completed){
+                [view setValueAnimated:newValue animationType:type completion:^(BOOL completed){
                     completedDigits++;
                     if (completedDigits == self.digitViews.count) {
                         // inform delegate, when all digits finished animation
