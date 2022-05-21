@@ -1,5 +1,5 @@
-JDFlipNumberView & JDFlipImageView
-----------------------------------
+JDFlipNumberView & JDFlipImageView (SwiftUI ready)
+--------------------------------------------------
 
 | Target Value Animation | Animated Time Display |
 | ------------- | ------------- |
@@ -62,13 +62,13 @@ Objective-C + UIKit:
 
 ```objc
 // create a new FlipNumberView, set a value, start an animation
-JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:4];
-flipNumberView.value = 1337;
+JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithInitialValue: 1337];
 [flipNumberView animateDownWithTimeInterval: 1.0];
 
 // add to view hierarchy and resize
 [self.view addSubview: flipNumberView];
-flipNumberView.frame = CGRectMake(20,100,300,100);
+[flipNumberView sizeToFit];
+flipNumberView.center = self.view.center;
 ```
 
 In SwiftUI it's even simpler:
@@ -158,6 +158,9 @@ I'm [@calimarkus](http://twitter.com/calimarkus) on Twitter. Maybe [tweet](https
 
 [![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus)
 
+## Shoutout
+
+I found "FlipClock-SwiftUI" by @elpassion - a fully native swift flip-clock. It could be a good starting point for a native swift rewrite. I'm playing around with it in a fork a bit: [FlipClock-SwiftUI](https://github.com/calimarkus/FlipClock-SwiftUI).
 
 [Github issue]: https://github.com/calimarkus/JDFlipNumberView/issues
 [cocoapods website]: http://cocoapods.org
