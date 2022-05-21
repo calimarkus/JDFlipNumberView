@@ -117,8 +117,7 @@
 
 - (void)showSingleDigit;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:1];
-    flipView.value = arc4random() % 10;
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithInitialValue:arc4random() % 10 digitCount:1];
     flipView.delegate = self;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
     [self.view addSubview: flipView];
@@ -127,8 +126,7 @@
 
 - (void)showMultipleDigits;
 {
-    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithDigitCount:3];
-    flipView.value = 32;
+    JDFlipNumberView *flipView = [[JDFlipNumberView alloc] initWithInitialValue:32 digitCount:3];
     flipView.maximumValue = 128;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
     [self.view addSubview: flipView];
@@ -139,8 +137,9 @@
 
 - (void)showTargetedAnimation:(BOOL)alternativeAssets;
 {
-    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundle:alternativeAssets ? [JDFlipNumberViewImageBundle imageBundleNamed:@"JDFlipNumberViewModernAssets"] : nil];
-    flipView.value = 2300;
+    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithInitialValue:2300
+                                                                      digitCount:5
+                                                                     imageBundle:alternativeAssets ? [JDFlipNumberViewImageBundle imageBundleNamed:@"JDFlipNumberViewModernAssets"] : nil];
     flipView.delegate = self;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];
     [self.view addSubview: flipView];

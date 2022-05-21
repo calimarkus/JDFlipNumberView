@@ -58,18 +58,38 @@ typedef NS_OPTIONS(NSInteger, JDFlipAnimationDirection) {
     return self;
 }
 
-- (instancetype)initWithDigitCount:(NSInteger)digitCount;
-{
-    return [self initWithDigitCount:digitCount imageBundle:nil];
+- (instancetype)initWithInitialValue:(NSInteger)value {
+    return [self initWithInitialValue:value digitCount:0 imageBundle:nil];
+}
+- (instancetype)initWithInitialValue:(NSInteger)value
+                          digitCount:(NSInteger)digitCount {
+    return [self initWithInitialValue:value digitCount:digitCount imageBundle:nil];
+}
+- (instancetype)initWithInitialValue:(NSInteger)value
+                         imageBundle:(JDFlipNumberViewImageBundle *)imageBundle {
+    return [self initWithInitialValue:value digitCount:0 imageBundle:imageBundle];
+}
+- (instancetype)initWithDigitCount:(NSInteger)digitCount {
+    return [self initWithInitialValue:0 digitCount:digitCount imageBundle:nil];
+}
+- (instancetype)initWithDigitCount:(NSInteger)digitCount
+                       imageBundle:(JDFlipNumberViewImageBundle *)imageBundle {
+    return [self initWithInitialValue:0 digitCount:digitCount imageBundle:imageBundle];
 }
 
-- (instancetype)initWithDigitCount:(NSInteger)digitCount
-             imageBundle:(JDFlipNumberViewImageBundle *)imageBundle
-{
+- (instancetype)initWithInitialValue:(NSInteger)value
+                          digitCount:(NSInteger)digitCount
+                         imageBundle:(JDFlipNumberViewImageBundle *)imageBundle {
     self = [super initWithFrame:CGRectZero];
     if (self) {
+        // default to length of initial value
+        if (digitCount <= 0) {
+            digitCount = [NSString stringWithFormat:@"%@", @(value)].length;
+        }
+
         _imageBundle = imageBundle;
         [self commonInitForDigitCount:digitCount];
+        self.value = value;
     }
     return self;
 }

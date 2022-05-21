@@ -45,14 +45,6 @@ public struct FlipNumberView: UIViewRepresentable {
         self.absoluteDigitMargin = absoluteDigitMargin
     }
 
-    private var resolvedDigitCount: Int {
-        if let count = digitCount {
-            return count
-        } else {
-            return String(value).count
-        }
-    }
-
     private func updateStaticState(_ flipView: JDFlipNumberView) {
         if let countVal = digitCount, countVal != flipView.digitCount {
             flipView.digitCount = countVal
@@ -79,9 +71,11 @@ public struct FlipNumberView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDFlipNumberView {
-        let flipView = JDFlipNumberView(digitCount: resolvedDigitCount, imageBundle: imageBundle)!
-        flipView.value = value
-        flipView.digitCount = resolvedDigitCount
+        var count = 0
+        if let dc = digitCount {
+            count = dc
+        }
+        let flipView = JDFlipNumberView(initialValue: value, digitCount: count, imageBundle: imageBundle)!
         flipView.delegate = context.coordinator
         updateStaticState(flipView)
         return flipView
