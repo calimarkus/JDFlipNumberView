@@ -32,7 +32,7 @@ public struct DateCountdownFlipView: UIViewRepresentable {
             flipView.animationsEnabled = animationsEnabled
         }
         if let z = zDistance {
-            flipView.zDistance = UInt(z)
+            flipView.zDistance = z
         }
     }
 

@@ -9,7 +9,7 @@
 @protocol JDFlipNumberDigitViewDelegate;
 @class JDFlipNumberViewImageBundle;
 
-typedef NS_OPTIONS(NSUInteger, JDFlipAnimationType) {
+typedef NS_OPTIONS(NSInteger, JDFlipAnimationType) {
     JDFlipAnimationTypeNone,
 	JDFlipAnimationTypeTopDown,
 	JDFlipAnimationTypeBottomUp
@@ -20,15 +20,15 @@ typedef void(^JDDigitAnimationCompletionBlock)(BOOL finished);
 
 @interface JDFlipNumberDigitView : UIView
 
-@property (nonatomic, assign) NSUInteger value;
+@property (nonatomic, assign) NSInteger value;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL upscalingAllowed;
-@property (nonatomic, assign) NSUInteger zDistance;
+@property (nonatomic, assign) NSInteger zDistance;
 @property (nonatomic, readonly) JDFlipNumberViewImageBundle *imageBundle;
 
 - (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
-- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
+- (void)setValue:(NSInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;
 
 @end

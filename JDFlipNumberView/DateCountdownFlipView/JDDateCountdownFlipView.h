@@ -10,7 +10,7 @@
 @interface JDDateCountdownFlipView : UIView
 
 @property (nonatomic, strong) NSDate *targetDate;
-@property (nonatomic, assign) NSUInteger zDistance;
+@property (nonatomic, assign) NSInteger zDistance;
 @property (nonatomic, assign) BOOL animationsEnabled;
 
 - (instancetype)initWithDayDigitCount:(NSInteger)dayDigits;

@@ -84,12 +84,12 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 #pragma mark setter
 
-- (NSUInteger)zDistance;
+- (NSInteger)zDistance;
 {
     return self.dayFlipNumberView.zDistance;
 }
 
-- (void)setZDistance:(NSUInteger)zDistance;
+- (void)setZDistance:(NSInteger)zDistance;
 {
     for (JDFlipNumberView* view in @[self.dayFlipNumberView, self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
         [view setZDistance:zDistance];
@@ -206,7 +206,7 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
     }
     
     if ([self.targetDate timeIntervalSinceDate:[NSDate date]] > 0) {
-        NSUInteger flags = NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+        NSInteger flags = NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
         NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:flags fromDate:[NSDate date] toDate:self.targetDate options:0];
         
         [self.dayFlipNumberView setValue:[dateComponents day] animated:animated];

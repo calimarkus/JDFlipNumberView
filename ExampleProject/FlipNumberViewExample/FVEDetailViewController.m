@@ -334,7 +334,7 @@
 
 #pragma mark delegate
 
-- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSInteger)newValue;
 {
     self.infoLabel.text = [NSString stringWithFormat: @"Will animate to %lu", (unsigned long)newValue];
 }

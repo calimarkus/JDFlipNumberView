@@ -17,21 +17,21 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, weak) id<JDFlipNumberViewDelegate> delegate;
 
 @property (nonatomic, assign) NSInteger value;
-@property (nonatomic, assign) NSUInteger maximumValue;
+@property (nonatomic, assign) NSInteger maximumValue;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL reverseFlippingAllowed;
-@property (nonatomic, assign) NSUInteger zDistance;
-@property (nonatomic, assign) NSUInteger digitCount;
+@property (nonatomic, assign) NSInteger zDistance;
+@property (nonatomic, assign) NSInteger digitCount;
 @property (nonatomic, assign) CGFloat relativeDigitMargin;
 @property (nonatomic, assign) CGFloat absoluteDigitMargin;
 
-- (instancetype)initWithDigitCount:(NSUInteger)digitCount;
-- (instancetype)initWithDigitCount:(NSUInteger)digitCount
+- (instancetype)initWithDigitCount:(NSInteger)digitCount;
+- (instancetype)initWithDigitCount:(NSInteger)digitCount
              imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 // direct value manipulation (jump to value)
 - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
-- (NSUInteger)validValueFromValue:(NSInteger)value;
+- (NSInteger)validValueFromValue:(NSInteger)value;
 
 // animate over every value between old and new value
 - (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
@@ -57,7 +57,7 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @protocol JDFlipNumberViewDelegate <NSObject>
 @optional
 
-- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSUInteger)newValue;
+- (void)flipNumberView:(JDFlipNumberView*)flipNumberView willChangeToValue:(NSInteger)newValue;
 - (void)flipNumberView:(JDFlipNumberView*)flipNumberView didChangeValueAnimated:(BOOL)animated;
 @end;
 

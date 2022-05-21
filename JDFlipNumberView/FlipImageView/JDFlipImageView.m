@@ -16,7 +16,7 @@
 const NSTimeInterval JDFlipImageViewDefaultFlipDuration = 0.66;
 static NSString *const JDFlipImageAnimationKey = @"JDFlipImageAnimationKey";
 
-typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
+typedef NS_OPTIONS(NSInteger, JDFlipAnimationState) {
 	JDFlipAnimationStateFirstHalf,
 	JDFlipAnimationStateSecondHalf
 };
@@ -149,7 +149,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	[self setZDistance:self.frame.size.height*3];
 }
 
-- (void)setZDistance:(NSUInteger)zDistance;
+- (void)setZDistance:(NSInteger)zDistance;
 {
     _zDistance = zDistance;
     

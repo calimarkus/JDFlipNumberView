@@ -15,7 +15,7 @@ static CGFloat JDFlipAnimationMinimumTimeInterval = 0.01; // = 100 fps
 static CGFloat JDFlipViewRelativeMargin = 0.05; // use 5% of width as margin
 
 
-typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
+typedef NS_OPTIONS(NSInteger, JDFlipAnimationDirection) {
 	JDFlipAnimationDirectionUp,
 	JDFlipAnimationDirectionDown
 };
@@ -58,12 +58,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     return self;
 }
 
-- (instancetype)initWithDigitCount:(NSUInteger)digitCount;
+- (instancetype)initWithDigitCount:(NSInteger)digitCount;
 {
     return [self initWithDigitCount:digitCount imageBundle:nil];
 }
 
-- (instancetype)initWithDigitCount:(NSUInteger)digitCount
+- (instancetype)initWithDigitCount:(NSInteger)digitCount
              imageBundle:(JDFlipNumberViewImageBundle *)imageBundle
 {
     self = [super initWithFrame:CGRectZero];
@@ -74,7 +74,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     return self;
 }
 
-- (void)commonInitForDigitCount:(NSUInteger)digitCount;
+- (void)commonInitForDigitCount:(NSInteger)digitCount;
 {
     self.backgroundColor = [UIColor clearColor];
     self.autoresizesSubviews = NO;
@@ -142,7 +142,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	NSString* stringValue = [NSString stringWithFormat: @"%50ld", (long)newValue];
 	
     // udpate all flipviews, that have changed
-    __block NSUInteger completedDigits = 0;
+    __block NSInteger completedDigits = 0;
 	for (int i=0; i<stringValue.length && i<self.digitViews.count; i++) {
 		JDFlipNumberDigitView* view = (JDFlipNumberDigitView*)self.digitViews[self.digitViews.count-(1+i)];
 		NSInteger newValue = [[stringValue substringWithRange:NSMakeRange(stringValue.length-(1+i), 1)] intValue];
@@ -176,7 +176,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     }
 }
 
-- (NSUInteger)validValueFromValue:(NSInteger)value;
+- (NSInteger)validValueFromValue:(NSInteger)value;
 {
     if (value < 0) {
         value += floor(ABS(value)/self.maximumValue)*self.maximumValue;
@@ -185,19 +185,19 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 	return value%(self.maximumValue+1);
 }
 
-- (NSUInteger)zDistance;
+- (NSInteger)zDistance;
 {
     return [self.digitViews[0] zDistance];
 }
 
-- (void)setZDistance:(NSUInteger)zDistance;
+- (void)setZDistance:(NSInteger)zDistance;
 {
 	for (JDFlipNumberDigitView* view in self.digitViews) {
 		[view setZDistance: zDistance];
 	}
 }
 
-- (void)setMaximumValue:(NSUInteger)maximumValue;
+- (void)setMaximumValue:(NSInteger)maximumValue;
 {
     NSInteger absoluteMaximum = pow(10, self.digitViews.count)-1;
     _maximumValue = MIN(maximumValue,absoluteMaximum);
@@ -221,7 +221,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     }
 }
 
-- (void)setDigitCount:(NSUInteger)digitCount;
+- (void)setDigitCount:(NSInteger)digitCount;
 {
     digitCount = MAX(1,digitCount);
     if (digitCount == _digitCount) return;
@@ -435,7 +435,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 #pragma mark -
 #pragma mark layout
 
-- (NSUInteger)marginForWidth:(CGFloat)width;
+- (NSInteger)marginForWidth:(CGFloat)width;
 {
     if (self.digitViews.count <= 1) return 0;
     CGFloat relativeDigitMargin = ((width*self.relativeDigitMargin)/(self.digitViews.count-1));
@@ -448,9 +448,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     {
         CGFloat xpos = 0;
         CGSize lastSize = CGSizeZero;
-		NSUInteger i, count = self.digitViews.count;
-        NSUInteger margin = [self marginForWidth:size.width];
-        NSUInteger xWidth = ((size.width-margin*(count-1))/count);
+		NSInteger i, count = self.digitViews.count;
+        NSInteger margin = [self marginForWidth:size.width];
+        NSInteger xWidth = ((size.width-margin*(count-1))/count);
 		for (i = 0; i < count; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
 			lastSize = [view sizeThatFits:CGSizeMake(xWidth, size.height)];
@@ -474,9 +474,9 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         CGSize frameSize = self.bounds.size;
         
         CGFloat xpos = 0;
-		NSUInteger i, count = self.digitViews.count;
-        NSUInteger margin = [self marginForWidth:frameSize.width];
-        NSUInteger xWidth = ((frameSize.width-margin*(count-1))/count);
+		NSInteger i, count = self.digitViews.count;
+        NSInteger margin = [self marginForWidth:frameSize.width];
+        NSInteger xWidth = ((frameSize.width-margin*(count-1))/count);
         
         // allow upscaling for layout
 		for (i = 0; i < count; i++) {

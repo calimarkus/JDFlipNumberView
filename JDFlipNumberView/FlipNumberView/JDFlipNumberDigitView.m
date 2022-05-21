@@ -21,7 +21,7 @@ static NSString *const kFlipAnimationKey = @"kFlipAnimationKey";
 static CGFloat kFlipAnimationMinimumAnimationDuration = 0.05;
 static CGFloat kFlipAnimationMaximumAnimationDuration = 0.70;
 
-typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
+typedef NS_OPTIONS(NSInteger, JDFlipAnimationState) {
 	JDFlipAnimationStateFirstHalf,
 	JDFlipAnimationStateSecondHalf
 };
@@ -34,7 +34,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 @property (nonatomic, strong) UIImageView *bottomImageView;
 @property (nonatomic, assign) JDFlipAnimationState animationState;
 @property (nonatomic, assign) JDFlipAnimationType animationType;
-@property (nonatomic, assign) NSUInteger previousValue;
+@property (nonatomic, assign) NSInteger previousValue;
 @property (nonatomic, copy) JDDigitAnimationCompletionBlock completionBlock;
 
 @property (nonatomic, readonly) NSArray *topImages;
@@ -181,7 +181,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 	[self setZDistance: self.frame.size.height*3];
 }
 
-- (void)setZDistance:(NSUInteger)zDistance;
+- (void)setZDistance:(NSInteger)zDistance;
 {
     _zDistance = zDistance;
     
@@ -193,12 +193,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
 #pragma mark value setter
 
-- (void)setValue:(NSUInteger)value
+- (void)setValue:(NSInteger)value
 {
     [self setValue:value withAnimationType:JDFlipAnimationTypeNone completion:nil];
 }
 
-- (void)setValue:(NSUInteger)value withAnimationType:(JDFlipAnimationType)animationType
+- (void)setValue:(NSInteger)value withAnimationType:(JDFlipAnimationType)animationType
       completion:(JDDigitAnimationCompletionBlock)completionBlock;
 {
     // copy completion block

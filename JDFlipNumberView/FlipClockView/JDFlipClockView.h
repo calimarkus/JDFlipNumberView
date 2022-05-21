@@ -16,7 +16,7 @@
 @property (nonatomic, assign) CGFloat relativeDigitMargin;
 @property (nonatomic, assign) BOOL animationsEnabled;
 @property (nonatomic, assign) BOOL showsSeconds;
-@property (nonatomic, assign) NSUInteger zDistance;
+@property (nonatomic, assign) NSInteger zDistance;
 
 - (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 

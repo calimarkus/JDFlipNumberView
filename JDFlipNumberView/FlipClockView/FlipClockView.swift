@@ -30,7 +30,7 @@ public struct FlipClockView: UIViewRepresentable {
         flipView.animationsEnabled = animationsEnabled
         flipView.showsSeconds = showsSeconds
         if let z = zDistance {
-            flipView.zDistance = UInt(z)
+            flipView.zDistance = z
         }
     }
 

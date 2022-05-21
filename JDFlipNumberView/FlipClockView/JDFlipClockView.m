@@ -103,12 +103,12 @@
     [self setNeedsLayout];
 }
 
-- (NSUInteger)zDistance;
+- (NSInteger)zDistance;
 {
     return self.hourFlipNumberView.zDistance;
 }
 
-- (void)setZDistance:(NSUInteger)zDistance;
+- (void)setZDistance:(NSInteger)zDistance;
 {
     for (JDFlipNumberView* view in @[self.hourFlipNumberView, self.minuteFlipNumberView, self.secondFlipNumberView]) {
         [view setZDistance:zDistance];
@@ -196,7 +196,7 @@
 {
     animated &= self.animationsEnabled;
     
-    NSUInteger flags = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSInteger flags = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:flags fromDate:[NSDate date]];
 
     [self.hourFlipNumberView setValue:[dateComponents hour] animated:animated];

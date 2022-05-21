@@ -45,20 +45,20 @@ public struct FlipNumberView: UIViewRepresentable {
         self.absoluteDigitMargin = absoluteDigitMargin
     }
 
-    private var resolvedDigitCount: UInt {
+    private var resolvedDigitCount: Int {
         if let count = digitCount {
-            return UInt(count)
+            return count
         } else {
-            return UInt(String(value).count)
+            return String(value).count
         }
     }
 
     private func updateStaticState(_ flipView: JDFlipNumberView) {
         if let countVal = digitCount, countVal != flipView.digitCount {
-            flipView.digitCount = UInt(countVal)
+            flipView.digitCount = countVal
         }
         if let z = zDistance, z != flipView.zDistance {
-            flipView.zDistance = UInt(z)
+            flipView.zDistance = z
         }
         if let relVal = relativeDigitMargin, relVal != flipView.relativeDigitMargin {
             flipView.relativeDigitMargin = relVal

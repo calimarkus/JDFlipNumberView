@@ -27,7 +27,7 @@ public struct FlipImageView: UIViewRepresentable {
 
     private func updateStaticState(_ flipView: JDFlipImageView) {
         if let z = zDistance, z != flipView.zDistance {
-            flipView.zDistance = UInt(z)
+            flipView.zDistance = z
         }
     }
 
