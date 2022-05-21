@@ -11,7 +11,6 @@
 #import "JDFlipClockView.h"
 
 @interface JDFlipClockView ()
-@property (nonatomic, copy) NSString *imageBundleName;
 @property (nonatomic, strong) JDFlipNumberView* hourFlipNumberView;
 @property (nonatomic, strong) JDFlipNumberView* minuteFlipNumberView;
 @property (nonatomic, strong) JDFlipNumberView* secondFlipNumberView;
@@ -23,14 +22,14 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [self initWithImageBundleName:nil];
+    self = [self initWithImageBundle:nil];
     if (self) {
         self.frame = frame;
     }
     return self;
 }
 
-- (id)initWithImageBundleName:(NSString*)imageBundleName;
+- (instancetype)initWithImageBundle:(JDFlipNumberViewImageBundle *)imageBundle
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
@@ -39,10 +38,9 @@
         self.autoresizesSubviews = NO;
 		
         // setup flipviews
-        _imageBundleName = imageBundleName;
-        self.hourFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundleName:imageBundleName];
-        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundleName:imageBundleName];
-        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundleName:imageBundleName];
+        self.hourFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundle:imageBundle];
+        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundle:imageBundle];
+        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundle:imageBundle];
         
         // set maximum values
         self.hourFlipNumberView.maximumValue = 23;

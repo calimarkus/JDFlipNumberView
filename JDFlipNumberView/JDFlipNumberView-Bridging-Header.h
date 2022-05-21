@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "JDFlipNumberView.h"
-#import "JDFlipImageView.h"
-#import "UIView+JDFlipImageView.h"
-#import "JDFlipClockView.h"
 #import "JDDateCountdownFlipView.h"
+#import "JDFlipClockView.h"
+#import "JDFlipImageView.h"
+#import "JDFlipNumberView.h"
+
+#import "JDFlipNumberViewImageBundle.h"
+#import "UIView+JDFlipImageView.h"
 
 #endif /* JDFlipNumberView_Bridging_Header_h */

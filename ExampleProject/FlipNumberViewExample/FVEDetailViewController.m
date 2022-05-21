@@ -13,6 +13,7 @@
 #import "JDFlipImageView.h"
 #import "JDDateCountdownFlipView.h"
 #import "UIView+JDFlipImageView.h"
+#import "JDFlipNumberViewImageBundle.h"
 
 #import "FlipNumberViewExample-Swift.h"
 
@@ -138,7 +139,7 @@
 
 - (void)showTargetedAnimation:(BOOL)alternativeAssets;
 {
-    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundleName:alternativeAssets ? @"JDFlipNumberViewModernAssets" : nil];
+    JDFlipNumberView *flipView  = [[JDFlipNumberView alloc] initWithDigitCount:5 imageBundle:alternativeAssets ? [JDFlipNumberViewImageBundle imageBundleNamed:@"JDFlipNumberViewModernAssets"] : nil];
     flipView.value = 2300;
     flipView.delegate = self;
     flipView.reverseFlippingAllowed = [self isReverseFlippingAllowed];

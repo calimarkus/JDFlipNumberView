@@ -13,7 +13,6 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 @interface JDDateCountdownFlipView ()
 @property (nonatomic) NSInteger dayDigitCount;
-@property (nonatomic, copy) NSString *imageBundleName;
 @property (nonatomic, strong) JDFlipNumberView* dayFlipNumberView;
 @property (nonatomic, strong) JDFlipNumberView* hourFlipNumberView;
 @property (nonatomic, strong) JDFlipNumberView* minuteFlipNumberView;
@@ -40,11 +39,11 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
 {
-    return [self initWithDayDigitCount:dayDigits imageBundleName:nil];
+    return [self initWithDayDigitCount:dayDigits imageBundle:nil];
 }
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits
-            imageBundleName:(NSString*)imageBundleName;
+            imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
@@ -55,11 +54,10 @@ static CGFloat kFlipAnimationUpdateInterval = 0.5; // = 2 times per second
         self.autoresizesSubviews = NO;
 		
         // setup flipviews
-        _imageBundleName = imageBundleName;
-        self.dayFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:_dayDigitCount imageBundleName:imageBundleName];
-        self.hourFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundleName:imageBundleName];
-        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundleName:imageBundleName];
-        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundleName:imageBundleName];
+        self.dayFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:_dayDigitCount imageBundle:imageBundle];
+        self.hourFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundle:imageBundle];
+        self.minuteFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundle:imageBundle];
+        self.secondFlipNumberView = [[JDFlipNumberView alloc] initWithDigitCount:2 imageBundle:imageBundle];
         
         // set maximum values
         self.hourFlipNumberView.maximumValue = 23;

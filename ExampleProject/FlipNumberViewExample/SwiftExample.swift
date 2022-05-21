@@ -111,7 +111,7 @@ struct SwiftExample: View {
                              subtitle: "Tap to start/stop")
 
                 FlipNumberView(value: $val3,
-                               imageBundleName: "JDFlipNumberViewModernAssets",
+                               imageBundle: JDFlipNumberViewImageBundle(named: "JDFlipNumberViewModernAssets"),
                                animationStyle: isIntervalAnimating ? .interval(interval: 0.75, direction: .up) : .none)
                 .frame(height: 80)
                 .onTapGesture {

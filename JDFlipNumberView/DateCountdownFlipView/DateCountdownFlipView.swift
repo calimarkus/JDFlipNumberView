@@ -8,19 +8,19 @@ import SwiftUI
 
 public struct DateCountdownFlipView: UIViewRepresentable {
     var dayDigitCount: Int
-    var imageBundleName: String?
+    var imageBundle: JDFlipNumberViewImageBundle?
 
     var targetDate: Date
     var animationsEnabled: Bool
     var zDistance: Int?
 
     public init(dayDigitCount: Int = 3,
-                imageBundleName: String? = nil,
+                imageBundle: JDFlipNumberViewImageBundle? = nil,
                 targetDate: Date,
                 animationsEnabled: Bool = true,
                 zDistance: Int? = nil) {
         self.dayDigitCount = dayDigitCount
-        self.imageBundleName = imageBundleName
+        self.imageBundle = imageBundle
         self.targetDate = targetDate
         self.animationsEnabled = animationsEnabled
         self.zDistance = zDistance
@@ -37,7 +37,7 @@ public struct DateCountdownFlipView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDDateCountdownFlipView {
-        let flipView = JDDateCountdownFlipView(dayDigitCount: dayDigitCount, imageBundleName: imageBundleName)!
+        let flipView = JDDateCountdownFlipView(dayDigitCount: dayDigitCount, imageBundle: imageBundle)!
         flipView.animationsEnabled = animationsEnabled
         updateStaticState(flipView)
         return flipView

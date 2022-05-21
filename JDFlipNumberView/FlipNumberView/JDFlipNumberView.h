@@ -8,6 +8,7 @@
 
 
 @protocol JDFlipNumberViewDelegate;
+@class JDFlipNumberViewImageBundle;
 
 typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 
@@ -26,7 +27,7 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 - (id)initWithDigitCount:(NSUInteger)digitCount
-         imageBundleName:(NSString*)imageBundleName;
+             imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 // direct value manipulation (jump to value)
 - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;

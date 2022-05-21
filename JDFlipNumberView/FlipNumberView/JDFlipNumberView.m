@@ -21,7 +21,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 };
 
 @interface JDFlipNumberView ()
-@property (nonatomic, copy) NSString *imageBundleName;
+@property (nonatomic, strong) JDFlipNumberViewImageBundle *imageBundle;
 @property (nonatomic, strong) NSArray *digitViews;
 @property (nonatomic, assign) JDFlipAnimationType animationType;
 
@@ -60,15 +60,15 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 {
-    return [self initWithDigitCount:digitCount imageBundleName:nil];
+    return [self initWithDigitCount:digitCount imageBundle:nil];
 }
 
 - (id)initWithDigitCount:(NSUInteger)digitCount
-         imageBundleName:(NSString*)imageBundleName;
+             imageBundle:(JDFlipNumberViewImageBundle *)imageBundle
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
-        _imageBundleName = imageBundleName;
+        _imageBundle = imageBundle;
         [self commonInitForDigitCount:digitCount];
     }
     return self;
@@ -239,10 +239,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     JDFlipNumberDigitView* view = nil;
     NSMutableArray* digitViews = [[NSMutableArray alloc] initWithCapacity:digitCount];
     for (int i = 0; i < digitCount; i++) {
-        JDFlipNumberViewImageBundle *location = (self.imageBundleName == nil
-                                                         ? [JDFlipNumberViewImageBundle defaultImageBundle]
-                                                         : [JDFlipNumberViewImageBundle imageBundleNamed:self.imageBundleName]);
-        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:location];
+        view = [[JDFlipNumberDigitView alloc] initWithImageBundle:_imageBundle];
         [self addSubview:view];
         [digitViews addObject:view];
     }

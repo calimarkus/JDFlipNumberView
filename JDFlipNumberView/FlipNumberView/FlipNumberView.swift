@@ -21,7 +21,7 @@ public enum FlipNumberViewAnimationStyle {
 public struct FlipNumberView: UIViewRepresentable {
     @Binding var value: Int
     var digitCount: Int?
-    var imageBundleName: String?
+    var imageBundle: JDFlipNumberViewImageBundle?
     var animationStyle: FlipNumberViewAnimationStyle
 
     var zDistance: Int?
@@ -30,7 +30,7 @@ public struct FlipNumberView: UIViewRepresentable {
 
     public init(value: Binding<Int>,
                 digitCount: Int? = nil,
-                imageBundleName: String? = nil,
+                imageBundle: JDFlipNumberViewImageBundle? = nil,
                 animationStyle: FlipNumberViewAnimationStyle = .continuous(duration: 2.5),
                 zDistance: Int? = nil,
                 relativeDigitMargin: Double? = nil,
@@ -38,7 +38,7 @@ public struct FlipNumberView: UIViewRepresentable {
     {
         self._value = value
         self.digitCount = digitCount
-        self.imageBundleName = imageBundleName
+        self.imageBundle = imageBundle
         self.animationStyle = animationStyle
         self.zDistance = zDistance
         self.relativeDigitMargin = relativeDigitMargin
@@ -79,7 +79,7 @@ public struct FlipNumberView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDFlipNumberView {
-        let flipView = JDFlipNumberView(digitCount: resolvedDigitCount, imageBundleName: imageBundleName)!
+        let flipView = JDFlipNumberView(digitCount: resolvedDigitCount, imageBundle: imageBundle)!
         flipView.value = value
         flipView.digitCount = resolvedDigitCount
         flipView.delegate = context.coordinator

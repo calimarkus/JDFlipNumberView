@@ -5,6 +5,7 @@
 //  Copyright 2011 Markus Emrich. All rights reserved.
 //
 
+@class JDFlipNumberViewImageBundle;
 
 @interface JDDateCountdownFlipView : UIView
 
@@ -14,6 +15,6 @@
 
 - (id)initWithDayDigitCount:(NSInteger)dayDigits;
 - (id)initWithDayDigitCount:(NSInteger)dayDigits
-            imageBundleName:(NSString*)imageBundleName;
+            imageBundle:(JDFlipNumberViewImageBundle *)imageBundle;
 
 @end

@@ -7,18 +7,18 @@ import Foundation
 import SwiftUI
 
 public struct FlipClockView: UIViewRepresentable {
-    var imageBundleName: String?
+    var imageBundle: JDFlipNumberViewImageBundle?
     var relativeDigitMargin: Double
     var animationsEnabled: Bool
     var showsSeconds: Bool
     var zDistance: Int?
 
-    internal init(imageBundleName: String? = nil,
+    internal init(imageBundle: JDFlipNumberViewImageBundle? = nil,
                   relativeDigitMargin: Double = 0.1,
                   animationsEnabled: Bool = true,
                   showsSeconds: Bool = true,
                   zDistance: Int? = nil) {
-        self.imageBundleName = imageBundleName
+        self.imageBundle = imageBundle
         self.relativeDigitMargin = relativeDigitMargin
         self.animationsEnabled = animationsEnabled
         self.showsSeconds = showsSeconds
@@ -35,7 +35,7 @@ public struct FlipClockView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> JDFlipClockView {
-        let flipView = JDFlipClockView(imageBundleName: imageBundleName)!
+        let flipView = JDFlipClockView(imageBundle: imageBundle)!
         updateStaticState(flipView)
         return flipView
     }
