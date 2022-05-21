@@ -186,7 +186,7 @@
 
 - (void)showColouredView;
 {
-    self.colorView = [[UIView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0)];
+    self.colorView = [[UIView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 120.0)];
     self.colorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.colorView.backgroundColor = [UIColor colorWithHue:0.6 saturation:0.85 brightness:0.9 alpha:1.0];
     [self.view addSubview:self.colorView];
@@ -194,12 +194,16 @@
 
 - (void)showWebView;
 {
-    WKWebView *webview1 = [[WKWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0) configuration:[WKWebViewConfiguration new]];
+    WKWebView *webview1 = [[WKWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 120.0) configuration:[WKWebViewConfiguration new]];
+    webview1.layer.borderColor = UIColor.darkGrayColor.CGColor;
+    webview1.layer.borderWidth = 0.5;
     webview1.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [webview1 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://duckduckgo.com/"]]];
     [self.view addSubview:webview1];
     
-    WKWebView *webview2 = [[WKWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 80.0) configuration:[WKWebViewConfiguration new]];
+    WKWebView *webview2 = [[WKWebView alloc] initWithFrame:CGRectInset(self.view.bounds, 20.0, 120.0) configuration:[WKWebViewConfiguration new]];
+    webview2.layer.borderColor = UIColor.darkGrayColor.CGColor;
+    webview2.layer.borderWidth = 0.5;
     webview2.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [webview2 loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.google.com/"]]];
     
