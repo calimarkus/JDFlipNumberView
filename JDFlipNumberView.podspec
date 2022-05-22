@@ -8,8 +8,8 @@ Pod::Spec.new do |s|
   s.license      = 'MIT'
 
   # DESCRIPTION
-  s.summary      = 'Simulates an analog flip display (like at airports / train stations). Simple, powerful & customizable.'
-  s.description  = 'The FlipNumberView is simulating an analog flip display (e.g. like those at an airport / train station). It\'s well abstracted and easy to use. Use it display numbers of any kind, e.g. countdowns, timers, clocks, etc. An example project is given. SwiftUI wrappers are available too.'
+  s.summary      = 'Simulates an analog flip display (like at airports / train stations). Simple, powerful & customizable. (Swift/SwiftUI ready)'
+  s.description  = 'The FlipNumberView is simulating an analog flip display (e.g. like those at an airport / train station). It\'s well abstracted and easy to use. Use it display numbers of any kind, e.g. countdowns, timers, clocks, etc. An example project is given. SwiftUI wrappers are available too. Use the subspecs to reduce only depend on what you want to use.'
   s.screenshot   = 'https://user-images.githubusercontent.com/807039/169299475-7dd36912-7eeb-4f30-a7c7-459b11e7099e.png'
 
   # BUILD SETTINGS
