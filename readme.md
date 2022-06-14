@@ -30,9 +30,8 @@ Even more targeted:
 
 ## Manual Installation
 
-1. Add all files from `JDFlipNumberView/JDFlipNumberView/*.{h,m}` to your project
+1. Add all files (or only the ones you want to) from `JDFlipNumberView/JDFlipNumberView/*.{h,m}` to your project
 2. Add the `JDFlipNumberView.bundle`, if you want to use the default images
-3. Link against the `QuartzCore.framework`
 
 ## Contents
 
