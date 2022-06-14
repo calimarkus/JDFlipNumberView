@@ -156,7 +156,10 @@ FlipNumberView(value: <#valueBinding#>, imageBundle: JDFlipNumberViewImageBundle
 
 I'm [@calimarkus](http://twitter.com/calimarkus) on Twitter. Maybe [tweet](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus), if you like `JDFlipNumberView`!
 
-[![TweetButton](gfx/tweetbutton.png "Tweet")](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus)
+
+
+
+[![tweetbutton](https://user-images.githubusercontent.com/807039/173472954-19d442b8-d367-4e74-a123-a003a9e5fb29.png)](https://twitter.com/intent/tweet?button_hashtag=JDFlipNumberView&text=I%20discovered%20a%20very%20nice%20and%20simple-to-use%20animated%20FlipView%20for%20iOS:%20https://github.com/calimarkus/JDFlipNumberView&via=calimarkus)
 
 ## Shoutout
 
