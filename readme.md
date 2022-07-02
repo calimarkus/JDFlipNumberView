@@ -162,7 +162,7 @@ I'm [@calimarkus](http://twitter.com/calimarkus) on Twitter. Maybe [tweet](https
 
 ## Shoutout
 
-I found "FlipClock-SwiftUI" by @elpassion - a fully native swift flip-clock. It could be a good starting point for a native swift rewrite. I'm playing around with it in a fork a bit: [FlipClock-SwiftUI](https://github.com/calimarkus/FlipClock-SwiftUI).
+I found "FlipClock-SwiftUI" by @elpassion - a fully native SwiftUI flip-clock. It could be a good starting point for a native swift rewrite. I'm playing around with it in a fork a bit: [FlipNumberView-Swift](https://github.com/calimarkus/FlipNumberView-Swift).
 
 [Github issue]: https://github.com/calimarkus/JDFlipNumberView/issues
 [cocoapods website]: http://cocoapods.org
