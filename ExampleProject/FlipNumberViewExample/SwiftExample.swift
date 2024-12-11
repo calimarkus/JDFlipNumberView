@@ -20,26 +20,27 @@ struct SimpleRoundButton: View {
         Button(title) {
             action()
         }
+        .buttonStyle(BorderlessButtonStyle())
         .padding([.leading, .trailing], 10.0)
         .padding([.top, .bottom], 6.0)
         .foregroundColor(.black)
         .font(.subheadline)
         .overlay(
-            RoundedRectangle(cornerRadius: 11).stroke(Color.black, lineWidth: 1.5)
+            RoundedRectangle(cornerRadius: 11).stroke(Color.black.opacity(0.33), lineWidth: 1.0)
         )
     }
 }
 
-struct SectionTitle: View {
-    let title:String
-    let subtitle:String
+struct Subtitle: View {
+    let text: String
+
+    init(_ text: String) {
+        self.text = text
+    }
 
     var body: some View {
         VStack {
-            Spacer().frame(height: 30.0)
-            Text("\(title):")
-            Spacer().frame(height: 2.0)
-            Text("(\(subtitle))")
+            Text(text)
                 .font(.footnote)
                 .foregroundColor(.secondary)
         }
@@ -74,10 +75,9 @@ struct SwiftExample: View {
     }
 
     var body: some View {
-        ScrollView {
-            Group {
-                SectionTitle(title: "Simple animation",
-                             subtitle: "Tap to change")
+        List {
+            Section("Simple animation") {
+                Subtitle("Tap to change value.")
 
                 FlipNumberView(value: $val1, digitCount: digitCount, animationStyle: .simple, zDistance: 150)
                     .frame(height: 80)
@@ -86,18 +86,20 @@ struct SwiftExample: View {
                     }
 
                 HStack {
+                    Spacer()
                     SimpleRoundButton(title: "Add Digit") {
                         digitCount += 1
                     }
                     SimpleRoundButton(title: "Remove Digit") {
                         digitCount = max(1, digitCount-1)
                     }
+                    Spacer()
                 }
+                .listRowSeparator(.hidden)
             }
 
-            Group {
-                SectionTitle(title: "Continous animation",
-                             subtitle: "Tap to change")
+            Section("Continous animation") {
+                Subtitle("Tap to change value.")
 
                 FlipNumberView(value: $val2)
                     .frame(height: 80)
@@ -106,9 +108,8 @@ struct SwiftExample: View {
                     }
             }
 
-            Group {
-                SectionTitle(title: "Alternative assets + interval animation",
-                             subtitle: "Tap to start/stop")
+            Section("Alternative assets + interval animation") {
+                Subtitle("Tap to start/stop animation.")
 
                 FlipNumberView(value: $val3,
                                imageBundle: JDFlipNumberViewImageBundle(named: "JDFlipNumberViewModernAssets"),
@@ -119,9 +120,8 @@ struct SwiftExample: View {
                 }
             }
 
-            Group {
-                SectionTitle(title: "FlipImageView",
-                             subtitle: "Tap to change")
+            Section("FlipImageView") {
+                Subtitle("Tap to change.")
 
                 FlipImageView(image: activeImage)
                     .frame(width: 240/activeImage.size.height * activeImage.size.width, height: 240)
@@ -130,9 +130,8 @@ struct SwiftExample: View {
                     }
             }
 
-            Group {
-                SectionTitle(title: "Clock / Current Time",
-                             subtitle: "Tap to toggle animation")
+            Section("Clock / Current Time") {
+                Subtitle("Tap to toggle animation (\(isClockAnimating ? "on" : "off").")
 
                 FlipClockView(animationsEnabled: isClockAnimating)
                     .frame(height: 70)
@@ -141,9 +140,8 @@ struct SwiftExample: View {
                     }
             }
 
-            Group {
-                SectionTitle(title: "Countdown to NYE",
-                             subtitle: "days/h/min/sec, tap to toggle animation")
+            Section("Countdown to NYE") {
+                Subtitle("days/h/min/sec, tap to toggle animation (\(isCountdownAnimating ? "on" : "off")")
 
                 DateCountdownFlipView(targetDate: nyeDate, animationsEnabled: isCountdownAnimating)
                     .frame(height: 70)
@@ -151,8 +149,6 @@ struct SwiftExample: View {
                         isCountdownAnimating.toggle()
                     }
             }
-
-            Spacer().frame(height: 30.0)
         }
     }
 }

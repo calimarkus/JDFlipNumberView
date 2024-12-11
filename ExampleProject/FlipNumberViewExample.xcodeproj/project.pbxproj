@@ -189,7 +189,9 @@
 				D25D53C915D1B3D200B791F3 /* Frameworks */,
 				D25D53C715D1B3D200B791F3 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		D25D53C715D1B3D200B791F3 /* Products */ = {
 			isa = PBXGroup;
@@ -478,7 +480,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.markusemrich.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -498,7 +500,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlipNumberViewExample/FlipNumberViewExample-Prefix.pch";
 				INFOPLIST_FILE = "FlipNumberViewExample/FlipNumberViewExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.markusemrich.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

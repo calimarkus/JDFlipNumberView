@@ -87,7 +87,7 @@
             cell.textLabel.text = @"Alternative assets";
             cell.detailTextLabel.text = @"A FlipNumberView using different images.";
         } else if (indexPath.row == 4) {
-            cell.textLabel.text = @"SwiftUI Example";
+            cell.textLabel.text = @"SwiftUI Examples";
             cell.detailTextLabel.text = @"A FlipNumberView used through SwiftUI.";
         }
     } else if (indexPath.section == 1) {
