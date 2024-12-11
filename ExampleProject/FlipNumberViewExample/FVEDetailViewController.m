@@ -49,7 +49,7 @@
     NSInteger row = self.indexPath.row;
 
     // handle swift example, if needed
-    if (section == 0 && row == 4) {
+    if (section == 0 && row == 0) {
         self.hostingController = SwiftExampleViewFactory.swiftExampleViewController;
         self.hostingController.view.frame = self.view.frame;
         self.hostingController.view.backgroundColor = [UIColor systemGray6Color];
@@ -78,7 +78,7 @@
     
     // show flipNumberView
     BOOL addGestureRecognizer = YES;
-    if (section == 0) {
+    if (section == 1) {
         if (row == 0) {
             [self showSingleDigit];
         } else if (row == 1) {

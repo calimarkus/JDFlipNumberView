@@ -31,10 +31,12 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch (section) {
         case 0:
-            return @"FlipNumberView Examples";
+            return @"SwiftUI";
         case 1:
-            return @"Other FlipView Examples";
+            return @"FlipNumberView Examples (objc)";
         case 2:
+            return @"Other FlipView Examples (objc)";
+        case 3:
             return @"Settings";
         default:
             return nil;
@@ -43,17 +45,19 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
         case 0:
-            return 5;
+            return 1;
         case 1:
-            return 5;
+            return 4;
         case 2:
+            return 5;
+        case 3:
             return 1;
         default:
             return 0;
@@ -74,6 +78,9 @@
     cell.accessoryView = nil;
     
     if (indexPath.section == 0) {
+        cell.textLabel.text = @"SwiftUI Examples";
+        cell.detailTextLabel.text = @"A FlipNumberView used through SwiftUI.";
+    } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Single Digit";
             cell.detailTextLabel.text = @"A FlipNumberView with one digit.";
@@ -86,11 +93,8 @@
         } else if (indexPath.row == 3) {
             cell.textLabel.text = @"Alternative assets";
             cell.detailTextLabel.text = @"A FlipNumberView using different images.";
-        } else if (indexPath.row == 4) {
-            cell.textLabel.text = @"SwiftUI Examples";
-            cell.detailTextLabel.text = @"A FlipNumberView used through SwiftUI.";
         }
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"JDFlipImageView";
             cell.detailTextLabel.text = @"Flipping images!";
@@ -109,7 +113,7 @@
         }
     } else {
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"Allow flipping bottom-up";
+            cell.textLabel.text = @"Allow flipping bottom-up.";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *aSwitch = [[UISwitch alloc] init];
             [aSwitch addTarget:self action:@selector(bottomUpSwitchTouched:) forControlEvents:UIControlEventValueChanged];
@@ -123,7 +127,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 3) {
         UISwitch *aSwitch = (UISwitch *)[[tableView cellForRowAtIndexPath:indexPath] accessoryView];
         [aSwitch setOn:!aSwitch.on animated:YES];
         
