@@ -9,7 +9,13 @@ The `FlipNumberView` is simulating an analog flip display (e.g. like those at th
 
 ![Screenshot](https://user-images.githubusercontent.com/807039/169299475-7dd36912-7eeb-4f30-a7c7-459b11e7099e.png)
 
-## Installation using CocoaPods
+## Installation
+
+### SPM
+
+Not supported. (SPM doesn't yet support mixed-language targets.)
+
+### Using CocoaPods
 
 - `pod 'JDFlipNumberView'` all flip views, SwiftUI views & default imageset
 
@@ -28,26 +34,26 @@ Even more targeted:
 
 (For infos on cocoapods, have a look the [cocoapods website])
 
-## Manual Installation
+### Manual Installation
 
 1. Add all files (or only the ones you want to) from `JDFlipNumberView/JDFlipNumberView/*.{h,m}` to your project
 2. Add the `JDFlipNumberView.bundle`, if you want to use the default images
 
-## Contents
+## Included Views
 
-The main classes are
+The library offers multiple Views (Swift/ObjC name):
 
-- `JDFlipNumberView` (SwiftUI: `FlipNumberView`)
+- `FlipNumberView` / `JDFlipNumberView`
   - The **Standard FlipNumberView**. It shows an integer value as FlipView.
   It has a choosable amount of digits. Can be animated in any way described in this document.
 
-- `JDFlipImageView` (SwiftUI: `FlipImageView`)
+- `FlipImageView` / `JDFlipImageView`
   - An **Image View** with flip animations. Use it like a regular UIImageView, but set new images animated via `setImageAnimated:duration:completion:`
   
-- `JDDateCountdownFlipView` (SwiftUI: `DateCountdownFlipView`)
+- `DateCountdownFlipView` / `JDDateCountdownFlipView`
   - __A date countdown.__ Create it with a target date and it will display an animated flipping countdown showing the remaining days, hours, minutes and seconds until that date.
   
-- `JDFlipClockView` (SwiftUI: `FlipClockView`)
+- `FlipClockView` / `JDFlipClockView`
   - __A digital clock.__ Displays the current hour and minutes as animated flip views. Seconds can also be enabled. Always shows the current time.
   
 - `UIView+JDFlipImageView`  
@@ -55,22 +61,9 @@ The main classes are
 
 ## Usage Example
 
-After installing you only need to follow some simple steps to get started. Here is a working example: A 4-digit `FlipNumberView` animating down once every second.
+Display a 4-digit `FlipNumberView` animating down once every second:
 
-Objective-C + UIKit:
-
-```objc
-// create a new FlipNumberView, set a value, start an animation
-JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithInitialValue: 1337];
-[flipNumberView animateDownWithTimeInterval: 1.0];
-
-// add to view hierarchy and resize
-[self.view addSubview: flipNumberView];
-[flipNumberView sizeToFit];
-flipNumberView.center = self.view.center;
-```
-
-In SwiftUI it's even simpler:
+In SwiftUI:
 
 ```swift
 struct SwiftExample: View {
@@ -83,12 +76,45 @@ struct SwiftExample: View {
 }
 ```
 
+In Objective-C + UIKit:
+
+```objc
+// create a new FlipNumberView, set a value, start an animation
+JDFlipNumberView *flipNumberView = [[JDFlipNumberView alloc] initWithInitialValue: 1337];
+[flipNumberView animateDownWithTimeInterval: 1.0];
+
+// add to view hierarchy and resize
+[self.view addSubview: flipNumberView];
+[flipNumberView sizeToFit];
+flipNumberView.center = self.view.center;
+```
+
 That's it. This will display a working, flipping, animating countdown view!  
 See the example project for other examples.
 
 ## Available animations
 
-- Simple (a single flip):
+In SwiftUI, see these:
+
+```swift
+public enum FlipNumberViewAnimationStyle {
+    /// no animation on value changes
+    case none
+
+    /// a single flip to a new value
+    case simple
+
+    /// flip one-by-one until the new value is reached
+    case continuous(duration: Double)
+
+    /// flip up or down once per given interval
+    case interval(interval: Double, direction: FlipNumberViewIntervalAnimationDirection)
+}
+```
+
+For ObjC, see these:
+
+- Simple - a single flip to a new value:
 
 ```objc
 - (void)setValue:(NSInteger)newValue animated:(BOOL)animated;
@@ -96,28 +122,17 @@ See the example project for other examples.
 - (void)animateToPreviousNumber;
 ```
 
-- Continuous (Flipping through all numbers, until target is reached):
+- Continuous - flip one-by-one until the new value is reached:
 
 ```objc
 - (void)animateToValue:(NSInteger)newValue duration:(CGFloat)duration;
 ```
     
-- Interval (A timed animation without a target value, flipping once per `timeInterval`):
+- Interval - flip up or down once per given `timeInterval`:
 
 ```objc
 - (void)animateUpWithTimeInterval:(NSTimeInterval)timeInterval;
 - (void)animateDownWithTimeInterval:(NSTimeInterval)timeInterval;
-```
-
-In SwiftUI, see these:
-
-```swift
-public enum FlipNumberViewAnimationStyle {
-    case none
-    case simple
-    case continuous(duration: Double)
-    case interval(interval: Double, direction: FlipNumberViewIntervalAnimationDirection)
-}
 ```
 
 ## Customization
